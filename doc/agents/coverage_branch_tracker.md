@@ -1,0 +1,123 @@
+# Runtime Branch Coverage Tracker (Baseline vs Achieved)
+
+Baseline captured: 2026-02-18 14:42:42 UTC
+
+Overall baseline branch coverage:
+- GCC: 28.70%
+- Clang: 53.17%
+- Files tracked: 107
+
+Legend:
+- `baseline_*` values are fixed for this task and must not be edited.
+- `achieved_*` values start as `--` and are updated as coverage improves.
+- A file is tracked when either baseline branch coverage is below `100%`.
+
+## Checklist
+
+- [ ] `src/zserio/Any.h` | baseline_gcc_branch: 65.50% | baseline_clang_branch: 91.67% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/ArrayTraits.h` | baseline_gcc_branch: 50.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/ArrayView.h` | baseline_gcc_branch: 59.70% | baseline_clang_branch: 73.81% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/BitBuffer.h` | baseline_gcc_branch: 79.80% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/BitFieldUtil.cpp` | baseline_gcc_branch: 81.20% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/BitPositionUtil.h` | baseline_gcc_branch: 75.00% | baseline_clang_branch: 75.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/BitStreamReader.cpp` | baseline_gcc_branch: 80.90% | baseline_clang_branch: 98.90% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/BitStreamReader.h` | baseline_gcc_branch: 51.40% | baseline_clang_branch: 92.86% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/BitStreamWriter.cpp` | baseline_gcc_branch: 75.90% | baseline_clang_branch: 98.78% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/BitStreamWriter.h` | baseline_gcc_branch: 66.70% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Bitmasks.h` | baseline_gcc_branch: 50.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Bytes.cpp` | baseline_gcc_branch: 50.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/CppRuntimeException.cpp` | baseline_gcc_branch: 65.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/CppRuntimeException.h` | baseline_gcc_branch: 50.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/DataView.h` | baseline_gcc_branch: 75.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/DebugStringUtil.h` | baseline_gcc_branch: 52.20% | baseline_clang_branch: 83.33% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/DeltaContext.h` | baseline_gcc_branch: 79.20% | baseline_clang_branch: 76.19% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Enums.h` | baseline_gcc_branch: 56.20% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Extended.h` | baseline_gcc_branch: 55.00% | baseline_clang_branch: 57.14% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/FileUtil.cpp` | baseline_gcc_branch: 36.10% | baseline_clang_branch: 66.67% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/HashCodeUtil.h` | baseline_gcc_branch: 13.30% | baseline_clang_branch: 25.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/IntrospectableDataBase.h` | baseline_gcc_branch: 48.10% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/IntrospectableView.h` | baseline_gcc_branch: 47.40% | baseline_clang_branch: 69.23% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/JsonDecoder.h` | baseline_gcc_branch: 64.90% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/JsonEncoder.cpp` | baseline_gcc_branch: 69.20% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/JsonParser.h` | baseline_gcc_branch: 72.10% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/JsonReader.h` | baseline_gcc_branch: 62.60% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/JsonTokenizer.h` | baseline_gcc_branch: 71.80% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/JsonWriter.h` | baseline_gcc_branch: 62.70% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Optional.h` | baseline_gcc_branch: 69.50% | baseline_clang_branch: 71.21% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/ReflectableData.h` | baseline_gcc_branch: 50.70% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/ReflectableUtil.h` | baseline_gcc_branch: 82.20% | baseline_clang_branch: 99.06% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/SerializeUtil.h` | baseline_gcc_branch: 51.10% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/SizeConvertUtil.cpp` | baseline_gcc_branch: 62.50% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Span.h` | baseline_gcc_branch: 50.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/SqliteConnection.h` | baseline_gcc_branch: 67.90% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/String.cpp` | baseline_gcc_branch: 50.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/StringConvertUtil.h` | baseline_gcc_branch: 74.20% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/TypeInfo.h` | baseline_gcc_branch: 47.30% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/TypeInfoUtil.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 67.25% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Types.cpp` | baseline_gcc_branch: 72.20% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Types.h` | baseline_gcc_branch: 65.20% | baseline_clang_branch: 96.15% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/UniquePtr.h` | baseline_gcc_branch: 50.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/ValidationSqliteUtil.h` | baseline_gcc_branch: 53.60% | baseline_clang_branch: 90.91% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Variant.h` | baseline_gcc_branch: 62.20% | baseline_clang_branch: 83.33% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/View.h` | baseline_gcc_branch: 75.00% | baseline_clang_branch: 75.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/Walker.h` | baseline_gcc_branch: 67.00% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/ZserioTreeCreator.h` | baseline_gcc_branch: 62.60% | baseline_clang_branch: 100.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `src/zserio/ppmr/PropagatingPolymorphicAllocator.h` | baseline_gcc_branch: 45.50% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/AllocatorHolderTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/AnyTest.cpp` | baseline_gcc_branch: 27.50% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ArrayLengthExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ArrayViewTest.cpp` | baseline_gcc_branch: 29.20% | baseline_clang_branch: 50.35% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BitBufferTest.cpp` | baseline_gcc_branch: 30.80% | baseline_clang_branch: 51.13% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BitFieldUtilTest.cpp` | baseline_gcc_branch: 21.30% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BitPositionUtilTest.cpp` | baseline_gcc_branch: 20.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BitStreamReaderTest.cpp` | baseline_gcc_branch: 22.60% | baseline_clang_branch: 50.93% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BitStreamTest.cpp` | baseline_gcc_branch: 34.70% | baseline_clang_branch: 53.70% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BitStreamWriterTest.cpp` | baseline_gcc_branch: 22.90% | baseline_clang_branch: 52.08% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BitmasksTest.cpp` | baseline_gcc_branch: 25.30% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BuiltInOperatorsTest.cpp` | baseline_gcc_branch: 23.30% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/BytesTest.cpp` | baseline_gcc_branch: 31.20% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ChoiceCaseExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ConstraintExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/CppRuntimeExceptionTest.cpp` | baseline_gcc_branch: 34.50% | baseline_clang_branch: 51.02% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/DataViewTest.cpp` | baseline_gcc_branch: 30.60% | baseline_clang_branch: 51.22% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/DebugStringUtilTest.cpp` | baseline_gcc_branch: 34.40% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/EnumsTest.cpp` | baseline_gcc_branch: 24.80% | baseline_clang_branch: 54.27% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ExtendedFieldExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ExtendedTest.cpp` | baseline_gcc_branch: 23.90% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/FileUtilTest.cpp` | baseline_gcc_branch: 30.20% | baseline_clang_branch: 54.84% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/FloatUtilTest.cpp` | baseline_gcc_branch: 32.70% | baseline_clang_branch: 57.14% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/GenericAccessorTest.cpp` | baseline_gcc_branch: 25.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/HashCodeUtilTest.cpp` | baseline_gcc_branch: 22.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/IntrospectableViewTest.cpp` | baseline_gcc_branch: 25.50% | baseline_clang_branch: 50.29% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/JsonDecoderTest.cpp` | baseline_gcc_branch: 27.30% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/JsonEncoderTest.cpp` | baseline_gcc_branch: 33.80% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/JsonParserTest.cpp` | baseline_gcc_branch: 31.20% | baseline_clang_branch: 50.50% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/JsonReaderTest.cpp` | baseline_gcc_branch: 26.30% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/JsonTokenizerTest.cpp` | baseline_gcc_branch: 24.30% | baseline_clang_branch: 50.60% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/JsonWriterTest.cpp` | baseline_gcc_branch: 40.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/MissedOptionalExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/OptionalTest.cpp` | baseline_gcc_branch: 25.70% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/OutOfRangeExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/PubsubExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ReflectableDataTest.cpp` | baseline_gcc_branch: 25.80% | baseline_clang_branch: 50.10% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ReflectableUtilTest.cpp` | baseline_gcc_branch: 29.70% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/SerializeUtilTest.cpp` | baseline_gcc_branch: 29.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ServiceExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/SizeConvertUtilTest.cpp` | baseline_gcc_branch: 14.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/SpanTest.cpp` | baseline_gcc_branch: 28.00% | baseline_clang_branch: 51.14% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/SqliteConnectionTest.cpp` | baseline_gcc_branch: 27.80% | baseline_clang_branch: 50.19% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/StringConvertUtilTest.cpp` | baseline_gcc_branch: 26.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/StringTest.cpp` | baseline_gcc_branch: 28.60% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/TrackingAllocator.h` | baseline_gcc_branch: 21.40% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/TraitsTest.cpp` | baseline_gcc_branch: 17.50% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/TypeInfoTest.cpp` | baseline_gcc_branch: 21.40% | baseline_clang_branch: 50.05% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/TypeInfoUtilTest.cpp` | baseline_gcc_branch: 28.60% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/TypesTest.cpp` | baseline_gcc_branch: 23.60% | baseline_clang_branch: 50.19% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/UnionCaseExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/UniquePtrTest.cpp` | baseline_gcc_branch: 24.10% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ValidationExceptionTest.cpp` | baseline_gcc_branch: 100.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ValidationSqliteUtilTest.cpp` | baseline_gcc_branch: 27.70% | baseline_clang_branch: 50.21% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/VariantTest.cpp` | baseline_gcc_branch: 26.50% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/WalkerTest.cpp` | baseline_gcc_branch: 29.90% | baseline_clang_branch: 50.35% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ZserioTreeCreatorTest.cpp` | baseline_gcc_branch: 24.00% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
+- [ ] `test/zserio/ppmr/PropagatingPolymorphicAllocatorTest.cpp` | baseline_gcc_branch: 25.80% | baseline_clang_branch: 50.00% | achieved_gcc_branch: -- | achieved_clang_branch: --
