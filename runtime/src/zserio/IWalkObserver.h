@@ -1,9 +1,10 @@
 #ifndef ZSERIO_I_WALK_OBSERVER_H_INC
 #define ZSERIO_I_WALK_OBSERVER_H_INC
 
-#include "zserio/IReflectableData.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "zserio/IReflectableData.h"
 #include "zserio/ITypeInfo.h"
 #include "zserio/WalkerConst.h"
 
@@ -89,7 +90,8 @@ public:
             const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex) = 0;
 };
 
-/** Typedefs to walk observer interface provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedefs to walk observer interface provided for convenience - using default std::allocator<::std::uint8_t>.
+ */
 /** \{ */
 using IWalkObserver = IBasicWalkObserver<>;
 /** \} */

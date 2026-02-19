@@ -8,9 +8,9 @@
 #ifndef ZSERIO_SERIALIZE_UTIL_H_INC
 #define ZSERIO_SERIALIZE_UTIL_H_INC
 
-#include <string_view>
 #include <cstddef>
 #include <cstdint>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 

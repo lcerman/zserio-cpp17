@@ -1,8 +1,8 @@
 #ifndef ZSERIO_PMR_OPTIONAL_H_INC
 #define ZSERIO_PMR_OPTIONAL_H_INC
 
-#include <memory_resource>
 #include <cstdint>
+#include <memory_resource>
 
 #include "zserio/Optional.h"
 

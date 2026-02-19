@@ -2,8 +2,8 @@
 #define ZSERIO_BIT_STREAM_READER_H_INC
 
 #include <algorithm>
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <type_traits>
 
 #include "zserio/BitBuffer.h"
@@ -332,7 +332,8 @@ public:
         {
             // we are aligned to byte
             setBitPosition(beginBitPosition + numBytesToRead * 8);
-            Span<const ::std::uint8_t>::const_iterator sourceIt = m_context.buffer.begin() + beginBitPosition / 8;
+            Span<const ::std::uint8_t>::const_iterator sourceIt =
+                    m_context.buffer.begin() + beginBitPosition / 8;
             (void)std::copy(sourceIt, sourceIt + numBytesToRead, buffer.begin());
         }
 

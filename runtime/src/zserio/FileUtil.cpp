@@ -1,6 +1,6 @@
-#include <fstream>
 #include <cstddef>
 #include <cstdint>
+#include <fstream>
 #include <string_view>
 
 #include "zserio/CppRuntimeException.h"

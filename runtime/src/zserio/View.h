@@ -1,9 +1,9 @@
 #ifndef ZSERIO_VIEW_H_INC
 #define ZSERIO_VIEW_H_INC
 
-#include <string_view>
 #include <cstddef>
 #include <cstdint>
+#include <string_view>
 #include <tuple>
 
 #include "zserio/BitSize.h"

@@ -1,8 +1,8 @@
 #ifndef ZSERIO_DELTA_CONTEXT_H_INC
 #define ZSERIO_DELTA_CONTEXT_H_INC
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <type_traits>
 
 #include "zserio/BitStreamReader.h"
@@ -165,8 +165,8 @@ public:
             if (m_maxBitNumber > 0)
             {
                 const ::std::int64_t delta = reader.readSignedBits64(m_maxBitNumber + 1);
-                const T readElement =
-                        static_cast<typename T::ValueType>(m_previousElement + static_cast<::std::uint64_t>(delta));
+                const T readElement = static_cast<typename T::ValueType>(
+                        m_previousElement + static_cast<::std::uint64_t>(delta));
                 m_previousElement = static_cast<::std::uint64_t>(readElement);
             }
 

@@ -1,8 +1,8 @@
 #ifndef ZSERIO_I_TYPE_INFO_INC_H
 #define ZSERIO_I_TYPE_INFO_INC_H
 
-#include <string_view>
 #include <cstdint>
+#include <string_view>
 
 #include "zserio/IReflectableData.h"
 #include "zserio/Span.h"

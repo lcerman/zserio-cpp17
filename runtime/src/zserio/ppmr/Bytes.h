@@ -1,8 +1,9 @@
 #ifndef ZSERIO_PPMR_BYTES_H_INC
 #define ZSERIO_PPMR_BYTES_H_INC
 
-#include "zserio/Bytes.h"
 #include <cstdint>
+
+#include "zserio/Bytes.h"
 #include "zserio/ppmr/PropagatingPolymorphicAllocator.h"
 
 namespace zserio
@@ -11,7 +12,8 @@ namespace ppmr
 {
 
 /**
- * Typedef for Zserio Bytes type provided for convenience - using PropagatingPolymorphicAllocator<::std::uint8_t>.
+ * Typedef for Zserio Bytes type provided for convenience - using
+ * PropagatingPolymorphicAllocator<::std::uint8_t>.
  */
 using Bytes = BasicBytes<PropagatingPolymorphicAllocator<::std::uint8_t>>;
 

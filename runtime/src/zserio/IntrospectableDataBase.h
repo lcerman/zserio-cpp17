@@ -1,9 +1,10 @@
 #ifndef ZSERIO_INTROSPECTABLE_DATA_BASE_H_INC
 #define ZSERIO_INTROSPECTABLE_DATA_BASE_H_INC
 
-#include "zserio/TypeInfo.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "zserio/TypeInfo.h"
 
 namespace zserio
 {
@@ -137,7 +138,8 @@ typename IntrospectableDataBase<I, ALLOC>::ConstPtr IntrospectableDataBase<I, AL
 }
 
 template <typename I, typename ALLOC>
-typename IntrospectableDataBase<I, ALLOC>::ConstPtr IntrospectableDataBase<I, ALLOC>::operator[](::std::size_t) const
+typename IntrospectableDataBase<I, ALLOC>::ConstPtr IntrospectableDataBase<I, ALLOC>::operator[](
+        ::std::size_t) const
 {
     throw CppRuntimeException("Type '") << m_typeInfo.getSchemaName() << "' is not an array!";
 }

@@ -1,8 +1,8 @@
 #ifndef ZSERIO_STRING_H_INC
 #define ZSERIO_STRING_H_INC
 
-#include <string>
 #include <cstdint>
+#include <string>
 #include <string_view>
 
 #include "zserio/BitSize.h"

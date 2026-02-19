@@ -1,9 +1,9 @@
 #ifndef ZSERIO_I_INTROSPECTABLE_DATA_INC
 #define ZSERIO_I_INTROSPECTABLE_DATA_INC
 
-#include <memory>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <string_view>
 
 #include "zserio/Any.h"

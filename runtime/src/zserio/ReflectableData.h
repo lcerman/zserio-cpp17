@@ -1,9 +1,10 @@
 #ifndef ZSERIO_REFLECTABLE_DATA_H_INC
 #define ZSERIO_REFLECTABLE_DATA_H_INC
 
-#include "zserio/Enums.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "zserio/Enums.h"
 #include "zserio/IReflectableData.h"
 #include "zserio/IntrospectableDataBase.h"
 #include "zserio/ReflectableUtil.h"
@@ -72,7 +73,8 @@ public:
 
 private:
     ConstPtr getFieldFromObject(const IBasicReflectableData<ALLOC>& object, std::string_view name) const;
-    ConstPtr getFromObject(const IBasicReflectableData<ALLOC>& object, std::string_view path, ::std::size_t pos) const;
+    ConstPtr getFromObject(
+            const IBasicReflectableData<ALLOC>& object, std::string_view path, ::std::size_t pos) const;
     Ptr getFieldFromObject(IBasicReflectableData<ALLOC>& object, std::string_view name);
     Ptr getFromObject(IBasicReflectableData<ALLOC>& object, std::string_view path, ::std::size_t pos);
 };
@@ -329,7 +331,8 @@ class UInt16ReflectableData : public UnsignedReflectableDataBase<T, ALLOC>
 private:
     using Base = UnsignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint16_t, typename T::ValueType>, "T must be based on ::std::uint16_t!");
+    static_assert(
+            std::is_same_v<::std::uint16_t, typename T::ValueType>, "T must be based on ::std::uint16_t!");
 
 public:
     explicit UInt16ReflectableData(T value) :
@@ -351,7 +354,8 @@ class UInt32ReflectableData : public UnsignedReflectableDataBase<T, ALLOC>
 private:
     using Base = UnsignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint32_t, typename T::ValueType>, "T must be based on ::std::uint32_t!");
+    static_assert(
+            std::is_same_v<::std::uint32_t, typename T::ValueType>, "T must be based on ::std::uint32_t!");
 
 public:
     explicit UInt32ReflectableData(T value) :
@@ -373,7 +377,8 @@ class UInt64ReflectableData : public UnsignedReflectableDataBase<T, ALLOC>
 private:
     using Base = UnsignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint64_t, typename T::ValueType>, "T must be based on ::std::uint64_t!");
+    static_assert(
+            std::is_same_v<::std::uint64_t, typename T::ValueType>, "T must be based on ::std::uint64_t!");
 
 public:
     explicit UInt64ReflectableData(T value) :

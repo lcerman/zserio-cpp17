@@ -1,9 +1,10 @@
 #ifndef ZSERIO_SQLITE_UTIL_H_INC
 #define ZSERIO_SQLITE_UTIL_H_INC
 
-#include "zserio/Bitmasks.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "zserio/Bitmasks.h"
 #include "zserio/Enums.h"
 #include "zserio/Optional.h"
 #include "zserio/SerializeUtil.h"
@@ -69,7 +70,8 @@ std::enable_if_t<is_complete_v<View<T>>> readColumn(
     // blob
     const void* blobDataPtr = sqlite3_column_blob(&stmt, index);
     const int blobDataLength = sqlite3_column_bytes(&stmt, index);
-    Span<const ::std::uint8_t> blobData(static_cast<const ::std::uint8_t*>(blobDataPtr), static_cast<::std::size_t>(blobDataLength));
+    Span<const ::std::uint8_t> blobData(
+            static_cast<const ::std::uint8_t*>(blobDataPtr), static_cast<::std::size_t>(blobDataLength));
     column.emplace();
     deserializeFromBytes(blobData, *column, args...);
 }

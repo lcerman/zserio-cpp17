@@ -1,8 +1,8 @@
 #ifndef ZSERIO_TYPES_H_INC
 #define ZSERIO_TYPES_H_INC
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <string_view>
 #include <type_traits>

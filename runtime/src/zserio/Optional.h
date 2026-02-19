@@ -1,9 +1,9 @@
 #ifndef ZSERIO_OPTIONAL_H_INC
 #define ZSERIO_OPTIONAL_H_INC
 
-#include <optional>
 #include <cstddef>
 #include <cstdint>
+#include <optional>
 
 #include "zserio/AllocatorHolder.h"
 #include "zserio/CppRuntimeException.h"

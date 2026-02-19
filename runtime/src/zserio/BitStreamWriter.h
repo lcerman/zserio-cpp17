@@ -2,8 +2,8 @@
 #define ZSERIO_BIT_STREAM_WRITER_H_INC
 
 #include <algorithm>
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <string_view>
 #include <type_traits>
 
@@ -335,7 +335,8 @@ private:
     void writeUnsignedBits64Impl(::std::uint64_t data, ::std::uint8_t numBits);
     void writeSignedVarNum(::std::int64_t value, ::std::size_t maxVarBytes, ::std::size_t numVarBytes);
     void writeUnsignedVarNum(::std::uint64_t value, ::std::size_t maxVarBytes, ::std::size_t numVarBytes);
-    void writeVarNum(::std::uint64_t value, bool hasSign, bool isNegative, ::std::size_t maxVarBytes, ::std::size_t numVarBytes);
+    void writeVarNum(::std::uint64_t value, bool hasSign, bool isNegative, ::std::size_t maxVarBytes,
+            ::std::size_t numVarBytes);
 
     void checkCapacity(::std::size_t bitSize) const;
     void throwInsufficientCapacityException() const;

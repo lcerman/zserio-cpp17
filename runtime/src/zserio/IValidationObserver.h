@@ -1,8 +1,8 @@
 #ifndef ZSERIO_I_VALIDATION_OBSERVER_H_INC
 #define ZSERIO_I_VALIDATION_OBSERVER_H_INC
 
-#include <string_view>
 #include <cstddef>
+#include <string_view>
 
 #include "zserio/Span.h"
 #include "zserio/Types.h"

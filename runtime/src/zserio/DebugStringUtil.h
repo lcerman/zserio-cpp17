@@ -13,8 +13,8 @@
 #ifndef ZSERIO_DEBUG_STRING_UTIL_H_INC
 #define ZSERIO_DEBUG_STRING_UTIL_H_INC
 
-#include <fstream>
 #include <cstdint>
+#include <fstream>
 #include <sstream>
 #include <utility>
 
@@ -33,8 +33,8 @@ namespace detail
 // Implementations needs to be in detail because old MSVC compiler 2015 has problems with calling overload.
 
 template <typename T, typename WALK_FILTER, typename ALLOC>
-void toJsonStream(
-        const T& object, std::ostream& stream, ::std::uint8_t indent, WALK_FILTER&& walkFilter, const ALLOC& allocator)
+void toJsonStream(const T& object, std::ostream& stream, ::std::uint8_t indent, WALK_FILTER&& walkFilter,
+        const ALLOC& allocator)
 {
     // static_assert(has_reflectable<T>::value,
     //         "DebugStringUtil.toJsonStream: "
@@ -131,7 +131,8 @@ void toJsonStream(const T& object, std::ostream& stream, const ALLOC& allocator 
  */
 template <typename T, typename ALLOC = typename T::allocator_type,
         typename std::enable_if<is_allocator<ALLOC>::value, int>::type = 0>
-void toJsonStream(const T& object, std::ostream& stream, ::std::uint8_t indent, const ALLOC& allocator = ALLOC())
+void toJsonStream(
+        const T& object, std::ostream& stream, ::std::uint8_t indent, const ALLOC& allocator = ALLOC())
 {
     detail::toJsonStream(object, stream, indent, BasicDefaultWalkFilter<ALLOC>(), allocator);
 }
@@ -364,7 +365,8 @@ void toJsonFile(const T& object, std::string_view fileName, const ALLOC& allocat
  */
 template <typename T, typename ALLOC = typename T::allocator_type,
         typename std::enable_if<is_allocator<ALLOC>::value, int>::type = 0>
-void toJsonFile(const T& object, std::string_view fileName, ::std::uint8_t indent, const ALLOC& allocator = ALLOC())
+void toJsonFile(
+        const T& object, std::string_view fileName, ::std::uint8_t indent, const ALLOC& allocator = ALLOC())
 {
     return detail::toJsonFile(object, fileName, indent, BasicDefaultWalkFilter<ALLOC>(), allocator);
 }

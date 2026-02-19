@@ -80,7 +80,8 @@ T stringToEnum(std::string_view itemName)
                 << itemName << "' doesn't exist in enum '" << EnumTraits<T>::enumName << "'!";
     }
 
-    const ::std::size_t ordinal = static_cast<::std::size_t>(std::distance(EnumTraits<T>::names.begin(), foundIt));
+    const ::std::size_t ordinal =
+            static_cast<::std::size_t>(std::distance(EnumTraits<T>::names.begin(), foundIt));
     return EnumTraits<T>::values[ordinal];
 }
 

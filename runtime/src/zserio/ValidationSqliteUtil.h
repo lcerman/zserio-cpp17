@@ -1,8 +1,8 @@
 #ifndef ZSERIO_VALIDATION_SQLITE_UTIL_H_INC
 #define ZSERIO_VALIDATION_SQLITE_UTIL_H_INC
 
-#include <map>
 #include <cstddef>
+#include <map>
 #include <string_view>
 
 #include "zserio/RebindAlloc.h"

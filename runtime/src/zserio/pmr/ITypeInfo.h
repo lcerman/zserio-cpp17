@@ -1,8 +1,8 @@
 #ifndef ZSERIO_PMR_I_TYPE_INFO_H_INC
 #define ZSERIO_PMR_I_TYPE_INFO_H_INC
 
-#include <memory_resource>
 #include <cstdint>
+#include <memory_resource>
 
 #include "zserio/ITypeInfo.h"
 

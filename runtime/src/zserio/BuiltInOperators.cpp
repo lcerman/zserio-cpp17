@@ -1,5 +1,6 @@
-#include "zserio/BuiltInOperators.h"
 #include <cstdint>
+
+#include "zserio/BuiltInOperators.h"
 
 namespace zserio
 {

@@ -1,8 +1,9 @@
 #ifndef ZSERIO_PPMR_I_TYPE_INFO_H_INC
 #define ZSERIO_PPMR_I_TYPE_INFO_H_INC
 
-#include "zserio/ITypeInfo.h"
 #include <cstdint>
+
+#include "zserio/ITypeInfo.h"
 #include "zserio/ppmr/PropagatingPolymorphicAllocator.h"
 
 namespace zserio

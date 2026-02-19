@@ -10,9 +10,9 @@
 #ifndef ZSERIO_FILE_UTIL_H_INC
 #define ZSERIO_FILE_UTIL_H_INC
 
-#include <string_view>
 #include <cstddef>
 #include <cstdint>
+#include <string_view>
 
 #include "zserio/BitBuffer.h"
 

@@ -357,7 +357,8 @@ inline ::std::uint64_t readUnsignedBits64Impl(ReaderContext& ctx, ::std::uint8_t
 
 } // namespace
 
-BitStreamReader::ReaderContext::ReaderContext(Span<const ::std::uint8_t> readBuffer, ::std::size_t readBufferBitSize) :
+BitStreamReader::ReaderContext::ReaderContext(
+        Span<const ::std::uint8_t> readBuffer, ::std::size_t readBufferBitSize) :
         buffer(readBuffer),
         bufferBitSize(readBufferBitSize),
         cache(0),
@@ -562,7 +563,8 @@ VarInt BitStreamReader::readVarInt()
     ::std::uint64_t result = byte & VARINT_BYTE_1;
     if ((byte & VARINT_HAS_NEXT_1) == 0)
     {
-        return sign ? (result == 0 ? INT64_MIN : -static_cast<::std::int64_t>(result)) : static_cast<::std::int64_t>(result);
+        return sign ? (result == 0 ? INT64_MIN : -static_cast<::std::int64_t>(result))
+                    : static_cast<::std::int64_t>(result);
     }
 
     byte = static_cast<::std::uint8_t>(readUnsignedBitsImpl(m_context, 8)); // byte 2
@@ -818,14 +820,16 @@ VarSize BitStreamReader::readVarSize()
 
 Float16 BitStreamReader::readFloat16()
 {
-    const ::std::uint16_t halfPrecisionFloatValue = static_cast<::std::uint16_t>(readUnsignedBitsImpl(m_context, 16));
+    const ::std::uint16_t halfPrecisionFloatValue =
+            static_cast<::std::uint16_t>(readUnsignedBitsImpl(m_context, 16));
 
     return convertUInt16ToFloat(halfPrecisionFloatValue);
 }
 
 Float32 BitStreamReader::readFloat32()
 {
-    const ::std::uint32_t singlePrecisionFloatValue = static_cast<::std::uint32_t>(readUnsignedBitsImpl(m_context, 32));
+    const ::std::uint32_t singlePrecisionFloatValue =
+            static_cast<::std::uint32_t>(readUnsignedBitsImpl(m_context, 32));
 
     return convertUInt32ToFloat(singlePrecisionFloatValue);
 }
@@ -833,7 +837,8 @@ Float32 BitStreamReader::readFloat32()
 Float64 BitStreamReader::readFloat64()
 {
 #ifdef ZSERIO_RUNTIME_64BIT
-    const ::std::uint64_t doublePrecisionFloatValue = static_cast<::std::uint64_t>(readUnsignedBitsImpl(m_context, 64));
+    const ::std::uint64_t doublePrecisionFloatValue =
+            static_cast<::std::uint64_t>(readUnsignedBitsImpl(m_context, 64));
 #else
     const ::std::uint64_t doublePrecisionFloatValue = readUnsignedBits64Impl(m_context, 64);
 #endif

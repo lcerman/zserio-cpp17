@@ -1,8 +1,9 @@
 #ifndef ZSERIO_PPMR_ANY_H_INC
 #define ZSERIO_PPMR_ANY_H_INC
 
-#include "zserio/Any.h"
 #include <cstdint>
+
+#include "zserio/Any.h"
 #include "zserio/ppmr/PropagatingPolymorphicAllocator.h"
 
 namespace zserio

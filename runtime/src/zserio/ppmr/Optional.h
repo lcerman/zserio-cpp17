@@ -1,8 +1,9 @@
 #ifndef ZSERIO_PPMR_OPTIONAL_H_INC
 #define ZSERIO_PPMR_OPTIONAL_H_INC
 
-#include "zserio/Optional.h"
 #include <cstdint>
+
+#include "zserio/Optional.h"
 #include "zserio/ppmr/PropagatingPolymorphicAllocator.h"
 
 namespace zserio

@@ -1,9 +1,9 @@
 #ifndef ZSERIO_JSON_READER_H_INC
 #define ZSERIO_JSON_READER_H_INC
 
-#include <istream>
 #include <cstddef>
 #include <cstdint>
+#include <istream>
 #include <limits>
 #include <memory>
 #include <string_view>

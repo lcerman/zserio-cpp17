@@ -1,9 +1,10 @@
 #ifndef ZSERIO_EXTENDED_H_INC
 #define ZSERIO_EXTENDED_H_INC
 
-#include "HashCodeUtil.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "HashCodeUtil.h"
 
 namespace zserio
 {

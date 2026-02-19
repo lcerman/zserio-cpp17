@@ -1,6 +1,7 @@
-#include "zserio/BitFieldUtil.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "zserio/BitFieldUtil.h"
 #include "zserio/CppRuntimeException.h"
 
 namespace zserio

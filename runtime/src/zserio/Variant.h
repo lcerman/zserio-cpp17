@@ -1,9 +1,10 @@
 #ifndef ZSERIO_VARIANT_H_INC
 #define ZSERIO_VARIANT_H_INC
 
-#include "zserio/AllocatorHolder.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "zserio/AllocatorHolder.h"
 #include "zserio/Any.h"
 #include "zserio/CppRuntimeException.h"
 #include "zserio/HashCodeUtil.h"
@@ -319,7 +320,8 @@ public:
         if (!ptr)
         {
             throw BadVariantAccess("Variant: Attempt to retrieve an inactive element at index ")
-                    << static_cast<::std::size_t>(I) << ". Active element index is " << static_cast<::std::size_t>(index());
+                    << static_cast<::std::size_t>(I) << ". Active element index is "
+                    << static_cast<::std::size_t>(index());
         }
         return *ptr;
     }
@@ -336,7 +338,8 @@ public:
         if (!ptr)
         {
             throw BadVariantAccess("Variant: Attempt to retrieve an inactive element at index ")
-                    << static_cast<::std::size_t>(I) << ". Active element index is " << static_cast<::std::size_t>(index());
+                    << static_cast<::std::size_t>(I) << ". Active element index is "
+                    << static_cast<::std::size_t>(index());
         }
         return *ptr;
     }

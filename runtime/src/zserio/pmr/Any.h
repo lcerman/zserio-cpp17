@@ -1,8 +1,8 @@
 #ifndef ZSERIO_PMR_ANY_H_INC
 #define ZSERIO_PMR_ANY_H_INC
 
-#include <memory_resource>
 #include <cstdint>
+#include <memory_resource>
 
 #include "zserio/Any.h"
 

@@ -1,9 +1,9 @@
 #ifndef ZSERIO_JSON_PARSER_H_INC
 #define ZSERIO_JSON_PARSER_H_INC
 
-#include <string_view>
 #include <cstddef>
 #include <cstdint>
+#include <string_view>
 
 #include "zserio/Any.h"
 #include "zserio/JsonDecoder.h"

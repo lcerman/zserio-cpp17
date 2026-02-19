@@ -1,8 +1,8 @@
 #ifndef ZSERIO_I_INTROSPECTABLE_VIEW_INC
 #define ZSERIO_I_INTROSPECTABLE_VIEW_INC
 
-#include <memory>
 #include <cstdint>
+#include <memory>
 #include <string_view>
 
 #include "zserio/BitSize.h"
@@ -77,7 +77,8 @@ public:
 template <typename ALLOC = std::allocator<::std::uint8_t>>
 using IBasicIntrospectableViewConstPtr = typename IBasicIntrospectableView<ALLOC>::ConstPtr;
 
-/** Typedef to introspectable interface provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedef to introspectable interface provided for convenience - using default std::allocator<::std::uint8_t>.
+ */
 /** \{ */
 using IIntrospectableView = IBasicIntrospectableView<>;
 using IIntrospectableViewConstPtr = IBasicIntrospectableViewConstPtr<>;

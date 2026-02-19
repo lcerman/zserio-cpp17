@@ -1,8 +1,8 @@
 #ifndef ZSERIO_PMR_I_REFLECTABLE_DATA_H_INC
 #define ZSERIO_PMR_I_REFLECTABLE_DATA_H_INC
 
-#include <memory_resource>
 #include <cstdint>
+#include <memory_resource>
 
 #include "zserio/IReflectableData.h"
 
@@ -17,7 +17,8 @@ namespace pmr
 {
 
 /**
- * Typedef to reflectable interface provided for convenience - using std::pmr::polymorphic_allocator<::std::uint8_t>.
+ * Typedef to reflectable interface provided for convenience - using
+ * std::pmr::polymorphic_allocator<::std::uint8_t>.
  */
 /** \{ */
 using IReflectableData = IBasicReflectableData<std::pmr::polymorphic_allocator<::std::uint8_t>>;

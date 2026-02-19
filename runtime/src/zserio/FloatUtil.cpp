@@ -1,5 +1,5 @@
-#include <cstring>
 #include <cstdint>
+#include <cstring>
 
 #include "zserio/FloatUtil.h"
 
@@ -35,7 +35,8 @@ float convertUInt16ToFloat(::std::uint16_t float16Value)
     // decompose half precision float (float16)
     const ::std::uint16_t sign16Shifted = (float16Value & FLOAT16_SIGN_MASK);
     const ::std::uint16_t exponent16 = static_cast<::std::uint16_t>(
-            static_cast<::std::uint16_t>(float16Value & FLOAT16_EXPONENT_MASK) >> FLOAT16_EXPONENT_BIT_POSITION);
+            static_cast<::std::uint16_t>(float16Value & FLOAT16_EXPONENT_MASK) >>
+            FLOAT16_EXPONENT_BIT_POSITION);
     const ::std::uint16_t significand16 = (float16Value & FLOAT16_SIGNIFICAND_MASK);
 
     // calculate significand for single precision float (float32)
@@ -113,8 +114,9 @@ float convertUInt16ToFloat(::std::uint16_t float16Value)
     else
     {
         // normal number
-        const ::std::int16_t signedExponent16 = static_cast<::std::int16_t>(static_cast<::std::int32_t>(exponent32) -
-                static_cast<::std::int32_t>(FLOAT32_EXPONENT_BIAS) + static_cast<::std::int32_t>(FLOAT16_EXPONENT_BIAS));
+        const ::std::int16_t signedExponent16 = static_cast<::std::int16_t>(
+                static_cast<::std::int32_t>(exponent32) - static_cast<::std::int32_t>(FLOAT32_EXPONENT_BIAS) +
+                static_cast<::std::int32_t>(FLOAT16_EXPONENT_BIAS));
         if (signedExponent16 > FLOAT16_EXPONENT_INFINITY_NAN)
         {
             // exponent overflow, set infinity or NaN
@@ -153,10 +155,12 @@ float convertUInt16ToFloat(::std::uint16_t float16Value)
     }
 
     // compose half precision float (float16)
-    const ::std::uint16_t sign16Shifted =
-            static_cast<::std::uint16_t>(sign32Shifted >> (FLOAT32_SIGN_BIT_POSITION - FLOAT16_SIGN_BIT_POSITION));
-    const ::std::uint16_t exponent16Shifted = static_cast<::std::uint16_t>(exponent16 << FLOAT16_EXPONENT_BIT_POSITION);
-    ::std::uint16_t float16Value = static_cast<::std::uint16_t>(sign16Shifted | exponent16Shifted) | significand16;
+    const ::std::uint16_t sign16Shifted = static_cast<::std::uint16_t>(
+            sign32Shifted >> (FLOAT32_SIGN_BIT_POSITION - FLOAT16_SIGN_BIT_POSITION));
+    const ::std::uint16_t exponent16Shifted =
+            static_cast<::std::uint16_t>(exponent16 << FLOAT16_EXPONENT_BIT_POSITION);
+    ::std::uint16_t float16Value =
+            static_cast<::std::uint16_t>(sign16Shifted | exponent16Shifted) | significand16;
 
     // check rounding
     if (needsRounding)

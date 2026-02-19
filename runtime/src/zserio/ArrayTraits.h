@@ -106,8 +106,8 @@ struct IntegralArrayTraits : NumericArrayTraits<T>
 {
     using NumericArrayTraits<T>::read;
 
-    static void read(
-            DeltaContext& context, BitStreamReader& reader, const detail::DummyArrayOwner&, T& element, ::std::size_t)
+    static void read(DeltaContext& context, BitStreamReader& reader, const detail::DummyArrayOwner&, T& element,
+            ::std::size_t)
     {
         detail::read(context, reader, element);
     }
@@ -169,7 +169,8 @@ struct ArrayTraits<detail::FloatWrapper<VALUE_TYPE, FLOAT_TYPE>>
 template <typename ALLOC>
 struct ArrayTraits<BasicBytes<ALLOC>>
 {
-    static constexpr BytesView at(const detail::DummyArrayOwner&, const BasicBytes<ALLOC>& element, ::std::size_t)
+    static constexpr BytesView at(
+            const detail::DummyArrayOwner&, const BasicBytes<ALLOC>& element, ::std::size_t)
     {
         return element;
     }
@@ -190,8 +191,8 @@ struct ArrayTraits<BasicBitBuffer<ALLOC>>
         return element;
     }
 
-    static void read(
-            BitStreamReader& reader, const detail::DummyArrayOwner&, BasicBitBuffer<ALLOC>& element, ::std::size_t)
+    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, BasicBitBuffer<ALLOC>& element,
+            ::std::size_t)
     {
         detail::read(reader, element);
     }
@@ -200,7 +201,8 @@ struct ArrayTraits<BasicBitBuffer<ALLOC>>
 template <typename ALLOC>
 struct ArrayTraits<BasicString<ALLOC>>
 {
-    static constexpr std::string_view at(const detail::DummyArrayOwner&, std::string_view element, ::std::size_t)
+    static constexpr std::string_view at(
+            const detail::DummyArrayOwner&, std::string_view element, ::std::size_t)
     {
         return element;
     }

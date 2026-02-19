@@ -1,8 +1,8 @@
 #ifndef ZSERIO_HASH_CODE_UTIL_H_INC
 #define ZSERIO_HASH_CODE_UTIL_H_INC
 
-#include <memory>
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <string_view>
 #include <type_traits>
@@ -44,8 +44,8 @@ inline ::std::uint32_t calcHashCodeFirstTerm(::std::uint32_t seedValue)
  * \return Calculated hash code.
  */
 template <typename T>
-inline typename std::enable_if<std::is_integral<T>::value && (sizeof(T) <= 4), ::std::uint32_t>::type calcHashCode(
-        ::std::uint32_t seedValue, T value)
+inline typename std::enable_if<std::is_integral<T>::value && (sizeof(T) <= 4), ::std::uint32_t>::type
+calcHashCode(::std::uint32_t seedValue, T value)
 {
     return calcHashCodeFirstTerm(seedValue) + static_cast<::std::uint32_t>(value);
 }
@@ -59,11 +59,12 @@ inline typename std::enable_if<std::is_integral<T>::value && (sizeof(T) <= 4), :
  * \return Calculated hash code.
  */
 template <typename T>
-inline typename std::enable_if<std::is_integral<T>::value && (sizeof(T) > 4), ::std::uint32_t>::type calcHashCode(
-        ::std::uint32_t seedValue, T value)
+inline typename std::enable_if<std::is_integral<T>::value && (sizeof(T) > 4), ::std::uint32_t>::type
+calcHashCode(::std::uint32_t seedValue, T value)
 {
     const auto unsignedValue = static_cast<typename std::make_unsigned<T>::type>(value);
-    return calcHashCodeFirstTerm(seedValue) + static_cast<::std::uint32_t>(unsignedValue ^ (unsignedValue >> 32U));
+    return calcHashCodeFirstTerm(seedValue) +
+            static_cast<::std::uint32_t>(unsignedValue ^ (unsignedValue >> 32U));
 }
 
 /**
@@ -114,7 +115,8 @@ inline ::std::uint32_t calcHashCode(::std::uint32_t seedValue, Bool value)
  * \return Calculated hash code.
  */
 template <BitSize BIT_SIZE, bool IS_SIGNED>
-inline ::std::uint32_t calcHashCode(::std::uint32_t seedValue, detail::FixedIntWrapper<BIT_SIZE, IS_SIGNED> value)
+inline ::std::uint32_t calcHashCode(
+        ::std::uint32_t seedValue, detail::FixedIntWrapper<BIT_SIZE, IS_SIGNED> value)
 {
     using ValueType = typename detail::FixedIntWrapper<BIT_SIZE, IS_SIGNED>::ValueType;
     return calcHashCode(seedValue, static_cast<ValueType>(value));
@@ -143,7 +145,8 @@ inline ::std::uint32_t calcHashCode(::std::uint32_t seedValue, detail::DynIntWra
  * \return Calculated hash code.
  */
 template <typename VALUE_TYPE, detail::VarIntType VAR_TYPE>
-inline ::std::uint32_t calcHashCode(::std::uint32_t seedValue, detail::VarIntWrapper<VALUE_TYPE, VAR_TYPE> value)
+inline ::std::uint32_t calcHashCode(
+        ::std::uint32_t seedValue, detail::VarIntWrapper<VALUE_TYPE, VAR_TYPE> value)
 {
     return calcHashCode(seedValue, static_cast<VALUE_TYPE>(value));
 }
@@ -157,7 +160,8 @@ inline ::std::uint32_t calcHashCode(::std::uint32_t seedValue, detail::VarIntWra
  * \return Calculated hash code.
  */
 template <typename VALUE_TYPE, detail::FloatType FLOAT_TYPE>
-inline ::std::uint32_t calcHashCode(::std::uint32_t seedValue, detail::FloatWrapper<VALUE_TYPE, FLOAT_TYPE> value)
+inline ::std::uint32_t calcHashCode(
+        ::std::uint32_t seedValue, detail::FloatWrapper<VALUE_TYPE, FLOAT_TYPE> value)
 {
     return calcHashCode(seedValue, static_cast<VALUE_TYPE>(value));
 }

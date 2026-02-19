@@ -90,7 +90,8 @@ public:
      *
      * \throw CppRuntimeException If given bit size is out of range for given Span.
      */
-    explicit BasicBitBuffer(Span<const ::std::uint8_t> buffer, ::std::size_t bitSize, const ALLOC& allocator = {});
+    explicit BasicBitBuffer(
+            Span<const ::std::uint8_t> buffer, ::std::size_t bitSize, const ALLOC& allocator = {});
 
     /**
      * Constructor from moved STL vector.
@@ -290,7 +291,8 @@ BasicBitBuffer<ALLOC>::BasicBitBuffer(Span<const ::std::uint8_t> buffer, const A
 {}
 
 template <typename ALLOC>
-BasicBitBuffer<ALLOC>::BasicBitBuffer(Span<const ::std::uint8_t> buffer, ::std::size_t bitSize, const ALLOC& allocator) :
+BasicBitBuffer<ALLOC>::BasicBitBuffer(
+        Span<const ::std::uint8_t> buffer, ::std::size_t bitSize, const ALLOC& allocator) :
         m_buffer(buffer.begin(), buffer.end(), allocator),
         m_bitSize(bitSize)
 {

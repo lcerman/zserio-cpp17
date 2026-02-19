@@ -1,9 +1,9 @@
 #ifndef ZSERIO_ARRAY_H_INC
 #define ZSERIO_ARRAY_H_INC
 
-#include <string_view>
 #include <cstddef>
 #include <cstdint>
+#include <string_view>
 #include <type_traits>
 
 #include "zserio/ArrayLengthException.h"
@@ -564,7 +564,8 @@ BitSize initializeOffsets(const ArrayView<T, ARRAY_TRAITS>& array, BitSize bitPo
             offsetSetter.setOffset(i, endBitPosition / 8);
         }
 
-        using AtResult = decltype(std::declval<const ArrayView<T, ARRAY_TRAITS>&>().at(std::declval<::std::size_t>()));
+        using AtResult =
+                decltype(std::declval<const ArrayView<T, ARRAY_TRAITS>&>().at(std::declval<::std::size_t>()));
         if constexpr (std::is_same_v<View<ValueType>, AtResult>)
         {
             endBitPosition += initializeOffsets(array[i], endBitPosition);
@@ -736,8 +737,8 @@ BitSize initializeOffsetsPacked(const ArrayView<T, ARRAY_TRAITS>& array, BitSize
                     offsetSetter.setOffset(i, endBitPosition / 8);
                 }
 
-                using AtResult =
-                        decltype(std::declval<const ArrayView<T, ARRAY_TRAITS>&>().at(std::declval<::std::size_t>()));
+                using AtResult = decltype(std::declval<const ArrayView<T, ARRAY_TRAITS>&>().at(
+                        std::declval<::std::size_t>()));
                 if constexpr (std::is_same_v<View<ValueType>, AtResult>)
                 {
                     endBitPosition += initializeOffsets(context, array[i], endBitPosition);

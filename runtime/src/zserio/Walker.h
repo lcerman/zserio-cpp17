@@ -127,10 +127,12 @@ public:
     void beginCompound(
             const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
     {}
-    void endCompound(const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
+    void endCompound(
+            const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
     {}
 
-    void visitValue(const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
+    void visitValue(
+            const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
     {}
 };
 
@@ -186,12 +188,14 @@ public:
         return true;
     }
 
-    bool beforeValue(const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
+    bool beforeValue(
+            const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
     {
         return true;
     }
 
-    bool afterValue(const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
+    bool afterValue(
+            const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t) override
     {
         return true;
     }
@@ -440,7 +444,8 @@ private:
     WalkFilters m_walkFilters;
 };
 
-/** Typedefs to walker related classes provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedefs to walker related classes provided for convenience - using default std::allocator<::std::uint8_t>.
+ */
 /** \{ */
 using Walker = BasicWalker<>;
 using DefaultWalkObserver = BasicDefaultWalkObserver<>;
@@ -649,8 +654,8 @@ BasicString<RebindAlloc<ALLOC, char>> getCurrentPathImpl(const PATH& currentPath
 }
 
 template <typename PATH, typename ALLOC>
-void appendPathImpl(
-        PATH& currentPath, const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex, const ALLOC& allocator)
+void appendPathImpl(PATH& currentPath, const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex,
+        const ALLOC& allocator)
 {
     if (elementIndex == WALKER_NOT_ELEMENT)
     {
@@ -664,8 +669,8 @@ void appendPathImpl(
 }
 
 template <typename PATH, typename ALLOC>
-void popPathImpl(
-        PATH& currentPath, const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex, const ALLOC& allocator)
+void popPathImpl(PATH& currentPath, const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex,
+        const ALLOC& allocator)
 {
     if (elementIndex == WALKER_NOT_ELEMENT)
     {

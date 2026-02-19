@@ -40,14 +40,17 @@ bool checkArithmeticValueRanges(U value)
     else if constexpr (std::is_signed_v<std::decay_t<U>> && std::is_signed_v<std::decay_t<T>>)
     {
         // value is signed and it is converted to signed value
-        return (static_cast<::std::int64_t>(value) >= static_cast<::std::int64_t>(std::numeric_limits<T>::min()) &&
-                static_cast<::std::int64_t>(value) <= static_cast<::std::int64_t>(std::numeric_limits<T>::max()));
+        return (static_cast<::std::int64_t>(value) >=
+                        static_cast<::std::int64_t>(std::numeric_limits<T>::min()) &&
+                static_cast<::std::int64_t>(value) <=
+                        static_cast<::std::int64_t>(std::numeric_limits<T>::max()));
     }
     else if constexpr (std::is_signed_v<std::decay_t<U>> && std::is_unsigned_v<std::decay_t<T>>)
     {
         // value is signed and it is converted to unsigned value
         return (value >= 0 &&
-                static_cast<::std::uint64_t>(value) <= static_cast<::std::uint64_t>(std::numeric_limits<T>::max()));
+                static_cast<::std::uint64_t>(value) <=
+                        static_cast<::std::uint64_t>(std::numeric_limits<T>::max()));
     }
 }
 

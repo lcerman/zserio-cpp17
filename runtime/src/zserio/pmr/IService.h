@@ -1,8 +1,8 @@
 #ifndef ZSERIO_PMR_I_SERVICE_H_INC
 #define ZSERIO_PMR_I_SERVICE_H_INC
 
-#include <memory_resource>
 #include <cstdint>
+#include <memory_resource>
 
 #include "zserio/IService.h"
 
@@ -11,7 +11,8 @@ namespace zserio
 namespace pmr
 {
 
-/** Typedef to service interface provided for convenience - using std::pmr::polymorphic_allocator<::std::uint8_t>. */
+/** Typedef to service interface provided for convenience - using
+ * std::pmr::polymorphic_allocator<::std::uint8_t>. */
 /** \{ */
 using IServiceData = IBasicServiceData<std::pmr::polymorphic_allocator<::std::uint8_t>>;
 using IServiceDataPtr = IBasicServiceDataPtr<std::pmr::polymorphic_allocator<::std::uint8_t>>;

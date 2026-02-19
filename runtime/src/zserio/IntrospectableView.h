@@ -1,9 +1,10 @@
 #ifndef ZSERIO_INTROSPECTABLE_VIEW_H_INC
 #define ZSERIO_INTROSPECTABLE_VIEW_H_INC
 
-#include "zserio/ArrayView.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "zserio/ArrayView.h"
 #include "zserio/IIntrospectableView.h"
 #include "zserio/IntrospectableDataBase.h"
 #include "zserio/SerializeUtil.h"
@@ -324,7 +325,8 @@ class UInt16IntrospectableView : public UnsignedIntrospectableViewBase<T, ALLOC>
 private:
     using Base = UnsignedIntrospectableViewBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint16_t, typename T::ValueType>, "T must be based on ::std::uint16_t!");
+    static_assert(
+            std::is_same_v<::std::uint16_t, typename T::ValueType>, "T must be based on ::std::uint16_t!");
 
 public:
     explicit UInt16IntrospectableView(T value) :
@@ -346,7 +348,8 @@ class UInt32IntrospectableView : public UnsignedIntrospectableViewBase<T, ALLOC>
 private:
     using Base = UnsignedIntrospectableViewBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint32_t, typename T::ValueType>, "T must be based on ::std::uint32_t!");
+    static_assert(
+            std::is_same_v<::std::uint32_t, typename T::ValueType>, "T must be based on ::std::uint32_t!");
 
 public:
     explicit UInt32IntrospectableView(T value) :
@@ -368,7 +371,8 @@ class UInt64IntrospectableView : public UnsignedIntrospectableViewBase<T, ALLOC>
 private:
     using Base = UnsignedIntrospectableViewBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint64_t, typename T::ValueType>, "T must be based on ::std::uint64_t!");
+    static_assert(
+            std::is_same_v<::std::uint64_t, typename T::ValueType>, "T must be based on ::std::uint64_t!");
 
 public:
     explicit UInt64IntrospectableView(T value) :
@@ -500,7 +504,8 @@ class DynUInt16IntrospectableView : public UnsignedIntrospectableViewBase<View<T
 private:
     using Base = UnsignedIntrospectableViewBase<View<T>, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint16_t, typename T::ValueType>, "T must be based on ::std::uint16_t!");
+    static_assert(
+            std::is_same_v<::std::uint16_t, typename T::ValueType>, "T must be based on ::std::uint16_t!");
 
 public:
     explicit DynUInt16IntrospectableView(View<T> value) :
@@ -522,7 +527,8 @@ class DynUInt32IntrospectableView : public UnsignedIntrospectableViewBase<View<T
 private:
     using Base = UnsignedIntrospectableViewBase<View<T>, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint32_t, typename T::ValueType>, "T must be based on ::std::uint32_t!");
+    static_assert(
+            std::is_same_v<::std::uint32_t, typename T::ValueType>, "T must be based on ::std::uint32_t!");
 
 public:
     explicit DynUInt32IntrospectableView(View<T> value) :
@@ -544,7 +550,8 @@ class DynUInt64IntrospectableView : public UnsignedIntrospectableViewBase<View<T
 private:
     using Base = UnsignedIntrospectableViewBase<View<T>, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint64_t, typename T::ValueType>, "T must be based on ::std::uint64_t!");
+    static_assert(
+            std::is_same_v<::std::uint64_t, typename T::ValueType>, "T must be based on ::std::uint64_t!");
 
 public:
     explicit DynUInt64IntrospectableView(View<T> value) :

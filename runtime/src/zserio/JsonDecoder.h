@@ -2,9 +2,9 @@
 #define ZSERIO_JSON_DECODER_H_INC
 
 #include <cerrno>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
-#include <cmath>
 #include <cstdlib>
 #include <string_view>
 #include <utility>
@@ -233,7 +233,8 @@ typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeS
                     if (!decodeUnicodeEscape(input, inputIt, value))
                     {
                         // unsupported unicode escape, not decoded
-                        return DecoderResult(static_cast<::std::size_t>(inputIt - input.begin()), get_allocator());
+                        return DecoderResult(
+                                static_cast<::std::size_t>(inputIt - input.begin()), get_allocator());
                     }
                     break;
                 }
@@ -296,7 +297,8 @@ bool BasicJsonDecoder<ALLOC>::decodeUnicodeEscape(std::string_view input,
         return false;
     }
 
-    const ::std::uint32_t characterInt = (static_cast<::std::uint32_t>(hex1) << 4U) | static_cast<::std::uint32_t>(hex2);
+    const ::std::uint32_t characterInt =
+            (static_cast<::std::uint32_t>(hex1) << 4U) | static_cast<::std::uint32_t>(hex2);
     using char_traits = std::char_traits<char>;
     const char character = char_traits::to_char_type(static_cast<char_traits::int_type>(characterInt));
     value.push_back(character);

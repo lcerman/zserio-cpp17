@@ -1,8 +1,8 @@
 #ifndef ZSERIO_ISERVICE_H_INC
 #define ZSERIO_ISERVICE_H_INC
 
-#include <string_view>
 #include <cstdint>
+#include <string_view>
 
 #include "zserio/IIntrospectableView.h"
 #include "zserio/SerializeUtil.h"
@@ -264,7 +264,8 @@ using IService = IBasicService<>;
 using IServiceClient = IBasicServiceClient<>;
 /** \} */
 
-/** Typedef to service data implementation provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedef to service data implementation provided for convenience - using default
+ * std::allocator<::std::uint8_t>. */
 /** \{ */
 template <typename ZSERIO_OBJECT>
 using IntrospectableServiceData = BasicIntrospectableServiceData<ZSERIO_OBJECT>;

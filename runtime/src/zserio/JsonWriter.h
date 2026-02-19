@@ -1,9 +1,9 @@
 #ifndef ZSERIO_JSON_WRITER_H_INC
 #define ZSERIO_JSON_WRITER_H_INC
 
-#include <ostream>
 #include <cstddef>
 #include <cstdint>
+#include <ostream>
 #include <string_view>
 
 #include "zserio/AllocatorHolder.h"

@@ -1,8 +1,9 @@
 #ifndef ZSERIO_I_SERVICE_H_INC
 #define ZSERIO_I_SERVICE_H_INC
 
-#include "zserio/IService.h"
 #include <cstdint>
+
+#include "zserio/IService.h"
 #include "zserio/ppmr/PropagatingPolymorphicAllocator.h"
 
 namespace zserio
@@ -10,7 +11,8 @@ namespace zserio
 namespace ppmr
 {
 
-/** Typedef to service interface provided for convenience - using PropagatingPolymorphicAllocator<::std::uint8_t>. */
+/** Typedef to service interface provided for convenience - using
+ * PropagatingPolymorphicAllocator<::std::uint8_t>. */
 /** \{ */
 using IServiceData = IBasicServiceData<PropagatingPolymorphicAllocator<::std::uint8_t>>;
 using IServiceDataPtr = IBasicServiceDataPtr<PropagatingPolymorphicAllocator<::std::uint8_t>>;

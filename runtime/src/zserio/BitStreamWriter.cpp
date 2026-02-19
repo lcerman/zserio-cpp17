@@ -1,6 +1,7 @@
-#include "zserio/BitStreamWriter.h"
 #include <cstddef>
 #include <cstdint>
+
+#include "zserio/BitStreamWriter.h"
 #include "zserio/FloatUtil.h"
 
 namespace zserio
@@ -569,7 +570,8 @@ void BitStreamWriter::writeUnsignedBits32Impl(::std::uint32_t data, ::std::uint8
     {
         // first part
         const ::std::uint8_t shiftNum = static_cast<::std::uint8_t>(restNumBits - bitsFree);
-        const ::std::uint8_t maskedByte = static_cast<::std::uint8_t>(m_buffer[byteIndex] & ~(0xFFU >> bitsUsed));
+        const ::std::uint8_t maskedByte =
+                static_cast<::std::uint8_t>(m_buffer[byteIndex] & ~(0xFFU >> bitsUsed));
         m_buffer[byteIndex++] = static_cast<::std::uint8_t>(maskedByte | (data >> shiftNum));
         restNumBits = static_cast<::std::uint8_t>(restNumBits - bitsFree);
 
@@ -589,8 +591,8 @@ void BitStreamWriter::writeUnsignedBits32Impl(::std::uint32_t data, ::std::uint8
     {
         const ::std::uint8_t shiftNum = static_cast<::std::uint8_t>(bitsFree - restNumBits);
         const ::std::uint32_t mask = MAX_U32_VALUES[restNumBits];
-        const ::std::uint8_t maskedByte =
-                m_buffer[byteIndex] & static_cast<::std::uint8_t>(~static_cast<::std::uint8_t>(mask << shiftNum));
+        const ::std::uint8_t maskedByte = m_buffer[byteIndex] &
+                static_cast<::std::uint8_t>(~static_cast<::std::uint8_t>(mask << shiftNum));
         m_buffer[byteIndex] = static_cast<::std::uint8_t>(maskedByte | ((data & mask) << shiftNum));
     }
 
@@ -605,24 +607,27 @@ inline void BitStreamWriter::writeUnsignedBits64Impl(::std::uint64_t data, ::std
     }
     else
     {
-        writeUnsignedBits32Impl(static_cast<::std::uint32_t>(data >> 32U), static_cast<::std::uint8_t>(numBits - 32));
+        writeUnsignedBits32Impl(
+                static_cast<::std::uint32_t>(data >> 32U), static_cast<::std::uint8_t>(numBits - 32));
         writeUnsignedBits32Impl(static_cast<::std::uint32_t>(data), 32);
     }
 }
 
-inline void BitStreamWriter::writeSignedVarNum(::std::int64_t value, ::std::size_t maxVarBytes, ::std::size_t numVarBytes)
+inline void BitStreamWriter::writeSignedVarNum(
+        ::std::int64_t value, ::std::size_t maxVarBytes, ::std::size_t numVarBytes)
 {
     const ::std::uint64_t absValue = static_cast<::std::uint64_t>(value < 0 ? -value : value);
     writeVarNum(absValue, true, value < 0, maxVarBytes, numVarBytes);
 }
 
-inline void BitStreamWriter::writeUnsignedVarNum(::std::uint64_t value, ::std::size_t maxVarBytes, ::std::size_t numVarBytes)
+inline void BitStreamWriter::writeUnsignedVarNum(
+        ::std::uint64_t value, ::std::size_t maxVarBytes, ::std::size_t numVarBytes)
 {
     writeVarNum(value, false, false, maxVarBytes, numVarBytes);
 }
 
-inline void BitStreamWriter::writeVarNum(
-        ::std::uint64_t value, bool hasSign, bool isNegative, ::std::size_t maxVarBytes, ::std::size_t numVarBytes)
+inline void BitStreamWriter::writeVarNum(::std::uint64_t value, bool hasSign, bool isNegative,
+        ::std::size_t maxVarBytes, ::std::size_t numVarBytes)
 {
     static const std::array<::std::uint64_t, 8> bitMasks = {0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF};
     const bool hasMaxByteRange = (numVarBytes == maxVarBytes);
@@ -645,7 +650,8 @@ inline void BitStreamWriter::writeVarNum(
         {
             numBits--;
             const ::std::uint8_t add = static_cast<::std::uint8_t>(0x01U << numBits);
-            byte = static_cast<::std::uint8_t>(byte | add); // use bit 6 if signed bit is present, use bit 7 otherwise
+            byte = static_cast<::std::uint8_t>(
+                    byte | add); // use bit 6 if signed bit is present, use bit 7 otherwise
         }
         else // this is the last byte
         {
@@ -655,7 +661,8 @@ inline void BitStreamWriter::writeVarNum(
             }
         }
 
-        const ::std::size_t shiftBits = (numVarBytes - (i + 1)) * 7 + ((hasMaxByteRange && hasNextByte) ? 1 : 0);
+        const ::std::size_t shiftBits =
+                (numVarBytes - (i + 1)) * 7 + ((hasMaxByteRange && hasNextByte) ? 1 : 0);
         const ::std::uint8_t add = static_cast<::std::uint8_t>((value >> shiftBits) & bitMasks[numBits - 1U]);
         byte = static_cast<::std::uint8_t>(byte | add);
         writeUnsignedBits32Impl(byte, 8);
