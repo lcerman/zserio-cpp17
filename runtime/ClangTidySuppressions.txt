@@ -1,30 +1,30 @@
 # This is necessary for implementation. We intentionally store all possible array element types in 'uint64_t'
 # type to be able to implement delta compression.
-bugprone-signed-char-misuse:src/zserio/DeltaContext.h:90
-bugprone-signed-char-misuse:src/zserio/DeltaContext.h:109
-bugprone-signed-char-misuse:src/zserio/DeltaContext.h:169
-bugprone-signed-char-misuse:src/zserio/DeltaContext.h:205
-bugprone-signed-char-misuse:src/zserio/DeltaContext.h:255
-bugprone-signed-char-misuse:src/zserio/DeltaContext.h:271
+bugprone-signed-char-misuse:src/zserio/DeltaContext.h:91
+bugprone-signed-char-misuse:src/zserio/DeltaContext.h:110
+bugprone-signed-char-misuse:src/zserio/DeltaContext.h:170
+bugprone-signed-char-misuse:src/zserio/DeltaContext.h:206
+bugprone-signed-char-misuse:src/zserio/DeltaContext.h:256
+bugprone-signed-char-misuse:src/zserio/DeltaContext.h:272
 
 # Optional is a generic container and exceptions may be thrown from the value type.
-bugprone-exception-escape:src/zserio/Optional.h:364
-bugprone-exception-escape:src/zserio/Optional.h:391
-bugprone-exception-escape:src/zserio/Optional.h:457
+bugprone-exception-escape:src/zserio/Optional.h:227
+bugprone-exception-escape:src/zserio/Optional.h:366
+bugprone-exception-escape:src/zserio/Optional.h:393
+bugprone-exception-escape:src/zserio/Optional.h:459
 
 # False positives - has_value() is checked before value().
-bugprone-exception-escape:src/zserio/Optional.h:225
 
 # To implement swap the variable needs to be moved out and moved in again
-bugprone-use-after-move:src/zserio/Any.h:429
+bugprone-use-after-move:src/zserio/Any.h:430
 
 # Specialization of std::hash is allowed.
-cert-dcl58-cpp:src/zserio/BitBuffer.h:608
-cert-dcl58-cpp:src/zserio/BitBuffer.h:620
-cert-dcl58-cpp:src/zserio/Extended.h:242
-cert-dcl58-cpp:src/zserio/Optional.h:1323
-cert-dcl58-cpp:src/zserio/Variant.h:606
-cert-dcl58-cpp:src/zserio/View.h:257
+cert-dcl58-cpp:src/zserio/BitBuffer.h:611
+cert-dcl58-cpp:src/zserio/BitBuffer.h:623
+cert-dcl58-cpp:src/zserio/Extended.h:245
+cert-dcl58-cpp:src/zserio/Optional.h:1325
+cert-dcl58-cpp:src/zserio/Variant.h:611
+cert-dcl58-cpp:src/zserio/View.h:259
 
 # This is necessary for low level implementation of Span to mimic standard C++20 'std::span' abstraction.
 cppcoreguidelines-avoid-c-arrays:src/zserio/Span.h:112
@@ -38,88 +38,88 @@ cppcoreguidelines-avoid-c-arrays:src/zserio/Span.h:174
 cppcoreguidelines-macro-usage:src/zserio/CppRuntimeVersion.h:8
 
 # This is necessary for convenient usage of CppRuntimeException.
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/CppRuntimeException.h:193
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/CppRuntimeException.h:194
 
 # This is necessary for implementation of low level zserio::Any abstraction.
 cppcoreguidelines-pro-type-union-access:src/zserio/Any.h
 
 # Optional follows std::optional so passing value by const & is correct.
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:683
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:700
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:952
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:966
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:1092
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:1106
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:1164
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:1178
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:685
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:702
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:954
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:968
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:1094
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:1108
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:1166
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Optional.h:1180
 
 # This is necessary for low level implementation of Span to mimic standard C++20 'std::span' abstraction.
 cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/Span.h:113
 
 # This is necessary to filter out because all of the following can easily happen if the template parameter
 # is a raw pointer (e.g. 'const char*').
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:363
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:365
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:367
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:369
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:371
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:373
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:375
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:377
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:379
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:381
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:383
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:385
-cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:387
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:368
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:370
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:372
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:374
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:376
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:378
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:380
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:382
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:384
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:386
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:388
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:390
+cppcoreguidelines-pro-bounds-array-to-pointer-decay:src/zserio/ZserioTreeCreator.h:392
 
 # The following is filtered out because bounds are checked naturally by implementation. Therefore method 'at'
 # would only bring the performance drop.
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamReader.cpp:301
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamReader.cpp:315
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:351
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:362
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:373
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:374
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:380
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:385
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:386
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:392
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:589
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:657
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/Enums.h:84
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/Enums.h:97
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/StringConvertUtil.h:43
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamReader.cpp:303
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamReader.cpp:317
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:354
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:365
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:376
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:377
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:383
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:388
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:389
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:395
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:593
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/BitStreamWriter.cpp:666
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/Enums.h:85
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/Enums.h:98
 cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/StringConvertUtil.h:44
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/StringConvertUtil.h:49
-cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/StringConvertUtil.h:54
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/StringConvertUtil.h:45
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/StringConvertUtil.h:50
 cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/StringConvertUtil.h:55
+cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/StringConvertUtil.h:56
 cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/JsonEncoder.cpp:97
 cppcoreguidelines-pro-bounds-constant-array-index:src/zserio/JsonEncoder.cpp:98
 
 # This is necessary for implementation of low level zserio::Any abstraction.
-cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/Any.h:690
-cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/Any.h:696
-cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/Any.h:726
-cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/Any.h:733
+cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/Any.h:691
+cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/Any.h:697
+cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/Any.h:727
+cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/Any.h:734
 
 # This is necessary for implementation of reading and writing to the file.
-cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/FileUtil.cpp:19
-cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/FileUtil.cpp:49
+cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/FileUtil.cpp:21
+cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/FileUtil.cpp:51
 
 # This is necessary for cast the return value from SQLite3 low level API call (sqlite3_column_text).
-cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/ValidationSqliteUtil.h:99
 cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/ValidationSqliteUtil.h:100
+cppcoreguidelines-pro-type-reinterpret-cast:src/zserio/ValidationSqliteUtil.h:101
 
 # This multiple inheritance is intended and we think that to avoid it would mean much more obscure design.
-fuchsia-multiple-inheritance:src/zserio/IntrospectableView.h:881
-fuchsia-multiple-inheritance:src/zserio/ReflectableData.h:516
+fuchsia-multiple-inheritance:src/zserio/IntrospectableView.h:890
+fuchsia-multiple-inheritance:src/zserio/ReflectableData.h:523
 
 # Optional follows std::optional so the ctors should be implicit.
-google-explicit-constructor:src/zserio/Optional.h:127
-google-explicit-constructor:src/zserio/Optional.h:137
-google-explicit-constructor:src/zserio/Optional.h:147
-google-explicit-constructor:src/zserio/Optional.h:248
-google-explicit-constructor:src/zserio/Optional.h:412
+google-explicit-constructor:src/zserio/Optional.h:129
+google-explicit-constructor:src/zserio/Optional.h:139
+google-explicit-constructor:src/zserio/Optional.h:149
+google-explicit-constructor:src/zserio/Optional.h:250
+google-explicit-constructor:src/zserio/Optional.h:414
 
 # This is necessary for low level implementation of Span to mimic standard C++20 'std::span' abstraction.
 google-explicit-constructor:src/zserio/Span.h:112
@@ -137,14 +137,14 @@ google-explicit-constructor:src/zserio/ppmr/PropagatingPolymorphicAllocator.h:35
 google-explicit-constructor:src/zserio/ppmr/PropagatingPolymorphicAllocator.h:62
 
 # This is requirement on type wrappers in Zserio C++17 extension.
-google-explicit-constructor:src/zserio/Types.h:60
-google-explicit-constructor:src/zserio/Types.h:67
+google-explicit-constructor:src/zserio/Types.h:61
+google-explicit-constructor:src/zserio/Types.h:68
 
 # There is no C-style casting. Probably tidy doesn't understand template auto parameter.
-google-readability-casting:src/zserio/Variant.h:89
+google-readability-casting:src/zserio/Variant.h:92
 
 # Needed to allow seamless conversion View<DynIntWrapper<T, 0>> to the value type T.
-google-explicit-constructor:src/zserio/View.h:167
+google-explicit-constructor:src/zserio/View.h:169
 
 # This is necessary because of implementation. Zserio naturally supports recursion.
 misc-no-recursion
