@@ -82,21 +82,18 @@ public final class CppNativeMapper
                 typesContext.getIntrospectableServiceData(), allocatorDefinition, "::std::uint8_t");
         objectServiceDataType =
                 new NativeAllocType(typesContext.getObjectServiceData(), allocatorDefinition, "::std::uint8_t");
-        rawServiceDataHolderType =
-                new NativeAllocType(typesContext.getRawServiceDataHolder(), allocatorDefinition,
-                        "::std::uint8_t");
-        rawServiceDataViewType =
-                new NativeAllocType(typesContext.getRawServiceDataView(), allocatorDefinition, "::std::uint8_t");
+        rawServiceDataHolderType = new NativeAllocType(
+                typesContext.getRawServiceDataHolder(), allocatorDefinition, "::std::uint8_t");
+        rawServiceDataViewType = new NativeAllocType(
+                typesContext.getRawServiceDataView(), allocatorDefinition, "::std::uint8_t");
 
         typeInfoType = new NativeAllocType(typesContext.getTypeInfo(), allocatorDefinition, "::std::uint8_t");
         reflectablePtrType =
                 new NativeAllocType(typesContext.getReflectablePtr(), allocatorDefinition, "::std::uint8_t");
-        reflectableConstPtrType =
-                new NativeAllocType(typesContext.getReflectableConstPtr(), allocatorDefinition,
-                        "::std::uint8_t");
-        introspectableConstPtrType =
-                new NativeAllocType(typesContext.getIntrospectableConstPtr(), allocatorDefinition,
-                        "::std::uint8_t");
+        reflectableConstPtrType = new NativeAllocType(
+                typesContext.getReflectableConstPtr(), allocatorDefinition, "::std::uint8_t");
+        introspectableConstPtrType = new NativeAllocType(
+                typesContext.getIntrospectableConstPtr(), allocatorDefinition, "::std::uint8_t");
     }
 
     public CppNativeSymbol getCppSymbol(AstNode symbol) throws ZserioExtensionException
