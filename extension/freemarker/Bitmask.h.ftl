@@ -353,7 +353,7 @@ ${types.introspectableConstPtr.name} introspectable(${fullName} value, const ${t
 template <>
 struct hash<${fullName}>
 {
-    size_t operator()(const ${fullName}& value) const;
+    ::std::size_t operator()(const ${fullName}& value) const;
 };
 <@namespace_end ["std"]/>
 

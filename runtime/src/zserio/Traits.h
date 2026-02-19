@@ -8,7 +8,7 @@ namespace zserio
 {
 
 // forward declarations
-template <typename, std::size_t>
+template <typename, ::std::size_t>
 class Span;
 
 template <typename T>
@@ -163,7 +163,7 @@ template <typename>
 struct is_span : std::false_type
 {};
 
-template <typename T, size_t Extent>
+template <typename T, ::std::size_t Extent>
 struct is_span<Span<T, Extent>> : std::true_type
 {};
 

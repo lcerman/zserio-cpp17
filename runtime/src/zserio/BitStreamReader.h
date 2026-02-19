@@ -2,6 +2,7 @@
 #define ZSERIO_BIT_STREAM_READER_H_INC
 
 #include <algorithm>
+#include <cstdint>
 #include <cstddef>
 #include <type_traits>
 
@@ -21,7 +22,7 @@ class BitStreamReader
 {
 public:
     /** Type for bit position. */
-    using BitPosType = size_t;
+    using BitPosType = ::std::size_t;
 
     /**
      * Context of the reader defining its state.
@@ -34,7 +35,7 @@ public:
          * \param readBuffer Span to the buffer to read.
          * \param readBufferBitSize Size of the buffer in bits.
          */
-        explicit ReaderContext(Span<const uint8_t> readBuffer, size_t readBufferBitSize);
+        explicit ReaderContext(Span<const ::std::uint8_t> readBuffer, ::std::size_t readBufferBitSize);
 
         /**
          * Destructor.
@@ -54,11 +55,11 @@ public:
          * \}
          */
 
-        Span<const uint8_t> buffer; /**< Buffer to read from. */
+        Span<const ::std::uint8_t> buffer; /**< Buffer to read from. */
         const BitPosType bufferBitSize; /**< Size of the buffer in bits. */
 
         uintptr_t cache; /**< Bit cache to optimize bit reading. */
-        uint8_t cacheNumBits; /**< Num bits available in the bit cache. */
+        ::std::uint8_t cacheNumBits; /**< Num bits available in the bit cache. */
 
         BitPosType bitIndex; /**< Current bit index. */
     };
@@ -69,14 +70,14 @@ public:
      * \param buffer Pointer to the buffer to read.
      * \param bufferByteSize Size of the buffer in bytes.
      */
-    explicit BitStreamReader(const uint8_t* buffer, size_t bufferByteSize);
+    explicit BitStreamReader(const ::std::uint8_t* buffer, ::std::size_t bufferByteSize);
 
     /**
      * Constructor from buffer passed as a Span.
      *
      * \param buffer Buffer to read.
      */
-    explicit BitStreamReader(Span<const uint8_t> buffer);
+    explicit BitStreamReader(Span<const ::std::uint8_t> buffer);
 
     /**
      * Constructor from buffer passed as a Span with exact bit size.
@@ -84,7 +85,7 @@ public:
      * \param buffer Buffer to read.
      * \param bufferBitSize Size of the buffer in bits.
      */
-    explicit BitStreamReader(Span<const uint8_t> buffer, size_t bufferBitSize);
+    explicit BitStreamReader(Span<const ::std::uint8_t> buffer, ::std::size_t bufferBitSize);
 
     /**
      * Constructor from raw buffer with exact bit size.
@@ -92,7 +93,7 @@ public:
      * \param buffer Pointer to buffer to read.
      * \param bufferBitSize Size of the buffer in bits.
      */
-    explicit BitStreamReader(const uint8_t* buffer, size_t bufferBitSize, BitsTag);
+    explicit BitStreamReader(const ::std::uint8_t* buffer, ::std::size_t bufferBitSize, BitsTag);
 
     /**
      * Constructor from bit buffer.
@@ -116,7 +117,7 @@ public:
      *
      * \return Read bits.
      */
-    uint32_t readUnsignedBits32(uint8_t numBits = 32);
+    ::std::uint32_t readUnsignedBits32(::std::uint8_t numBits = 32);
 
     /**
      * Reads unsigned bits up to 64-bits.
@@ -125,7 +126,7 @@ public:
      *
      * \return Read bits.
      */
-    uint64_t readUnsignedBits64(uint8_t numBits = 64);
+    ::std::uint64_t readUnsignedBits64(::std::uint8_t numBits = 64);
 
     /**
      * Reads signed bits up to 32-bits.
@@ -134,7 +135,7 @@ public:
      *
      * \return Read bits.
      */
-    int32_t readSignedBits32(uint8_t numBits = 32);
+    ::std::int32_t readSignedBits32(::std::uint8_t numBits = 32);
 
     /**
      * Reads signed bits up to 64-bits.
@@ -143,7 +144,7 @@ public:
      *
      * \return Read bits.
      */
-    int64_t readSignedBits64(uint8_t numBits = 64);
+    ::std::int64_t readSignedBits64(::std::uint8_t numBits = 64);
 
     /**
      * Reads bool as a single bit.
@@ -243,17 +244,17 @@ public:
      *
      * \return Read bytes as a vector.
      */
-    template <typename ALLOC = std::allocator<uint8_t>>
+    template <typename ALLOC = std::allocator<::std::uint8_t>>
     BasicBytes<ALLOC> readBytes(const ALLOC& alloc = ALLOC())
     {
-        const size_t len = static_cast<size_t>(readVarSize());
+        const ::std::size_t len = static_cast<::std::size_t>(readVarSize());
         const BitPosType beginBitPosition = getBitPosition();
         if ((beginBitPosition & 0x07U) != 0)
         {
             // we are not aligned to byte
-            Vector<uint8_t, ALLOC> value{alloc};
+            Vector<::std::uint8_t, ALLOC> value{alloc};
             value.reserve(len);
-            for (size_t i = 0; i < len; ++i)
+            for (::std::size_t i = 0; i < len; ++i)
             {
                 value.push_back(readByte());
             }
@@ -263,7 +264,7 @@ public:
         {
             // we are aligned to byte
             setBitPosition(beginBitPosition + len * 8);
-            Span<const uint8_t>::iterator beginIt = m_context.buffer.begin() + beginBitPosition / 8;
+            Span<const ::std::uint8_t>::iterator beginIt = m_context.buffer.begin() + beginBitPosition / 8;
             return BasicBytes<ALLOC>(beginIt, beginIt + len, alloc);
         }
     }
@@ -278,14 +279,14 @@ public:
     template <typename ALLOC = std::allocator<char>>
     BasicString<ALLOC> readString(const ALLOC& alloc = ALLOC())
     {
-        const size_t len = static_cast<size_t>(readVarSize());
+        const ::std::size_t len = static_cast<::std::size_t>(readVarSize());
         const BitPosType beginBitPosition = getBitPosition();
         if ((beginBitPosition & 0x07U) != 0)
         {
             // we are not aligned to byte
             BasicString<ALLOC> value{alloc};
             value.reserve(len);
-            for (size_t i = 0; i < len; ++i)
+            for (::std::size_t i = 0; i < len; ++i)
             {
                 const char readCharacter = std::char_traits<char>::to_char_type(
                         static_cast<std::char_traits<char>::int_type>(readByte()));
@@ -297,7 +298,7 @@ public:
         {
             // we are aligned to byte
             setBitPosition(beginBitPosition + len * 8);
-            Span<const uint8_t>::iterator beginIt = m_context.buffer.begin() + beginBitPosition / 8;
+            Span<const ::std::uint8_t>::iterator beginIt = m_context.buffer.begin() + beginBitPosition / 8;
             return BasicString<ALLOC>(beginIt, beginIt + len, alloc);
         }
     }
@@ -309,35 +310,35 @@ public:
      *
      * \return Read bit buffer.
      */
-    template <typename ALLOC = std::allocator<uint8_t>>
-    BasicBitBuffer<RebindAlloc<ALLOC, uint8_t>> readBitBuffer(const ALLOC& allocator = ALLOC())
+    template <typename ALLOC = std::allocator<::std::uint8_t>>
+    BasicBitBuffer<RebindAlloc<ALLOC, ::std::uint8_t>> readBitBuffer(const ALLOC& allocator = ALLOC())
     {
-        const size_t bitSize = static_cast<size_t>(readVarSize());
-        const size_t numBytesToRead = bitSize / 8;
-        const uint8_t numRestBits = static_cast<uint8_t>(bitSize - numBytesToRead * 8);
-        BasicBitBuffer<RebindAlloc<ALLOC, uint8_t>> bitBuffer(bitSize, allocator);
-        Span<uint8_t> buffer = bitBuffer.getData();
+        const ::std::size_t bitSize = static_cast<::std::size_t>(readVarSize());
+        const ::std::size_t numBytesToRead = bitSize / 8;
+        const ::std::uint8_t numRestBits = static_cast<::std::uint8_t>(bitSize - numBytesToRead * 8);
+        BasicBitBuffer<RebindAlloc<ALLOC, ::std::uint8_t>> bitBuffer(bitSize, allocator);
+        Span<::std::uint8_t> buffer = bitBuffer.getData();
         const BitPosType beginBitPosition = getBitPosition();
-        const Span<uint8_t>::iterator itEnd = buffer.begin() + numBytesToRead;
+        const Span<::std::uint8_t>::iterator itEnd = buffer.begin() + numBytesToRead;
         if ((beginBitPosition & 0x07U) != 0)
         {
             // we are not aligned to byte
-            for (Span<uint8_t>::iterator it = buffer.begin(); it != itEnd; ++it)
+            for (Span<::std::uint8_t>::iterator it = buffer.begin(); it != itEnd; ++it)
             {
-                *it = static_cast<uint8_t>(readUnsignedBits32(8));
+                *it = static_cast<::std::uint8_t>(readUnsignedBits32(8));
             }
         }
         else
         {
             // we are aligned to byte
             setBitPosition(beginBitPosition + numBytesToRead * 8);
-            Span<const uint8_t>::const_iterator sourceIt = m_context.buffer.begin() + beginBitPosition / 8;
+            Span<const ::std::uint8_t>::const_iterator sourceIt = m_context.buffer.begin() + beginBitPosition / 8;
             (void)std::copy(sourceIt, sourceIt + numBytesToRead, buffer.begin());
         }
 
         if (numRestBits > 0)
         {
-            *itEnd = static_cast<uint8_t>(readUnsignedBits32(numRestBits) << (8U - numRestBits));
+            *itEnd = static_cast<::std::uint8_t>(readUnsignedBits32(numRestBits) << (8U - numRestBits));
         }
 
         return bitBuffer;
@@ -365,20 +366,20 @@ public:
      *
      * \param alignment Size of the alignment in bits.
      */
-    void alignTo(size_t alignment);
+    void alignTo(::std::size_t alignment);
 
     /**
      * Gets size of the underlying buffer in bits.
      *
      * \return Buffer bit size.
      */
-    size_t getBufferBitSize() const
+    ::std::size_t getBufferBitSize() const
     {
         return m_context.bufferBitSize;
     }
 
 private:
-    uint8_t readByte();
+    ::std::uint8_t readByte();
 
     ReaderContext m_context;
 };
@@ -421,7 +422,7 @@ void read(BitStreamReader& reader, FixedIntWrapper<BIT_SIZE, IS_SIGNED>& value)
 }
 
 template <typename T>
-void read(BitStreamReader& reader, DynIntWrapper<T>& value, uint8_t numBits)
+void read(BitStreamReader& reader, DynIntWrapper<T>& value, ::std::uint8_t numBits)
 {
     if constexpr (sizeof(T) <= 4)
     {

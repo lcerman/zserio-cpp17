@@ -2,6 +2,8 @@
 #define ZSERIO_I_INTROSPECTABLE_DATA_INC
 
 #include <memory>
+#include <cstddef>
+#include <cstdint>
 #include <string_view>
 
 #include "zserio/Any.h"
@@ -23,7 +25,7 @@ class IBasicTypeInfo;
  * This is read-only interface which offers all information available from the Data abstraction of the Zserio
  * objects.
  */
-template <typename I, typename ALLOC = std::allocator<uint8_t>>
+template <typename I, typename ALLOC = std::allocator<::std::uint8_t>>
 class IIntrospectableData
 {
 public:
@@ -83,7 +85,7 @@ public:
      *
      * \throw CppRuntimeException When the introspective object is not an array.
      */
-    virtual size_t size() const = 0;
+    virtual ::std::size_t size() const = 0;
 
     /**
      * Gets the introspectable to an array element.
@@ -95,14 +97,14 @@ public:
      * \throw CppRuntimeException When the introspective object is not an array or when the given index is
      *                            out of bounds of the underlying array.
      */
-    virtual ConstPtr at(size_t index) const = 0;
+    virtual ConstPtr at(::std::size_t index) const = 0;
 
     /**
      * \copydoc IIntrospectableData::at
      *
      * Overloaded method provided for convenience.
      */
-    virtual ConstPtr operator[](size_t index) const = 0;
+    virtual ConstPtr operator[](::std::size_t index) const = 0;
 
     /**
      * Gets any value within the introspective object.
@@ -134,68 +136,68 @@ public:
     virtual bool getBool() const = 0;
 
     /**
-     * Gets 8-bit signed integral value of the int8_t introspectable.
+     * Gets 8-bit signed integral value of the ::std::int8_t introspectable.
      *
      * \return 8-bit signed integral value.
-     * \throw CppRuntimeException When the introspective object is not a int8_t type.
+     * \throw CppRuntimeException When the introspective object is not a ::std::int8_t type.
      */
-    virtual int8_t getInt8() const = 0;
+    virtual ::std::int8_t getInt8() const = 0;
 
     /**
-     * Gets 16-bit signed integral value of the int16_t introspectable.
+     * Gets 16-bit signed integral value of the ::std::int16_t introspectable.
      *
      * \return 16-bit signed integral value.
-     * \throw CppRuntimeException When the introspective object is not a int16_t type.
+     * \throw CppRuntimeException When the introspective object is not a ::std::int16_t type.
      */
-    virtual int16_t getInt16() const = 0;
+    virtual ::std::int16_t getInt16() const = 0;
 
     /**
-     * Gets 32-bit signed integral value of the int32_t introspectable.
+     * Gets 32-bit signed integral value of the ::std::int32_t introspectable.
      *
      * \return 32-bit signed integral value.
-     * \throw CppRuntimeException When the introspective object is not a int32_t type.
+     * \throw CppRuntimeException When the introspective object is not a ::std::int32_t type.
      */
-    virtual int32_t getInt32() const = 0;
+    virtual ::std::int32_t getInt32() const = 0;
 
     /**
-     * Gets 64-bit signed integral value of the int64_t introspectable.
+     * Gets 64-bit signed integral value of the ::std::int64_t introspectable.
      *
      * \return 64-bit signed integral value.
-     * \throw CppRuntimeException When the introspective object is not a int64_t type.
+     * \throw CppRuntimeException When the introspective object is not a ::std::int64_t type.
      */
-    virtual int64_t getInt64() const = 0;
+    virtual ::std::int64_t getInt64() const = 0;
 
     /**
-     * Gets 8-bit unsigned integral value of the uint8_t introspectable.
+     * Gets 8-bit unsigned integral value of the ::std::uint8_t introspectable.
      *
      * \return 8-bit unsigned integral value.
-     * \throw CppRuntimeException When the introspective object is not a uint8_t type.
+     * \throw CppRuntimeException When the introspective object is not a ::std::uint8_t type.
      */
-    virtual uint8_t getUInt8() const = 0;
+    virtual ::std::uint8_t getUInt8() const = 0;
 
     /**
-     * Gets 16-bit unsigned integral value of the uint16_t introspectable.
+     * Gets 16-bit unsigned integral value of the ::std::uint16_t introspectable.
      *
      * \return 16-bit unsigned integral value.
-     * \throw CppRuntimeException When the introspective object is not a uint16_t type.
+     * \throw CppRuntimeException When the introspective object is not a ::std::uint16_t type.
      */
-    virtual uint16_t getUInt16() const = 0;
+    virtual ::std::uint16_t getUInt16() const = 0;
 
     /**
-     * Gets 32-bit unsigned integral value of the uint32_t introspectable.
+     * Gets 32-bit unsigned integral value of the ::std::uint32_t introspectable.
      *
      * \return 32-bit unsigned integral value.
-     * \throw CppRuntimeException When the introspective object is not a uint32_t type.
+     * \throw CppRuntimeException When the introspective object is not a ::std::uint32_t type.
      */
-    virtual uint32_t getUInt32() const = 0;
+    virtual ::std::uint32_t getUInt32() const = 0;
 
     /**
-     * Gets 64-bit unsigned integral value of the uint64_t introspectable.
+     * Gets 64-bit unsigned integral value of the ::std::uint64_t introspectable.
      *
      * \return 64-bit unsigned integral value.
-     * \throw CppRuntimeException When the introspective object is not a uint64_t type.
+     * \throw CppRuntimeException When the introspective object is not a ::std::uint64_t type.
      */
-    virtual uint64_t getUInt64() const = 0;
+    virtual ::std::uint64_t getUInt64() const = 0;
 
     /**
      * Gets float value of the float introspectable.
@@ -245,7 +247,7 @@ public:
      * \return 64-bit signed integral value.
      * \throw CppRuntimeException When the introspective object cannot be converted to a signed integral value.
      */
-    virtual int64_t toInt() const = 0;
+    virtual ::std::int64_t toInt() const = 0;
 
     /**
      * Converts any unsigned integral value to 64-bit unsigned integer.
@@ -256,7 +258,7 @@ public:
      * \throw CppRuntimeException When the introspective object cannot be converted to
      *                            an unsigned integral value.
      */
-    virtual uint64_t toUInt() const = 0;
+    virtual ::std::uint64_t toUInt() const = 0;
 
     /**
      * Converts any numeric value to double.

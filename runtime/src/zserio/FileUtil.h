@@ -11,6 +11,8 @@
 #define ZSERIO_FILE_UTIL_H_INC
 
 #include <string_view>
+#include <cstddef>
+#include <cstdint>
 
 #include "zserio/BitBuffer.h"
 
@@ -37,7 +39,7 @@ BitBuffer readBufferFromFile(std::string_view fileName);
  *
  * \throw CppRuntimeException When writing fails.
  */
-void writeBufferToFile(const uint8_t* buffer, size_t bitSize, BitsTag, std::string_view fileName);
+void writeBufferToFile(const ::std::uint8_t* buffer, ::std::size_t bitSize, BitsTag, std::string_view fileName);
 
 /**
  * Writes given buffer to file.
@@ -50,7 +52,7 @@ void writeBufferToFile(const uint8_t* buffer, size_t bitSize, BitsTag, std::stri
  *
  * \throw CppRuntimeException When writing fails.
  */
-inline void writeBufferToFile(const uint8_t* buffer, size_t byteSize, std::string_view fileName)
+inline void writeBufferToFile(const ::std::uint8_t* buffer, ::std::size_t byteSize, std::string_view fileName)
 {
     writeBufferToFile(buffer, byteSize * 8, BitsTag(), fileName);
 }

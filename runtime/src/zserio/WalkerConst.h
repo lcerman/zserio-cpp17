@@ -11,7 +11,7 @@ namespace zserio
  *
  * Note that in zserio the max usable array size is VARSIZE_MAX.
  */
-static constexpr size_t WALKER_NOT_ELEMENT = static_cast<size_t>(-1);
+static constexpr ::std::size_t WALKER_NOT_ELEMENT = static_cast<::std::size_t>(-1);
 
 } // namespace zserio
 

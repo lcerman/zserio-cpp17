@@ -2,6 +2,8 @@
 #define ZSERIO_EXTENDED_H_INC
 
 #include "HashCodeUtil.h"
+#include <cstddef>
+#include <cstdint>
 
 namespace zserio
 {
@@ -223,9 +225,9 @@ bool operator>=(const Extended<T>& lhs, const Extended<T>& rhs)
  * \return Calculated hash code.
  */
 template <typename T>
-uint32_t calcHashCode(uint32_t seed, const Extended<T>& extendedValue)
+::std::uint32_t calcHashCode(::std::uint32_t seed, const Extended<T>& extendedValue)
 {
-    uint32_t result = seed;
+    ::std::uint32_t result = seed;
     if (extendedValue.isPresent())
     {
         result = calcHashCode(result, *extendedValue);
@@ -241,7 +243,7 @@ namespace std
 template <typename T>
 struct hash<zserio::Extended<T>>
 {
-    size_t operator()(const zserio::Extended<T>& extendedValue) const
+    ::std::size_t operator()(const zserio::Extended<T>& extendedValue) const
     {
         return zserio::calcHashCode(zserio::HASH_SEED, extendedValue);
     }

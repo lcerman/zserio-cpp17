@@ -14,6 +14,7 @@
 #define ZSERIO_DEBUG_STRING_UTIL_H_INC
 
 #include <fstream>
+#include <cstdint>
 #include <sstream>
 #include <utility>
 
@@ -33,7 +34,7 @@ namespace detail
 
 template <typename T, typename WALK_FILTER, typename ALLOC>
 void toJsonStream(
-        const T& object, std::ostream& stream, uint8_t indent, WALK_FILTER&& walkFilter, const ALLOC& allocator)
+        const T& object, std::ostream& stream, ::std::uint8_t indent, WALK_FILTER&& walkFilter, const ALLOC& allocator)
 {
     // static_assert(has_reflectable<T>::value,
     //         "DebugStringUtil.toJsonStream: "
@@ -46,7 +47,7 @@ void toJsonStream(
 
 template <typename T, typename WALK_FILTER, typename ALLOC>
 BasicString<RebindAlloc<ALLOC, char>> toJsonString(
-        const T& object, uint8_t indent, WALK_FILTER&& walkFilter, const ALLOC& allocator)
+        const T& object, ::std::uint8_t indent, WALK_FILTER&& walkFilter, const ALLOC& allocator)
 {
     auto stream = std::basic_ostringstream<char, std::char_traits<char>, RebindAlloc<ALLOC, char>>(
             BasicString<RebindAlloc<ALLOC, char>>(allocator));
@@ -55,7 +56,7 @@ BasicString<RebindAlloc<ALLOC, char>> toJsonString(
 }
 
 template <typename T, typename WALK_FILTER, typename ALLOC>
-void toJsonFile(const T& object, std::string_view fileName, uint8_t indent, WALK_FILTER&& walkFilter,
+void toJsonFile(const T& object, std::string_view fileName, ::std::uint8_t indent, WALK_FILTER&& walkFilter,
         const ALLOC& allocator)
 {
     std::ofstream stream = std::ofstream(fileName.data(), std::ios::out | std::ios::trunc);
@@ -119,7 +120,7 @@ void toJsonStream(const T& object, std::ostream& stream, const ALLOC& allocator 
  *
  *     SomeZserioObject object;
  *     std::ostringstream stream;
- *     const uint8_t indent = 4;
+ *     const ::std::uint8_t indent = 4;
  *     zserio::toJsonStream(object, stream, indent);
  * \endcode
  *
@@ -130,7 +131,7 @@ void toJsonStream(const T& object, std::ostream& stream, const ALLOC& allocator 
  */
 template <typename T, typename ALLOC = typename T::allocator_type,
         typename std::enable_if<is_allocator<ALLOC>::value, int>::type = 0>
-void toJsonStream(const T& object, std::ostream& stream, uint8_t indent, const ALLOC& allocator = ALLOC())
+void toJsonStream(const T& object, std::ostream& stream, ::std::uint8_t indent, const ALLOC& allocator = ALLOC())
 {
     detail::toJsonStream(object, stream, indent, BasicDefaultWalkFilter<ALLOC>(), allocator);
 }
@@ -180,7 +181,7 @@ void toJsonStream(
  *
  *     SomeZserioObject object;
  *     std::ostringstream stream;
- *     const uint8_t indent = 4;
+ *     const ::std::uint8_t indent = 4;
  *     zserio::ArrayLengthWalkFilter walkFilter(5);
  *     zserio::toJsonStream(object, stream, indent, walkFilter);
  * \endcode
@@ -195,7 +196,7 @@ template <typename T, typename WALK_FILTER, typename ALLOC = typename T::allocat
         typename std::enable_if<
                 std::is_base_of<IBasicWalkFilter<ALLOC>, typename std::decay<WALK_FILTER>::type>::value,
                 int>::type = 0>
-void toJsonStream(const T& object, std::ostream& stream, uint8_t indent, WALK_FILTER&& walkFilter,
+void toJsonStream(const T& object, std::ostream& stream, ::std::uint8_t indent, WALK_FILTER&& walkFilter,
         const ALLOC& allocator = ALLOC())
 {
     detail::toJsonStream(object, stream, indent, walkFilter, allocator);
@@ -236,7 +237,7 @@ BasicString<RebindAlloc<ALLOC, char>> toJsonString(const T& object, const ALLOC&
  *     #include <zserio/DebugStringUtil.h>
  *
  *     SomeZserioObject object;
- *     const uint8_t indent = 4;
+ *     const ::std::uint8_t indent = 4;
  *     std::cout << zserio::toJsonString(object, indent) << std::endl;
  * \endcode
  *
@@ -249,7 +250,7 @@ BasicString<RebindAlloc<ALLOC, char>> toJsonString(const T& object, const ALLOC&
 template <typename T, typename ALLOC = typename T::allocator_type,
         typename std::enable_if<is_allocator<ALLOC>::value, int>::type = 0>
 BasicString<RebindAlloc<ALLOC, char>> toJsonString(
-        const T& object, uint8_t indent, const ALLOC& allocator = ALLOC())
+        const T& object, ::std::uint8_t indent, const ALLOC& allocator = ALLOC())
 {
     return detail::toJsonString(object, indent, BasicDefaultWalkFilter<ALLOC>(), allocator);
 }
@@ -296,7 +297,7 @@ BasicString<RebindAlloc<ALLOC, char>> toJsonString(
  *     #include <zserio/DebugStringUtil.h>
  *
  *     SomeZserioObject object;
- *     const uint8_t indent = 4;
+ *     const ::std::uint8_t indent = 4;
  *     zserio::ArrayLengthWalkFilter walkFilter(5);
  *     std::cout << zserio::toJsonString(object, indent, walkFilter) << std::endl;
  * \endcode
@@ -313,7 +314,7 @@ template <typename T, typename WALK_FILTER, typename ALLOC = typename T::allocat
                 std::is_base_of<IBasicWalkFilter<ALLOC>, typename std::decay<WALK_FILTER>::type>::value,
                 int>::type = 0>
 BasicString<RebindAlloc<ALLOC, char>> toJsonString(
-        const T& object, uint8_t indent, WALK_FILTER&& walkFilter, const ALLOC& allocator = ALLOC())
+        const T& object, ::std::uint8_t indent, WALK_FILTER&& walkFilter, const ALLOC& allocator = ALLOC())
 {
     return detail::toJsonString(object, indent, walkFilter, allocator);
 }
@@ -350,7 +351,7 @@ void toJsonFile(const T& object, std::string_view fileName, const ALLOC& allocat
  *     #include <zserio/DebugStringUtil.h>
  *
  *     SomeZserioObject object;
- *     const uint8_t indent = 4;
+ *     const ::std::uint8_t indent = 4;
  *     zserio::toJsonFile(object, "FileName.json", indent);
  * \endcode
  *
@@ -363,7 +364,7 @@ void toJsonFile(const T& object, std::string_view fileName, const ALLOC& allocat
  */
 template <typename T, typename ALLOC = typename T::allocator_type,
         typename std::enable_if<is_allocator<ALLOC>::value, int>::type = 0>
-void toJsonFile(const T& object, std::string_view fileName, uint8_t indent, const ALLOC& allocator = ALLOC())
+void toJsonFile(const T& object, std::string_view fileName, ::std::uint8_t indent, const ALLOC& allocator = ALLOC())
 {
     return detail::toJsonFile(object, fileName, indent, BasicDefaultWalkFilter<ALLOC>(), allocator);
 }
@@ -409,7 +410,7 @@ void toJsonFile(
  *     #include <zserio/DebugStringUtil.h>
  *
  *     SomeZserioObject object;
- *     const uint8_t indent = 4;
+ *     const ::std::uint8_t indent = 4;
  *     zserio::ArrayLengthWalkFilter walkFilter(5);
  *     zserio::toJsonFile(object, "FileName.json", indent, walkFilter);
  * \endcode
@@ -424,7 +425,7 @@ template <typename T, typename WALK_FILTER, typename ALLOC = typename T::allocat
         typename std::enable_if<
                 std::is_base_of<IBasicWalkFilter<ALLOC>, typename std::decay<WALK_FILTER>::type>::value,
                 int>::type = 0>
-void toJsonFile(const T& object, const BasicString<RebindAlloc<ALLOC, char>>& fileName, uint8_t indent,
+void toJsonFile(const T& object, const BasicString<RebindAlloc<ALLOC, char>>& fileName, ::std::uint8_t indent,
         WALK_FILTER&& walkFilter, const ALLOC& allocator = ALLOC())
 {
     return detail::toJsonFile(object, fileName, indent, walkFilter, allocator);
@@ -454,7 +455,7 @@ void toJsonFile(const T& object, const BasicString<RebindAlloc<ALLOC, char>>& fi
  * \return Reflectable instance of the requested zserio object.
  * \throw CppRuntimeException In case of any error.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<::std::uint8_t>>
 typename detail::DebugStringTraits<ALLOC>::ReflectableDataPtr fromJsonStream(
         const IBasicTypeInfo<ALLOC>& typeInfo, std::istream& is, const ALLOC& allocator = ALLOC())
 {
@@ -516,7 +517,7 @@ T fromJsonStream(std::istream& is, const ALLOC& allocator = ALLOC())
  * \return Reflectable instance of the requested zserio object.
  * \throw CppRuntimeException In case of any error.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<::std::uint8_t>>
 typename detail::DebugStringTraits<ALLOC>::ReflectableDataPtr fromJsonString(
         const IBasicTypeInfo<ALLOC>& typeInfo, const BasicString<RebindAlloc<ALLOC, char>>& json,
         const ALLOC& allocator = ALLOC())
@@ -578,7 +579,7 @@ T fromJsonString(const BasicString<RebindAlloc<ALLOC, char>>& json, const ALLOC&
  * \return Reflectable instance of the requested zserio object.
  * \throw CppRuntimeException In case of any error.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<::std::uint8_t>>
 typename detail::DebugStringTraits<ALLOC>::ReflectableDataPtr fromJsonFile(
         const IBasicTypeInfo<ALLOC>& typeInfo, std::string_view fileName, const ALLOC& allocator = ALLOC())
 {

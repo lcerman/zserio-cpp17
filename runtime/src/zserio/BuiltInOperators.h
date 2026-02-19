@@ -48,7 +48,7 @@ bool isSet(BITMASK1 bitmaskValue, BITMASK2 requiredMask)
  *
  * \return Number of bis required to encode <tt>numValues</tt> different values.
  */
-uint8_t numBits(uint64_t numValues);
+::std::uint8_t numBits(::std::uint64_t numValues);
 
 /**
  * Gets the underlying numeric value of an enumeration.

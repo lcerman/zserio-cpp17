@@ -1,4 +1,5 @@
 #include "zserio/BuiltInOperators.h"
+#include <cstdint>
 
 namespace zserio
 {
@@ -6,15 +7,15 @@ namespace zserio
 namespace builtin
 {
 
-uint8_t numBits(uint64_t numValues)
+::std::uint8_t numBits(::std::uint64_t numValues)
 {
     if (numValues == 0)
     {
         return 0;
     }
 
-    uint8_t result = 1;
-    uint64_t current = (numValues - 1U) >> 1U;
+    ::std::uint8_t result = 1;
+    ::std::uint64_t current = (numValues - 1U) >> 1U;
     while (current > 0)
     {
         result++;

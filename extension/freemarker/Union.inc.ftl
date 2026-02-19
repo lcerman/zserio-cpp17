@@ -40,7 +40,7 @@ ${I}return (lhs.${field.getterName}() < rhs.${field.getterName}());
     <@field_check_constraint field, indent/>
 ${I}detail::validate<@array_template_args field/>(view.${field.getterName}(), "'${name}.${field.name}'"<#rt>
         <#if field.array?? && field.array.viewIndirectLength??>
-        , static_cast<size_t>(${field.array.viewIndirectLength})<#t>
+        , static_cast<::std::size_t>(${field.array.viewIndirectLength})<#t>
         </#if>
         <#lt>);
 </#macro>

@@ -2,6 +2,7 @@
 #define ZSERIO_BIT_STREAM_WRITER_H_INC
 
 #include <algorithm>
+#include <cstdint>
 #include <cstddef>
 #include <string_view>
 #include <type_traits>
@@ -32,7 +33,7 @@ public:
     };
 
     /** Type for bit position. */
-    using BitPosType = size_t;
+    using BitPosType = ::std::size_t;
 
     /**
      * Constructor from externally allocated byte buffer.
@@ -40,7 +41,7 @@ public:
      * \param buffer External byte buffer to create from.
      * \param bufferBitSize Size of the buffer in bits.
      */
-    explicit BitStreamWriter(uint8_t* buffer, size_t bufferBitSize, BitsTag);
+    explicit BitStreamWriter(::std::uint8_t* buffer, ::std::size_t bufferBitSize, BitsTag);
 
     /**
      * Constructor from externally allocated byte buffer.
@@ -48,14 +49,14 @@ public:
      * \param buffer External byte buffer to create from.
      * \param bufferByteSize Size of the buffer in bytes.
      */
-    explicit BitStreamWriter(uint8_t* buffer, size_t bufferByteSize);
+    explicit BitStreamWriter(::std::uint8_t* buffer, ::std::size_t bufferByteSize);
 
     /**
      * Constructor from externally allocated byte buffer.
      *
      * \param buffer External buffer to create from as a Span.
      */
-    explicit BitStreamWriter(Span<uint8_t> buffer);
+    explicit BitStreamWriter(Span<::std::uint8_t> buffer);
 
     /**
      * Constructor from externally allocated byte buffer with exact bit size.
@@ -63,7 +64,7 @@ public:
      * \param buffer External buffer to create from as a Span.
      * \param bufferBitSize Size of the buffer in bits.
      */
-    explicit BitStreamWriter(Span<uint8_t> buffer, size_t bufferBitSize);
+    explicit BitStreamWriter(Span<::std::uint8_t> buffer, ::std::size_t bufferBitSize);
 
     /**
      * Constructor from externally allocated bit buffer.
@@ -99,7 +100,7 @@ public:
      * \param data Data to write.
      * \param numBits Number of bits to write.
      */
-    void writeUnsignedBits32(uint32_t data, uint8_t numBits = 32);
+    void writeUnsignedBits32(::std::uint32_t data, ::std::uint8_t numBits = 32);
 
     /**
      * Writes unsigned bits up to 64 bits.
@@ -107,7 +108,7 @@ public:
      * \param data Data to write.
      * \param numBits Number of bits to write.
      */
-    void writeUnsignedBits64(uint64_t data, uint8_t numBits = 64);
+    void writeUnsignedBits64(::std::uint64_t data, ::std::uint8_t numBits = 64);
 
     /**
      * Writes signed bits up to 32 bits.
@@ -115,7 +116,7 @@ public:
      * \param data Data to write.
      * \param numBits Number of bits to write.
      */
-    void writeSignedBits32(int32_t data, uint8_t numBits = 32);
+    void writeSignedBits32(::std::int32_t data, ::std::uint8_t numBits = 32);
 
     /**
      * Writes signed bits up to 64 bits.
@@ -123,7 +124,7 @@ public:
      * \param data Data to write.
      * \param numBits Number of bits to write.
      */
-    void writeSignedBits64(int64_t data, uint8_t numBits = 64);
+    void writeSignedBits64(::std::int64_t data, ::std::uint8_t numBits = 64);
 
     /**
      * Writes bool as a single bit.
@@ -241,15 +242,15 @@ public:
         const VarSize bitSize = fromCheckedValue<VarSize>(convertSizeToUInt32(bitBuffer.getBitSize()));
         writeVarSize(bitSize);
 
-        Span<const uint8_t> buffer = bitBuffer.getData();
-        size_t numBytesToWrite = bitSize / 8;
-        const uint8_t numRestBits = static_cast<uint8_t>(bitSize - numBytesToWrite * 8);
+        Span<const ::std::uint8_t> buffer = bitBuffer.getData();
+        ::std::size_t numBytesToWrite = bitSize / 8;
+        const ::std::uint8_t numRestBits = static_cast<::std::uint8_t>(bitSize - numBytesToWrite * 8);
         const BitPosType beginBitPosition = getBitPosition();
-        const Span<const uint8_t>::iterator itEnd = buffer.begin() + numBytesToWrite;
+        const Span<const ::std::uint8_t>::iterator itEnd = buffer.begin() + numBytesToWrite;
         if ((beginBitPosition & 0x07U) != 0)
         {
             // we are not aligned to byte
-            for (Span<const uint8_t>::iterator it = buffer.begin(); it != itEnd; ++it)
+            for (Span<const ::std::uint8_t>::iterator it = buffer.begin(); it != itEnd; ++it)
             {
                 writeUnsignedBits32Impl(*it, 8);
             }
@@ -267,7 +268,7 @@ public:
 
         if (numRestBits > 0)
         {
-            writeUnsignedBits32Impl(static_cast<uint32_t>(*itEnd) >> (8U - numRestBits), numRestBits);
+            writeUnsignedBits32Impl(static_cast<::std::uint32_t>(*itEnd) >> (8U - numRestBits), numRestBits);
         }
     }
 
@@ -293,7 +294,7 @@ public:
      *
      * \param alignment Size of the alignment in bits.
      */
-    void alignTo(size_t alignment);
+    void alignTo(::std::size_t alignment);
 
     /**
      * Gets whether the writer has assigned a write buffer.
@@ -310,38 +311,38 @@ public:
      *
      * \return Pointer to the beginning of write buffer.
      */
-    const uint8_t* getWriteBuffer() const;
+    const ::std::uint8_t* getWriteBuffer() const;
 
     /**
      * Gets the write buffer as span.
      *
      * \return Span which represents the write buffer.
      */
-    Span<const uint8_t> getBuffer() const;
+    Span<const ::std::uint8_t> getBuffer() const;
 
     /**
      * Gets size of the underlying buffer in bits.
      *
      * \return Buffer bit size.
      */
-    size_t getBufferBitSize() const
+    ::std::size_t getBufferBitSize() const
     {
         return m_bufferBitSize;
     }
 
 private:
-    void writeUnsignedBits32Impl(uint32_t data, uint8_t numBits);
-    void writeUnsignedBits64Impl(uint64_t data, uint8_t numBits);
-    void writeSignedVarNum(int64_t value, size_t maxVarBytes, size_t numVarBytes);
-    void writeUnsignedVarNum(uint64_t value, size_t maxVarBytes, size_t numVarBytes);
-    void writeVarNum(uint64_t value, bool hasSign, bool isNegative, size_t maxVarBytes, size_t numVarBytes);
+    void writeUnsignedBits32Impl(::std::uint32_t data, ::std::uint8_t numBits);
+    void writeUnsignedBits64Impl(::std::uint64_t data, ::std::uint8_t numBits);
+    void writeSignedVarNum(::std::int64_t value, ::std::size_t maxVarBytes, ::std::size_t numVarBytes);
+    void writeUnsignedVarNum(::std::uint64_t value, ::std::size_t maxVarBytes, ::std::size_t numVarBytes);
+    void writeVarNum(::std::uint64_t value, bool hasSign, bool isNegative, ::std::size_t maxVarBytes, ::std::size_t numVarBytes);
 
-    void checkCapacity(size_t bitSize) const;
+    void checkCapacity(::std::size_t bitSize) const;
     void throwInsufficientCapacityException() const;
 
-    Span<uint8_t> m_buffer;
-    size_t m_bitIndex;
-    size_t m_bufferBitSize;
+    Span<::std::uint8_t> m_buffer;
+    ::std::size_t m_bitIndex;
+    ::std::size_t m_bufferBitSize;
 };
 
 namespace detail
@@ -383,7 +384,7 @@ void write(BitStreamWriter& writer, FixedIntWrapper<BIT_SIZE, IS_SIGNED> value)
 }
 
 template <typename T>
-void write(BitStreamWriter& writer, DynIntWrapper<T> value, uint8_t numBits)
+void write(BitStreamWriter& writer, DynIntWrapper<T> value, ::std::uint8_t numBits)
 {
     if constexpr (sizeof(T) <= 4)
     {

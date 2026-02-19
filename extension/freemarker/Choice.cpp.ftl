@@ -389,19 +389,19 @@ ${types.introspectableConstPtr.name} Introspectable<${fullName}, ${types.allocat
 <@namespace_end ["zserio", "detail"]/>
 <@namespace_begin ["std"]/>
 
-size_t hash<${fullName}>::operator()(const ${fullName}&<#if fieldList?has_content> value</#if>) const
+::std::size_t hash<${fullName}>::operator()(const ${fullName}&<#if fieldList?has_content> value</#if>) const
 {
-    uint32_t result = ::zserio::HASH_SEED;
+    ::std::uint32_t result = ::zserio::HASH_SEED;
 <#if fieldList?has_content>
     result = ::zserio::calcHashCode(result, static_cast<const ${fullName}::Base&>(value));
 </#if>
-    return static_cast<size_t>(result);
+    return static_cast<::std::size_t>(result);
 }
 
-size_t hash<::zserio::View<${fullName}>>::operator()(<#rt>
+::std::size_t hash<::zserio::View<${fullName}>>::operator()(<#rt>
         <#lt>const ::zserio::View<${fullName}>&<#if parameterList?has_content || fieldList?has_content> view</#if>) const
 {
-    uint32_t result = ::zserio::HASH_SEED;
+    ::std::uint32_t result = ::zserio::HASH_SEED;
 <#list parameterList as parameter>
     result = ::zserio::calcHashCode(result, view.${parameter.getterName}());
 </#list>
@@ -409,6 +409,6 @@ size_t hash<::zserio::View<${fullName}>>::operator()(<#rt>
     <@choice_switch "choice_hash_field", "choice_no_match", "view.zserioChoiceTag()"/>
 
 </#if>
-    return static_cast<size_t>(result);
+    return static_cast<::std::size_t>(result);
 }
 <@namespace_end ["std"]/>

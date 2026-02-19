@@ -208,13 +208,13 @@ struct Introspectable<${fullName}, ${types.allocator.default}>
 template <>
 struct hash<${fullName}>
 {
-    size_t operator()(const ${fullName}& data) const;
+    ::std::size_t operator()(const ${fullName}& data) const;
 };
 
 template <>
 struct hash<::zserio::View<${fullName}>>
 {
-    size_t operator()(const ::zserio::View<${fullName}>& view) const;
+    ::std::size_t operator()(const ::zserio::View<${fullName}>& view) const;
 };
 <@namespace_end ["std"]/>
 

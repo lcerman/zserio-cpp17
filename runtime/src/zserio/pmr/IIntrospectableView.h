@@ -2,6 +2,7 @@
 #define ZSERIO_PMR_I_INTROSPECTABLE_VIEW_H_INC
 
 #include <memory_resource>
+#include <cstdint>
 
 #include "zserio/IIntrospectableView.h"
 
@@ -16,11 +17,11 @@ namespace pmr
 {
 
 /**
- * Typedef to reflectable interface provided for convenience - using std::pmr::polymorphic_allocator<uint8_t>.
+ * Typedef to reflectable interface provided for convenience - using std::pmr::polymorphic_allocator<::std::uint8_t>.
  */
 /** \{ */
-using IIntrospectableView = IBasicIntrospectableView<std::pmr::polymorphic_allocator<uint8_t>>;
-using IIntrospectableViewConstPtr = IBasicIntrospectableViewConstPtr<std::pmr::polymorphic_allocator<uint8_t>>;
+using IIntrospectableView = IBasicIntrospectableView<std::pmr::polymorphic_allocator<::std::uint8_t>>;
+using IIntrospectableViewConstPtr = IBasicIntrospectableViewConstPtr<std::pmr::polymorphic_allocator<::std::uint8_t>>;
 /** \} */
 
 } // namespace pmr

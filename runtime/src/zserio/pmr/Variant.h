@@ -2,6 +2,7 @@
 #define ZSERIO_PMR_VARIANT_H_INC
 
 #include <memory_resource>
+#include <cstdint>
 
 #include "zserio/Variant.h"
 
@@ -14,7 +15,7 @@ namespace pmr
  * Typedef to Variant provided for convenience - using std::pmr::polymorphic_allocator.
  */
 template <typename INDEX, typename... T>
-using Variant = BasicVariant<std::pmr::polymorphic_allocator<uint8_t>, INDEX, T...>;
+using Variant = BasicVariant<std::pmr::polymorphic_allocator<::std::uint8_t>, INDEX, T...>;
 
 } // namespace pmr
 } // namespace zserio

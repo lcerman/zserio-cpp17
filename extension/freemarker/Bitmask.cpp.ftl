@@ -88,7 +88,7 @@ ${types.reflectablePtr.name} reflectable(${fullName} value, const ${types.alloca
             return m_bitmask.getValue();
         }
 
-        uint64_t toUInt() const override
+        ::std::uint64_t toUInt() const override
         {
             return m_bitmask.getValue();
         }
@@ -126,7 +126,7 @@ ${types.introspectableConstPtr.name} introspectable(${fullName} value, const ${t
             return getValue().getValue();
         }
 
-        uint64_t toUInt() const override
+        ::std::uint64_t toUInt() const override
         {
             return getValue().getValue();
         }
@@ -148,11 +148,11 @@ ${types.introspectableConstPtr.name} introspectable(${fullName} value, const ${t
 </#if>
 <@namespace_begin ["std"]/>
 
-size_t hash<${fullName}>::operator()(const ${fullName}& value) const
+::std::size_t hash<${fullName}>::operator()(const ${fullName}& value) const
 {
-    uint32_t result = ::zserio::HASH_SEED;
+    ::std::uint32_t result = ::zserio::HASH_SEED;
     result = ::zserio::calcHashCode(result,
             static_cast<${fullName}::ZserioType::ValueType>(value.getValue()));
-    return static_cast<size_t>(result);
+    return static_cast<::std::size_t>(result);
 }
 <@namespace_end ["std"]/>

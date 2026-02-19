@@ -2,6 +2,7 @@
 #define ZSERIO_DELTA_CONTEXT_H_INC
 
 #include <cstdint>
+#include <cstddef>
 #include <type_traits>
 
 #include "zserio/BitStreamReader.h"
@@ -16,9 +17,9 @@ namespace detail
 {
 
 // calculates bit length on delta provided as an absolute number
-inline uint8_t absDeltaBitLength(uint64_t absDelta)
+inline ::std::uint8_t absDeltaBitLength(::std::uint64_t absDelta)
 {
-    uint8_t result = 0;
+    ::std::uint8_t result = 0;
     while (absDelta > 0)
     {
         result++;
@@ -30,21 +31,21 @@ inline uint8_t absDeltaBitLength(uint64_t absDelta)
 
 // calculates bit length, emulates Python bit_length to keep same logic
 template <typename T>
-uint8_t calcBitLength(T lhs, T rhs)
+::std::uint8_t calcBitLength(T lhs, T rhs)
 {
-    const uint64_t absDelta = lhs > rhs
-            ? static_cast<uint64_t>(lhs) - static_cast<uint64_t>(rhs)
-            : static_cast<uint64_t>(rhs) - static_cast<uint64_t>(lhs);
+    const ::std::uint64_t absDelta = lhs > rhs
+            ? static_cast<::std::uint64_t>(lhs) - static_cast<::std::uint64_t>(rhs)
+            : static_cast<::std::uint64_t>(rhs) - static_cast<::std::uint64_t>(lhs);
 
     return absDeltaBitLength(absDelta);
 }
 
-// calculates delta, doesn't check for possible int64_t overflow since it's used only in cases where it's
+// calculates delta, doesn't check for possible ::std::int64_t overflow since it's used only in cases where it's
 // already known that overflow cannot occur
 template <typename T>
-int64_t calcUncheckedDelta(T lhs, uint64_t rhs)
+::std::int64_t calcUncheckedDelta(T lhs, ::std::uint64_t rhs)
 {
-    return static_cast<int64_t>(static_cast<uint64_t>(lhs) - rhs);
+    return static_cast<::std::int64_t>(static_cast<::std::uint64_t>(lhs) - rhs);
 }
 
 /**
@@ -87,8 +88,8 @@ public:
         if (!isFlagSet(INIT_STARTED_FLAG))
         {
             setFlag(INIT_STARTED_FLAG);
-            m_previousElement = static_cast<uint64_t>(element);
-            m_firstElementBitSize = static_cast<uint8_t>(m_unpackedBitSize);
+            m_previousElement = static_cast<::std::uint64_t>(element);
+            m_firstElementBitSize = static_cast<::std::uint8_t>(m_unpackedBitSize);
         }
         else
         {
@@ -96,7 +97,7 @@ public:
             {
                 setFlag(IS_PACKED_FLAG);
                 const auto previousElement = static_cast<typename T::ValueType>(m_previousElement);
-                const uint8_t maxBitNumber =
+                const ::std::uint8_t maxBitNumber =
                         detail::calcBitLength(static_cast<typename T::ValueType>(element), previousElement);
                 if (maxBitNumber > m_maxBitNumber)
                 {
@@ -106,7 +107,7 @@ public:
                         resetFlag(IS_PACKED_FLAG);
                     }
                 }
-                m_previousElement = static_cast<uint64_t>(element);
+                m_previousElement = static_cast<::std::uint64_t>(element);
             }
         }
     }
@@ -143,7 +144,7 @@ public:
      *
      * \param reader Bit stream reader.
      * \param element Element to read.
-     * \param args Arguments, currently it can be only uint8_t bitSize for dynamic bit fields.
+     * \param args Arguments, currently it can be only ::std::uint8_t bitSize for dynamic bit fields.
      */
     template <typename T, typename... ARGS>
     void read(BitStreamReader& reader, T& element, ARGS&&... args)
@@ -163,10 +164,10 @@ public:
         {
             if (m_maxBitNumber > 0)
             {
-                const int64_t delta = reader.readSignedBits64(m_maxBitNumber + 1);
+                const ::std::int64_t delta = reader.readSignedBits64(m_maxBitNumber + 1);
                 const T readElement =
-                        static_cast<typename T::ValueType>(m_previousElement + static_cast<uint64_t>(delta));
-                m_previousElement = static_cast<uint64_t>(readElement);
+                        static_cast<typename T::ValueType>(m_previousElement + static_cast<::std::uint64_t>(delta));
+                m_previousElement = static_cast<::std::uint64_t>(readElement);
             }
 
             element = static_cast<typename T::ValueType>(m_previousElement);
@@ -198,11 +199,11 @@ public:
         {
             if (m_maxBitNumber > 0)
             {
-                // it's already checked in the init phase that the delta will fit into int64_t
-                const int64_t delta = detail::calcUncheckedDelta(
+                // it's already checked in the init phase that the delta will fit into ::std::int64_t
+                const ::std::int64_t delta = detail::calcUncheckedDelta(
                         static_cast<typename T::ValueType>(element), m_previousElement);
                 writer.writeSignedBits64(delta, m_maxBitNumber + 1);
-                m_previousElement = static_cast<uint64_t>(element);
+                m_previousElement = static_cast<::std::uint64_t>(element);
             }
         }
     }
@@ -240,7 +241,7 @@ private:
         if (in.readBool())
         {
             setFlag(IS_PACKED_FLAG);
-            m_maxBitNumber = static_cast<uint8_t>(in.readUnsignedBits32(MAX_BIT_NUMBER_BITS));
+            m_maxBitNumber = static_cast<::std::uint8_t>(in.readUnsignedBits32(MAX_BIT_NUMBER_BITS));
         }
         else
         {
@@ -252,7 +253,7 @@ private:
     void readUnpacked(BitStreamReader& reader, T& element, ARGS&&... args)
     {
         detail::read(reader, element, std::forward<ARGS>(args)...);
-        m_previousElement = static_cast<uint64_t>(element);
+        m_previousElement = static_cast<::std::uint64_t>(element);
     }
 
     void writeDescriptor(BitStreamWriter& writer) const
@@ -268,39 +269,39 @@ private:
     template <typename T>
     void writeUnpacked(BitStreamWriter& writer, T element)
     {
-        m_previousElement = static_cast<uint64_t>(element);
+        m_previousElement = static_cast<::std::uint64_t>(element);
         detail::write(writer, element);
     }
 
-    void setFlag(uint8_t flagMask)
+    void setFlag(::std::uint8_t flagMask)
     {
         m_flags |= flagMask;
     }
 
-    void resetFlag(uint8_t flagMask)
+    void resetFlag(::std::uint8_t flagMask)
     {
-        m_flags &= static_cast<uint8_t>(~flagMask);
+        m_flags &= static_cast<::std::uint8_t>(~flagMask);
     }
 
-    bool isFlagSet(uint8_t flagMask) const
+    bool isFlagSet(::std::uint8_t flagMask) const
     {
         return ((m_flags & flagMask) != 0);
     }
 
-    static const uint8_t MAX_BIT_NUMBER_BITS = 6;
-    static const uint8_t MAX_BIT_NUMBER_LIMIT = 62;
+    static const ::std::uint8_t MAX_BIT_NUMBER_BITS = 6;
+    static const ::std::uint8_t MAX_BIT_NUMBER_LIMIT = 62;
 
-    static const uint8_t INIT_STARTED_FLAG = 0x01;
-    static const uint8_t IS_PACKED_FLAG = 0x02;
-    static const uint8_t PROCESSING_STARTED_FLAG = 0x04;
+    static const ::std::uint8_t INIT_STARTED_FLAG = 0x01;
+    static const ::std::uint8_t IS_PACKED_FLAG = 0x02;
+    static const ::std::uint8_t PROCESSING_STARTED_FLAG = 0x04;
 
-    uint64_t m_previousElement = 0;
-    uint8_t m_maxBitNumber = 0;
-    uint8_t m_flags = 0x00;
+    ::std::uint64_t m_previousElement = 0;
+    ::std::uint8_t m_maxBitNumber = 0;
+    ::std::uint8_t m_flags = 0x00;
 
-    uint8_t m_firstElementBitSize = 0;
-    uint32_t m_numElements = 0;
-    size_t m_unpackedBitSize = 0;
+    ::std::uint8_t m_firstElementBitSize = 0;
+    ::std::uint32_t m_numElements = 0;
+    ::std::size_t m_unpackedBitSize = 0;
 };
 
 // helper trait to choose packing context type for an array from an element type T
@@ -448,7 +449,7 @@ void write(DeltaContext& deltaContext, BitStreamWriter& writer, View<DynIntWrapp
 }
 
 template <typename T>
-void read(DeltaContext& deltaContext, BitStreamReader& reader, DynIntWrapper<T>& value, uint8_t bitSize)
+void read(DeltaContext& deltaContext, BitStreamReader& reader, DynIntWrapper<T>& value, ::std::uint8_t bitSize)
 {
     deltaContext.read(reader, value, bitSize);
 }

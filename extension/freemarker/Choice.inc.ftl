@@ -102,13 +102,13 @@ ${I}return (lhs.${field.getterName}() < rhs.${field.getterName}());
 ${I}// check choice case
 ${I}if (view.zserioChoiceTag() != ${fullName}::Tag::<@choice_tag_name member.field/>)
 ${I}{
-${I}    throw ChoiceCaseException("Wrong case set in choice '${name}' (") << static_cast<size_t>(view.zserioChoiceTag()) <<
-${I}            " != " << static_cast<size_t>(${fullName}::Tag::<@choice_tag_name member.field/>) << ")!";
+${I}    throw ChoiceCaseException("Wrong case set in choice '${name}' (") << static_cast<::std::size_t>(view.zserioChoiceTag()) <<
+${I}            " != " << static_cast<::std::size_t>(${fullName}::Tag::<@choice_tag_name member.field/>) << ")!";
 ${I}}
     <@field_check_constraint member.field, indent/>
 ${I}detail::validate<@array_template_args member.field/>(view.${member.field.getterName}(), "'${name}.${member.field.name}'"<#rt>
         <#if member.field.array?? && member.field.array.viewIndirectLength??>
-        , static_cast<size_t>(${member.field.array.viewIndirectLength})<#t>
+        , static_cast<::std::size_t>(${member.field.array.viewIndirectLength})<#t>
         </#if>
         <#lt>);
     <#else>

@@ -2,6 +2,7 @@
 #define ZSERIO_PPMR_I_REFLECTABLE_DATA_H_INC
 
 #include "zserio/IReflectableData.h"
+#include <cstdint>
 #include "zserio/ppmr/PropagatingPolymorphicAllocator.h"
 
 // needed to have proper typedefs
@@ -15,12 +16,12 @@ namespace ppmr
 {
 
 /**
- * Typedef to reflectable interface provided for convenience - using PropagatingPolymorphicAllocator<uint8_t>.
+ * Typedef to reflectable interface provided for convenience - using PropagatingPolymorphicAllocator<::std::uint8_t>.
  */
 /** \{ */
-using IReflectableData = IBasicReflectableData<PropagatingPolymorphicAllocator<uint8_t>>;
-using IReflectableDataPtr = IBasicReflectableDataPtr<PropagatingPolymorphicAllocator<uint8_t>>;
-using IReflectableDataConstPtr = IBasicReflectableDataConstPtr<PropagatingPolymorphicAllocator<uint8_t>>;
+using IReflectableData = IBasicReflectableData<PropagatingPolymorphicAllocator<::std::uint8_t>>;
+using IReflectableDataPtr = IBasicReflectableDataPtr<PropagatingPolymorphicAllocator<::std::uint8_t>>;
+using IReflectableDataConstPtr = IBasicReflectableDataConstPtr<PropagatingPolymorphicAllocator<::std::uint8_t>>;
 /** \} */
 
 } // namespace ppmr

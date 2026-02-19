@@ -143,7 +143,7 @@ void ${name}::validate(::zserio::IValidationObserver& validationObserver<#rt>
 {
     validationObserver.beginDatabase(${fieldList?size});
     bool continueValidation = true;
-    size_t numberOfValidatedTables = 0;
+    ::std::size_t numberOfValidatedTables = 0;
 
 <#list fieldList as field>
     if (<#if !field?is_first>continueValidation && </#if><@sql_field_member_name field/>->validate(validationObserver<#rt>

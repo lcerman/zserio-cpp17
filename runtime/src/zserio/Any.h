@@ -2,6 +2,7 @@
 #define ZSERIO_ANY_H_INC
 
 #include <cstddef>
+#include <cstdint>
 #include <optional>
 #include <type_traits>
 
@@ -250,7 +251,7 @@ using has_non_heap_holder = std::integral_constant<bool,
 /**
  * Type safe container for single values of any type which doesn't need RTTI.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<::std::uint8_t>>
 class BasicAny : public AllocatorHolder<ALLOC>
 {
     using AllocTraits = std::allocator_traits<ALLOC>;

@@ -610,22 +610,22 @@ struct Introspectable<${fullName}, ${types.allocator.default}>
 <@template_definition templateParameters/>
 struct hash<${fullName}>
 {
-    size_t operator()(const ${fullName}&<#if fieldList?has_content> data</#if>) const
+    ::std::size_t operator()(const ${fullName}&<#if fieldList?has_content> data</#if>) const
     {
-        uint32_t result = ::zserio::HASH_SEED;
+        ::std::uint32_t result = ::zserio::HASH_SEED;
 <#list fieldList as field>
         result = ::zserio::calcHashCode(result, data.<@field_data_member_name field/>);
 </#list>
-        return static_cast<size_t>(result);
+        return static_cast<::std::size_t>(result);
     }
 };
 
 <@template_definition templateParameters/>
 struct hash<::zserio::View<${fullName}>>
 {
-    size_t operator()(const ::zserio::View<${fullName}>&<#if parameterList?has_content || fieldList?has_content> view</#if>) const
+    ::std::size_t operator()(const ::zserio::View<${fullName}>&<#if parameterList?has_content || fieldList?has_content> view</#if>) const
     {
-        uint32_t result = ::zserio::HASH_SEED;
+        ::std::uint32_t result = ::zserio::HASH_SEED;
 <#list parameterList as parameter>
         result = ::zserio::calcHashCode(result, view.${parameter.getterName}());
 </#list>
@@ -643,7 +643,7 @@ struct hash<::zserio::View<${fullName}>>
         result = ::zserio::calcHashCode(result, view.${field.getterName}());
     </#if>
 </#list>
-        return static_cast<size_t>(result);
+        return static_cast<::std::size_t>(result);
     }
 };
 <@namespace_end ["std"]/>

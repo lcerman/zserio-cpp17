@@ -2,6 +2,8 @@
 #define ZSERIO_JSON_TOKENIZER_H_INC
 
 #include <array>
+#include <cstddef>
+#include <cstdint>
 #include <istream>
 #include <memory>
 #include <string_view>
@@ -17,7 +19,7 @@ namespace zserio
 /**
  * Tokens used by Json Tokenizer.
  */
-enum class JsonToken : int8_t
+enum class JsonToken : ::std::int8_t
 {
     UNKNOWN = -1,
     BEGIN_OF_FILE,
@@ -55,7 +57,7 @@ CppRuntimeException& operator<<(CppRuntimeException& exception, JsonToken token)
 /**
  * Json Tokenizer used by Json Parser.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<::std::uint8_t>>
 class BasicJsonTokenizer
 {
 public:
@@ -114,7 +116,7 @@ public:
      *
      * \return Line number.
      */
-    size_t getLine() const
+    ::std::size_t getLine() const
     {
         return m_lineNumber;
     }
@@ -124,7 +126,7 @@ public:
      *
      * \return Column number.
      */
-    size_t getColumn() const
+    ::std::size_t getColumn() const
     {
         return m_tokenColumnNumber;
     }
@@ -139,20 +141,20 @@ private:
     void setToken(JsonToken token, T&& value);
     void setToken(JsonToken token, BasicAny<ALLOC>&& value);
     void setToken(JsonToken token);
-    void setPosition(size_t newPos, size_t newColumnNumber);
+    void setPosition(::std::size_t newPos, ::std::size_t newColumnNumber);
     void setTokenValue();
 
-    static constexpr size_t BUFFER_SIZE = 64 * 1024;
+    static constexpr ::std::size_t BUFFER_SIZE = 64 * 1024;
     std::array<char, BUFFER_SIZE> m_buffer;
 
     std::istream& m_in;
     BasicJsonDecoder<ALLOC> m_decoder;
     typename BasicJsonDecoder<ALLOC>::DecoderResult m_decoderResult;
     BasicString<RebindAlloc<ALLOC, char>> m_content;
-    size_t m_lineNumber = 1;
-    size_t m_columnNumber = 1;
-    size_t m_tokenColumnNumber = 1;
-    size_t m_pos = 0;
+    ::std::size_t m_lineNumber = 1;
+    ::std::size_t m_columnNumber = 1;
+    ::std::size_t m_tokenColumnNumber = 1;
+    ::std::size_t m_pos = 0;
     JsonToken m_token;
     BasicAny<ALLOC> m_value;
 };
@@ -188,7 +190,7 @@ JsonToken BasicJsonTokenizer<ALLOC>::next()
 template <typename ALLOC>
 BasicString<RebindAlloc<ALLOC, char>> BasicJsonTokenizer<ALLOC>::readContent(const ALLOC& allocator)
 {
-    const size_t count = static_cast<size_t>(m_in.rdbuf()->sgetn(m_buffer.data(), BUFFER_SIZE));
+    const ::std::size_t count = static_cast<::std::size_t>(m_in.rdbuf()->sgetn(m_buffer.data(), BUFFER_SIZE));
 
     return BasicString<RebindAlloc<ALLOC, char>>(m_buffer.data(), count, allocator);
 }
@@ -304,7 +306,7 @@ void BasicJsonTokenizer<ALLOC>::setToken(JsonToken token)
 }
 
 template <typename ALLOC>
-void BasicJsonTokenizer<ALLOC>::setPosition(size_t newPos, size_t newColumnNumber)
+void BasicJsonTokenizer<ALLOC>::setPosition(::std::size_t newPos, ::std::size_t newColumnNumber)
 {
     m_pos = newPos;
     m_columnNumber = newColumnNumber;

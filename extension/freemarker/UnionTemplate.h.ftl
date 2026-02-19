@@ -48,7 +48,7 @@ struct ${name};
 <@template_definition templateParameters/>
 struct ChoiceTag<${fullName}>
 {
-    enum Tag : size_t
+    enum Tag : ::std::size_t
     {
         ZSERIO_UNDEFINED,
 <#list fieldList as field>
@@ -507,23 +507,23 @@ struct Introspectable<${fullName}, ${types.allocator.default}>
 <@template_definition templateParameters/>
 struct hash<${fullName}>
 {
-    size_t operator()(const ${fullName}&<#if fieldList?has_content> value</#if>) const
+    ::std::size_t operator()(const ${fullName}&<#if fieldList?has_content> value</#if>) const
     {
-        uint32_t result = ::zserio::HASH_SEED;
+        ::std::uint32_t result = ::zserio::HASH_SEED;
 <#if fieldList?has_content>
         result = ::zserio::calcHashCode(result, static_cast<const typename ${fullName}::Base&>(value));
 </#if>
-        return static_cast<size_t>(result);
+        return static_cast<::std::size_t>(result);
     }
 };
 
 <@template_definition templateParameters/>
 struct hash<::zserio::View<${fullName}>>
 {
-    size_t operator()(<#rt>
+    ::std::size_t operator()(<#rt>
         <#lt>const ::zserio::View<${fullName}>&<#if parameterList?has_content || fieldList?has_content> view</#if>) const
     {
-        uint32_t result = ::zserio::HASH_SEED;
+        ::std::uint32_t result = ::zserio::HASH_SEED;
 <#list parameterList as parameter>
         result = ::zserio::calcHashCode(result, view.${parameter.getterName}());
 </#list>
@@ -531,7 +531,7 @@ struct hash<::zserio::View<${fullName}>>
         <@union_switch "union_hash_field", "union_no_match", "view.zserioChoiceTag()", 2/>
 
 </#if>
-        return static_cast<size_t>(result);
+        return static_cast<::std::size_t>(result);
     }
 };
 <@namespace_end ["std"]/>

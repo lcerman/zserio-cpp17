@@ -2,6 +2,7 @@
 #define ZSERIO_PMR_UNIQUE_PTR_H_INC
 
 #include <memory_resource>
+#include <cstdint>
 
 #include "zserio/UniquePtr.h"
 
@@ -11,7 +12,7 @@ namespace pmr
 {
 
 /**
- * Typedef to zserio::UniquePtr provided for convenience - using std::pmr::polymorphic_allocator<uint8_t>.
+ * Typedef to zserio::UniquePtr provided for convenience - using std::pmr::polymorphic_allocator<::std::uint8_t>.
  */
 template <typename T>
 using UniquePtr = zserio::UniquePtr<T, std::pmr::polymorphic_allocator<T>>;

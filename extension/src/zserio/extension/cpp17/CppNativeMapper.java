@@ -58,10 +58,10 @@ public final class CppNativeMapper
         final TypesContext.AllocatorDefinition allocatorDefinition = typesContext.getAllocatorDefinition();
 
         stringViewType = new NativeStringViewType();
-        anyType = new NativeAllocType(typesContext.getAny(), allocatorDefinition, "uint8_t");
-        bitBufferType = new NativeAllocType(typesContext.getBitBuffer(), allocatorDefinition, "uint8_t");
+        anyType = new NativeAllocType(typesContext.getAny(), allocatorDefinition, "::std::uint8_t");
+        bitBufferType = new NativeAllocType(typesContext.getBitBuffer(), allocatorDefinition, "::std::uint8_t");
         bitBufferViewType =
-                new NativeAllocType(typesContext.getBitBufferView(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getBitBufferView(), allocatorDefinition, "::std::uint8_t");
         bytesType = new NativeAllocType(typesContext.getBytes(), allocatorDefinition);
         stringType = new NativeAllocType(typesContext.getString(), allocatorDefinition, "char");
         vectorType = new NativeAllocType(typesContext.getVector(), allocatorDefinition);
@@ -73,27 +73,30 @@ public final class CppNativeMapper
         variantType = new NativeAllocType(typesContext.getVariant(), allocatorDefinition);
         uniquePtrType = new NativeAllocType(typesContext.getUniquePtr(), allocatorDefinition);
 
-        serviceType = new NativeAllocType(typesContext.getService(), allocatorDefinition, "uint8_t");
+        serviceType = new NativeAllocType(typesContext.getService(), allocatorDefinition, "::std::uint8_t");
         serviceClientType =
-                new NativeAllocType(typesContext.getServiceClient(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getServiceClient(), allocatorDefinition, "::std::uint8_t");
         serviceDataPtrType =
-                new NativeAllocType(typesContext.getServiceDataPtr(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getServiceDataPtr(), allocatorDefinition, "::std::uint8_t");
         introspectableServiceDataType = new NativeAllocType(
-                typesContext.getIntrospectableServiceData(), allocatorDefinition, "uint8_t");
+                typesContext.getIntrospectableServiceData(), allocatorDefinition, "::std::uint8_t");
         objectServiceDataType =
-                new NativeAllocType(typesContext.getObjectServiceData(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getObjectServiceData(), allocatorDefinition, "::std::uint8_t");
         rawServiceDataHolderType =
-                new NativeAllocType(typesContext.getRawServiceDataHolder(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getRawServiceDataHolder(), allocatorDefinition,
+                        "::std::uint8_t");
         rawServiceDataViewType =
-                new NativeAllocType(typesContext.getRawServiceDataView(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getRawServiceDataView(), allocatorDefinition, "::std::uint8_t");
 
-        typeInfoType = new NativeAllocType(typesContext.getTypeInfo(), allocatorDefinition, "uint8_t");
+        typeInfoType = new NativeAllocType(typesContext.getTypeInfo(), allocatorDefinition, "::std::uint8_t");
         reflectablePtrType =
-                new NativeAllocType(typesContext.getReflectablePtr(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getReflectablePtr(), allocatorDefinition, "::std::uint8_t");
         reflectableConstPtrType =
-                new NativeAllocType(typesContext.getReflectableConstPtr(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getReflectableConstPtr(), allocatorDefinition,
+                        "::std::uint8_t");
         introspectableConstPtrType =
-                new NativeAllocType(typesContext.getIntrospectableConstPtr(), allocatorDefinition, "uint8_t");
+                new NativeAllocType(typesContext.getIntrospectableConstPtr(), allocatorDefinition,
+                        "::std::uint8_t");
     }
 
     public CppNativeSymbol getCppSymbol(AstNode symbol) throws ZserioExtensionException

@@ -20,7 +20,7 @@ Service::Service(const allocator_type& allocator) :
 {}
 
 ${types.serviceDataPtr.name} Service::callMethod(
-        ::std::string_view methodName, ::zserio::Span<const uint8_t> requestData, void* context)
+        ::std::string_view methodName, ::zserio::Span<const ::std::uint8_t> requestData, void* context)
 {
 <#list methodList as method>
     if (methodName == methodNames()[${method?index}])
@@ -51,7 +51,7 @@ const ::std::array<::std::string_view, ${methodList?size}>& Service::methodNames
 <#list methodList as method>
 
 ${types.serviceDataPtr.name} Service::${method.name}Method(
-        ::zserio::Span<const uint8_t> requestData, void* context)
+        ::zserio::Span<const ::std::uint8_t> requestData, void* context)
 {
     <#if !method.requestTypeInfo.isBytes>
     ${method.requestTypeInfo.typeFullName} request(get_allocator_ref());

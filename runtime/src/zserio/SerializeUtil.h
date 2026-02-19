@@ -9,6 +9,8 @@
 #define ZSERIO_SERIALIZE_UTIL_H_INC
 
 #include <string_view>
+#include <cstddef>
+#include <cstdint>
 #include <type_traits>
 #include <utility>
 
@@ -71,7 +73,7 @@ BasicBitBuffer<ALLOC> serialize(const T& data, const ALLOC& allocator, ARGS&&...
  *     const zserio::pmr::PropagatingPolymorphicAllocator<> allocator;
  *     SomeZserioObject objectData(allocator);
  *     zserio::View<SomeZserioObject> objectView(objectData);
- *     const zserio::vector<uint8_t, zserio::pmr::PropagatingPolymorphicAllocator<>> buffer =
+ *     const zserio::vector<::std::uint8_t, zserio::pmr::PropagatingPolymorphicAllocator<>> buffer =
  *             zserio::serializeToBytes(objectView, allocator);
  * \endcode
  *
@@ -84,7 +86,7 @@ BasicBitBuffer<ALLOC> serialize(const T& data, const ALLOC& allocator, ARGS&&...
  * \throw CppRuntimeException When serialization fails.
  */
 template <typename T, typename ALLOC, typename... ARGS, std::enable_if_t<is_allocator_v<ALLOC>, int> = 0>
-Vector<uint8_t, ALLOC> serializeToBytes(const T& data, const ALLOC& allocator, ARGS&&... arguments)
+Vector<::std::uint8_t, ALLOC> serializeToBytes(const T& data, const ALLOC& allocator, ARGS&&... arguments)
 {
     const View<T> view(data, std::forward<ARGS>(arguments)...);
 
@@ -134,7 +136,7 @@ BasicBitBuffer<typename T::allocator_type> serialize(const T& data, ARGS&&... ar
  *     const zserio::pmr::PropagatingPolymorphicAllocator<> allocator;
  *     SomeZserioObject objectData(allocator);
  *     zserio::View<SomeZserioObject> objectView(objectData);
- *     const zserio::vector<uint8_t, zserio::pmr::PropagatingPolymorphicAllocator<>> buffer =
+ *     const zserio::vector<::std::uint8_t, zserio::pmr::PropagatingPolymorphicAllocator<>> buffer =
  *             zserio::serializeToBytes(objectView, allocator);
  * \endcode
  *
@@ -146,7 +148,7 @@ BasicBitBuffer<typename T::allocator_type> serialize(const T& data, ARGS&&... ar
  * \throw CppRuntimeException When serialization fails.
  */
 template <typename T, typename... ARGS, typename std::enable_if_t<!is_first_allocator_v<ARGS...>, int> = 0>
-Vector<uint8_t, typename T::allocator_type> serializeToBytes(const T& data, ARGS&&... arguments)
+Vector<::std::uint8_t, typename T::allocator_type> serializeToBytes(const T& data, ARGS&&... arguments)
 {
     return serializeToBytes(data, typename T::allocator_type(), std::forward<ARGS>(arguments)...);
 }
@@ -200,7 +202,7 @@ View<T> deserialize(const BasicBitBuffer<ALLOC>& buffer, T& data, ARGS&&... argu
  * \throw CppRuntimeException When deserialization fails.
  */
 template <typename T, typename... ARGS>
-View<T> deserializeFromBytes(Span<const uint8_t> buffer, T& data, ARGS&&... arguments)
+View<T> deserializeFromBytes(Span<const ::std::uint8_t> buffer, T& data, ARGS&&... arguments)
 {
     BitStreamReader reader(buffer);
 
@@ -258,7 +260,7 @@ BasicBitBuffer<ALLOC> serialize(const View<T>& view, const ALLOC& allocator)
  *     const zserio::pmr::PropagatingPolymorphicAllocator<> allocator;
  *     SomeZserioObject objectData(allocator);
  *     zserio::View<SomeZserioObject> objectView(objectData);
- *     const zserio::vector<uint8_t, zserio::pmr::PropagatingPolymorphicAllocator<>> buffer =
+ *     const zserio::vector<::std::uint8_t, zserio::pmr::PropagatingPolymorphicAllocator<>> buffer =
  *             zserio::serializeToBytes(objectView, allocator);
  * \endcode
  *
@@ -270,11 +272,11 @@ BasicBitBuffer<ALLOC> serialize(const View<T>& view, const ALLOC& allocator)
  * \throw CppRuntimeException When serialization fails.
  */
 template <typename T, typename ALLOC>
-Vector<uint8_t, ALLOC> serializeToBytes(const View<T>& view, const ALLOC& allocator)
+Vector<::std::uint8_t, ALLOC> serializeToBytes(const View<T>& view, const ALLOC& allocator)
 {
     detail::validate(view, "");
     const BitSize bitSize = detail::initializeOffsets(view, 0);
-    Vector<uint8_t, ALLOC> buffer((bitSize + 7) / 8, allocator);
+    Vector<::std::uint8_t, ALLOC> buffer((bitSize + 7) / 8, allocator);
     BitStreamWriter writer(buffer);
     detail::write(writer, view);
 
@@ -332,7 +334,7 @@ BasicBitBuffer<typename T::allocator_type> serialize(const View<T>& view)
  * \throw CppRuntimeException When serialization fails.
  */
 template <typename T>
-Vector<uint8_t, typename T::allocator_type> serializeToBytes(const View<T>& view)
+Vector<::std::uint8_t, typename T::allocator_type> serializeToBytes(const View<T>& view)
 {
     return serializeToBytes(view, typename T::allocator_type());
 }
@@ -365,7 +367,7 @@ template <typename T, typename ALLOC>
 BasicBitBuffer<ALLOC> serialize(const DataView<T>& dataView, const ALLOC& allocator)
 {
     // there is no need to set offsets or call validation here, DataView is already consistent
-    size_t bitSize = detail::bitSizeOf(dataView, 0);
+    ::std::size_t bitSize = detail::bitSizeOf(dataView, 0);
     BasicBitBuffer<ALLOC> buffer(bitSize, allocator);
     BitStreamWriter writer(buffer);
 
@@ -398,11 +400,11 @@ BasicBitBuffer<ALLOC> serialize(const DataView<T>& dataView, const ALLOC& alloca
  * \throw CppRuntimeException When serialization fails.
  */
 template <typename T, typename ALLOC>
-Vector<uint8_t, ALLOC> serializeToBytes(const DataView<T>& dataView, const ALLOC& allocator)
+Vector<::std::uint8_t, ALLOC> serializeToBytes(const DataView<T>& dataView, const ALLOC& allocator)
 {
     // there is no need to set offsets or call validation here, DataView is already consistent
-    size_t bitSize = detail::bitSizeOf(dataView, 0);
-    Vector<uint8_t, ALLOC> buffer((bitSize + 7) / 8, allocator);
+    ::std::size_t bitSize = detail::bitSizeOf(dataView, 0);
+    Vector<::std::uint8_t, ALLOC> buffer((bitSize + 7) / 8, allocator);
     BitStreamWriter writer(buffer);
 
     detail::write(writer, dataView);
@@ -459,7 +461,7 @@ BasicBitBuffer<typename T::allocator_type> serialize(const DataView<T>& dataView
  * \throw CppRuntimeException When serialization fails.
  */
 template <typename T>
-Vector<uint8_t, typename T::allocator_type> serializeToBytes(const DataView<T>& dataView)
+Vector<::std::uint8_t, typename T::allocator_type> serializeToBytes(const DataView<T>& dataView)
 {
     return serializeToBytes(dataView, typename T::allocator_type());
 }
@@ -518,7 +520,7 @@ DataView<T> deserialize(
  */
 template <typename T, typename... ARGS>
 DataView<T> deserializeFromBytes(
-        Span<const uint8_t> buffer, const typename T::allocator_type& allocator, ARGS&&... arguments)
+        Span<const ::std::uint8_t> buffer, const typename T::allocator_type& allocator, ARGS&&... arguments)
 {
     BitStreamReader reader(buffer);
     T data{allocator};
@@ -572,7 +574,7 @@ DataView<T> deserialize(const BasicBitBuffer<ALLOC>& buffer, ARGS&&... arguments
  * \throw CppRuntimeException When deserialization fails.
  */
 template <typename T, typename... ARGS, std::enable_if_t<!is_first_allocator_v<ARGS...>, int> = 0>
-DataView<T> deserializeFromBytes(Span<const uint8_t> buffer, ARGS&&... arguments)
+DataView<T> deserializeFromBytes(Span<const ::std::uint8_t> buffer, ARGS&&... arguments)
 {
     return deserializeFromBytes<T>(buffer, typename T::allocator_type(), std::forward<ARGS>(arguments)...);
 }
@@ -662,7 +664,7 @@ void serializeToFile(const T& data, std::string_view fileName, ARGS&&... argumen
  *     zserio::View<SomeZserioObject> objectView = zserio::deserializeFromFile(fileName, objectData);
  * \endcode
  *
- * \note Please note that BitBuffer is always allocated using 'std::allocator<uint8_t>'.
+ * \note Please note that BitBuffer is always allocated using 'std::allocator<::std::uint8_t>'.
  *
  * \param fileName File to use.
  * \param arguments All parameters in case of Zserio parameterized type.
@@ -691,7 +693,7 @@ View<T> deserializeFromFile(std::string_view fileName, T& data, ARGS&&... argume
  *     zserio::DataView<SomeZserioObject> objectDataView = zserio::deserializeFromFile(fileName);
  * \endcode
  *
- * \note Please note that BitBuffer is always allocated using 'std::allocator<uint8_t>'.
+ * \note Please note that BitBuffer is always allocated using 'std::allocator<::std::uint8_t>'.
  *
  * \param fileName File to use.
  * \param arguments All parameters in case of Zserio parameterized type.

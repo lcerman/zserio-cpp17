@@ -108,7 +108,7 @@
                 </#if>
             </#list>
         <#elseif field.typeInfo.isDynamicBitField>
-            , static_cast<uint8_t>(${field.dynamicBitFieldLength.expression})<#t>
+            , static_cast<::std::uint8_t>(${field.dynamicBitFieldLength.expression})<#t>
         </#if>
     </#if>
 </#macro>
@@ -119,7 +119,7 @@
             , view<#t>
         </#if>
         <#if field.array.viewIndirectLength??>
-            , static_cast<size_t>(${field.array.viewIndirectLength})<#t>
+            , static_cast<::std::size_t>(${field.array.viewIndirectLength})<#t>
         </#if>
     <#else>
         <#if field.parameterized??>
@@ -150,7 +150,7 @@
                 </#if>
             </#list>
         <#elseif field.typeInfo.isDynamicBitField>
-            , static_cast<uint8_t>(${field.dynamicBitFieldLength.viewIndirectExpression})<#t>
+            , static_cast<::std::uint8_t>(${field.dynamicBitFieldLength.viewIndirectExpression})<#t>
         </#if>
     </#if>
 </#macro>
@@ -184,7 +184,7 @@
             </#if>
         </#list>
     <#elseif field.typeInfo.isDynamicBitField>
-        , static_cast<uint8_t>(${field.dynamicBitFieldLength.ownerIndirectExpression})<#t>
+        , static_cast<::std::uint8_t>(${field.dynamicBitFieldLength.ownerIndirectExpression})<#t>
     </#if>
 </#macro>
 
@@ -218,16 +218,16 @@ ${I}}
             </#if>
         static View<${field.typeInfo.typeFullName}> at(<#rt>
                 <#lt>const <#if array_needs_owner(field)>OwnerType&<#else>detail::DummyArrayOwner&</#if> owner,
-                <#if !field.usedAsOffset>const </#if>${field.typeInfo.typeFullName}& element, size_t index);
+                <#if !field.usedAsOffset>const </#if>${field.typeInfo.typeFullName}& element, ::std::size_t index);
 
         static void read(BitStreamReader& reader, <#rt>
                 <#lt>const <#if array_needs_owner(field)>OwnerType&<#else>detail::DummyArrayOwner&</#if> owner,
-                ${field.typeInfo.typeFullName}& element, size_t index);
+                ${field.typeInfo.typeFullName}& element, ::std::size_t index);
             <#if field.isPackable && (field.array.isPacked || usedInPackedArray)>
 
         static void read(<@packing_context_type_name field, true/>& packingContext, BitStreamReader& reader,
                 const <#if array_needs_owner(field)>OwnerType&<#else>detail::DummyArrayOwner&</#if>  owner, <#rt>
-                <#lt>${field.typeInfo.typeFullName}& element, size_t index);
+                <#lt>${field.typeInfo.typeFullName}& element, ::std::size_t index);
             </#if>
     };
 
@@ -242,14 +242,14 @@ ${I}}
 View<${field.typeInfo.typeFullName}> View<${compoundFullName}>::<@array_traits_name field/>::at(<#rt>
         <#lt>const <#if array_needs_owner(field)>OwnerType& owner<#else>detail::DummyArrayOwner&</#if>,
         <#if !field.usedAsOffset>const </#if>${field.typeInfo.typeFullName}& element, <#rt>
-        <#lt>size_t<#if array_needs_index(field)> index</#if>)
+        <#lt>::std::size_t<#if array_needs_index(field)> index</#if>)
 {
     return View<${field.typeInfo.typeFullName}>(element<@field_view_owner_indirect_parameters field/>);
 }
 
 void View<${compoundFullName}>::<@array_traits_name field/>::read(BitStreamReader& reader, <#rt>
         <#lt>const <#if array_needs_owner(field)>OwnerType& owner<#else>detail::DummyArrayOwner&</#if>,
-        ${field.typeInfo.typeFullName}& element, size_t<#if array_needs_index(field)> index</#if>)
+        ${field.typeInfo.typeFullName}& element, ::std::size_t<#if array_needs_index(field)> index</#if>)
 {
     (void)detail::read(reader, element<@field_view_owner_indirect_parameters field/>);
 }
@@ -257,7 +257,7 @@ void View<${compoundFullName}>::<@array_traits_name field/>::read(BitStreamReade
 
 void View<${compoundFullName}>::<@array_traits_name field/>::read(<@packing_context_type_name field, true/>& packingContext, BitStreamReader& reader,
         const <#if array_needs_owner(field)>OwnerType& owner<#else>detail::DummyArrayOwner&</#if>, <#rt>
-        <#lt>${field.typeInfo.typeFullName}& element, size_t<#if array_needs_index(field)> index</#if>)
+        <#lt>${field.typeInfo.typeFullName}& element, ::std::size_t<#if array_needs_index(field)> index</#if>)
 {
     detail::read(packingContext, reader, element<@field_view_owner_indirect_parameters field/>);
 }
@@ -278,14 +278,14 @@ void View<${compoundFullName}>::<@array_traits_name field/>::read(<@packing_cont
         static View<${field.typeInfo.typeFullName}> at(<#rt>
                 <#lt>const <#if array_needs_owner(field)>OwnerType& owner<#else>detail::DummyArrayOwner&</#if>,
                 <#if !field.usedAsOffset>const </#if>${field.typeInfo.typeFullName}& element, <#rt>
-                <#lt>size_t<#if array_needs_index(field)> index</#if>)
+                <#lt>::std::size_t<#if array_needs_index(field)> index</#if>)
         {
             return View<${field.typeInfo.typeFullName}>(element<@field_view_owner_indirect_parameters field/>);
         }
 
         static void read(BitStreamReader& reader, <#rt>
                 <#lt>const <#if array_needs_owner(field)>OwnerType& owner<#else>detail::DummyArrayOwner&</#if>,
-                ${field.typeInfo.typeFullName}& element, size_t<#if array_needs_index(field)> index</#if>)
+                ${field.typeInfo.typeFullName}& element, ::std::size_t<#if array_needs_index(field)> index</#if>)
         {
             (void)detail::read(reader, element<@field_view_owner_indirect_parameters field/>);
         }
@@ -293,7 +293,7 @@ void View<${compoundFullName}>::<@array_traits_name field/>::read(<@packing_cont
 
         static void read(<@packing_context_type_name field, true/>& packingContext, BitStreamReader& reader,
                 const <#if array_needs_owner(field)>OwnerType& owner<#else>detail::DummyArrayOwner&</#if>, <#rt>
-                <#lt>${field.typeInfo.typeFullName}& element, size_t<#if array_needs_index(field)> index</#if>)
+                <#lt>${field.typeInfo.typeFullName}& element, ::std::size_t<#if array_needs_index(field)> index</#if>)
         {
             detail::read(packingContext, reader, element<@field_view_owner_indirect_parameters field/>);
         }

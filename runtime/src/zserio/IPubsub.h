@@ -2,6 +2,8 @@
 #define ZSERIO_IPUBSUB_H_INC
 
 #include <memory>
+#include <cstddef>
+#include <cstdint>
 #include <string_view>
 
 #include "zserio/Span.h"
@@ -19,7 +21,7 @@ public:
     /**
      * Subscription ID which is unique for each single subscription.
      */
-    using SubscriptionId = size_t;
+    using SubscriptionId = ::std::size_t;
 
     /**
      * OnTopic callback which invoked for subscribed messages.
@@ -28,7 +30,7 @@ public:
     {
     public:
         virtual ~OnTopicCallback() = default;
-        virtual void operator()(std::string_view topic, Span<const uint8_t> data) = 0;
+        virtual void operator()(std::string_view topic, Span<const ::std::uint8_t> data) = 0;
     };
 
     /**
@@ -40,7 +42,7 @@ public:
      *
      * \throw PubsubException when publishing fails.
      */
-    virtual void publish(std::string_view topic, Span<const uint8_t> data, void* context) = 0;
+    virtual void publish(std::string_view topic, Span<const ::std::uint8_t> data, void* context) = 0;
 
     /**
      * Subscribes a topic.

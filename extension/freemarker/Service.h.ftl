@@ -66,7 +66,7 @@ public:
      * \throw ServiceException if the call fails.
      */
     ${types.serviceDataPtr.name} callMethod(
-            ::std::string_view methodName, ::zserio::Span<const uint8_t> requestData,
+            ::std::string_view methodName, ::zserio::Span<const ::std::uint8_t> requestData,
             void* context) override;
 
     /**
@@ -92,7 +92,7 @@ private:
 
 <#list methodList as method>
     ${types.serviceDataPtr.name} ${method.name}Method(
-            ::zserio::Span<const uint8_t> requestData, void* context);
+            ::zserio::Span<const ::std::uint8_t> requestData, void* context);
 </#list>
 </#if>
 };

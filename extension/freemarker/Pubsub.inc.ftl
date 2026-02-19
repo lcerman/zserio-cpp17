@@ -1,6 +1,6 @@
 <#macro pubsub_type_name typeInfo>
     <#if typeInfo.isBytes>
-        ::zserio::Span<const uint8_t><#t>
+        ::zserio::Span<const ::std::uint8_t><#t>
     <#else>
         ${typeInfo.typeFullName}<#t>
     </#if>
@@ -8,7 +8,7 @@
 
 <#macro pubsub_arg_type_name typeInfo>
     <#if typeInfo.isBytes>
-        ::zserio::Span<const uint8_t><#t>
+        ::zserio::Span<const ::std::uint8_t><#t>
     <#else>
         const ${typeInfo.typeFullName}&<#t>
     </#if>

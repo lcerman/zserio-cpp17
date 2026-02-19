@@ -17,7 +17,7 @@
 <@namespace_begin ["zserio"]/>
 
 template <>
-size_t enumToOrdinal(${fullName} value)
+::std::size_t enumToOrdinal(${fullName} value)
 {
     switch (value)
     {
@@ -92,7 +92,7 @@ ${types.reflectablePtr.name} reflectable(${fullName} value, const ${types.alloca
             return static_cast<typename ::std::underlying_type<${fullName}>::type>(m_value);
         }
 
-        <#if isSigned>int64_t toInt()<#else>uint64_t toUInt()</#if> const override
+        <#if isSigned>::std::int64_t toInt()<#else>::std::uint64_t toUInt()</#if> const override
         {
             return static_cast<typename ::std::underlying_type<${fullName}>::type>(m_value);
         }
@@ -130,7 +130,7 @@ ${types.introspectableConstPtr.name} introspectable(${fullName} value, const ${t
             return static_cast<typename ::std::underlying_type<${fullName}>::type>(getValue());
         }
 
-        <#if isSigned>int64_t toInt()<#else>uint64_t toUInt()</#if> const override
+        <#if isSigned>::std::int64_t toInt()<#else>::std::uint64_t toUInt()</#if> const override
         {
             return static_cast<typename ::std::underlying_type<${fullName}>::type>(getValue());
         }
@@ -152,11 +152,11 @@ ${types.introspectableConstPtr.name} introspectable(${fullName} value, const ${t
 <@namespace_end ["zserio"]/>
 <@namespace_begin ["std"]/>
 
-size_t hash<${fullName}>::operator()(const ${fullName}& value) const
+::std::size_t hash<${fullName}>::operator()(const ${fullName}& value) const
 {
-    uint32_t result = ::zserio::HASH_SEED;
+    ::std::uint32_t result = ::zserio::HASH_SEED;
     result = ::zserio::calcHashCode(result,
             static_cast<::std::underlying_type_t<${fullName}>>(::zserio::enumToValue(value)));
-    return static_cast<size_t>(result);
+    return static_cast<::std::size_t>(result);
 }
 <@namespace_end ["std"]/>

@@ -2,6 +2,8 @@
 #define ZSERIO_JSON_DECODER_H_INC
 
 #include <cerrno>
+#include <cstddef>
+#include <cstdint>
 #include <cmath>
 #include <cstdlib>
 #include <string_view>
@@ -17,7 +19,7 @@ namespace zserio
 /**
  * JSON value decoder.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<::std::uint8_t>>
 class BasicJsonDecoder : public AllocatorHolder<ALLOC>
 {
 public:
@@ -34,7 +36,7 @@ public:
          * \param numRead Number of processed characters.
          * \param allocator Allocator to use.
          */
-        DecoderResult(size_t numRead, const ALLOC& allocator) :
+        DecoderResult(::std::size_t numRead, const ALLOC& allocator) :
                 numReadChars(numRead),
                 value(allocator),
                 integerOverflow(false)
@@ -48,7 +50,7 @@ public:
          * \param allocator Allocator to use.
          */
         template <typename T>
-        DecoderResult(size_t numRead, T&& decodedValue, const ALLOC& allocator) :
+        DecoderResult(::std::size_t numRead, T&& decodedValue, const ALLOC& allocator) :
                 numReadChars(numRead),
                 value(std::forward<T>(decodedValue), allocator),
                 integerOverflow(false)
@@ -63,13 +65,13 @@ public:
          * \param allocator Allocator to use.
          */
         template <typename T>
-        DecoderResult(size_t numRead, T&& decodedValue, bool overflow, const ALLOC& allocator) :
+        DecoderResult(::std::size_t numRead, T&& decodedValue, bool overflow, const ALLOC& allocator) :
                 numReadChars(numRead),
                 value(createValue(std::forward<T>(decodedValue), overflow, allocator)),
                 integerOverflow(overflow)
         {}
 
-        size_t numReadChars; /**< Number of processed characters. */
+        ::std::size_t numReadChars; /**< Number of processed characters. */
         BasicAny<ALLOC> value; /**< Decoded value. Empty on failure. */
         bool integerOverflow; /**< True if decoded value was bigger than UINT64_MAX or was not in interval
                                <INT64_MIN, INT64_MAX>. */
@@ -146,12 +148,12 @@ private:
     DecoderResult decodeString(std::string_view input);
     static bool decodeUnicodeEscape(std::string_view input, std::string_view::const_iterator& inputIt,
             BasicString<RebindAlloc<ALLOC, char>>& value);
-    static int32_t decodeHex(char character);
-    size_t checkNumber(std::string_view input, bool& isDouble, bool& isSigned);
+    static ::std::int32_t decodeHex(char character);
+    ::std::size_t checkNumber(std::string_view input, bool& isDouble, bool& isSigned);
     DecoderResult decodeNumber(std::string_view input);
     DecoderResult decodeSigned(std::string_view input);
     DecoderResult decodeUnsigned(std::string_view input);
-    DecoderResult decodeDouble(std::string_view input, size_t numChars);
+    DecoderResult decodeDouble(std::string_view input, ::std::size_t numChars);
 };
 
 template <typename ALLOC>
@@ -166,7 +168,7 @@ typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeL
         if (*inputIt++ != *literalIt++)
         {
             // failure, not decoded
-            return DecoderResult(static_cast<size_t>(inputIt - input.begin()), get_allocator());
+            return DecoderResult(static_cast<::std::size_t>(inputIt - input.begin()), get_allocator());
         }
     }
 
@@ -194,7 +196,7 @@ typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeS
             if (inputIt == input.end())
             {
                 // wrong escape, not decoded
-                return DecoderResult(static_cast<size_t>(inputIt - input.begin()), get_allocator());
+                return DecoderResult(static_cast<::std::size_t>(inputIt - input.begin()), get_allocator());
             }
 
             char nextChar = *inputIt;
@@ -231,14 +233,14 @@ typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeS
                     if (!decodeUnicodeEscape(input, inputIt, value))
                     {
                         // unsupported unicode escape, not decoded
-                        return DecoderResult(static_cast<size_t>(inputIt - input.begin()), get_allocator());
+                        return DecoderResult(static_cast<::std::size_t>(inputIt - input.begin()), get_allocator());
                     }
                     break;
                 }
             default:
                 ++inputIt;
                 // unknown escape, not decoded
-                return DecoderResult(static_cast<size_t>(inputIt - input.begin()), get_allocator());
+                return DecoderResult(static_cast<::std::size_t>(inputIt - input.begin()), get_allocator());
             }
         }
         else if (*inputIt == '"')
@@ -246,7 +248,7 @@ typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeS
             ++inputIt;
             // successfully decoded
             return DecoderResult(
-                    static_cast<size_t>(inputIt - input.begin()), std::move(value), get_allocator());
+                    static_cast<::std::size_t>(inputIt - input.begin()), std::move(value), get_allocator());
         }
         else
         {
@@ -277,7 +279,7 @@ bool BasicJsonDecoder<ALLOC>::decodeUnicodeEscape(std::string_view input,
         return false;
     }
 
-    const int32_t hex1 = decodeHex(*inputIt++);
+    const ::std::int32_t hex1 = decodeHex(*inputIt++);
     if (hex1 < 0)
     {
         return false;
@@ -288,13 +290,13 @@ bool BasicJsonDecoder<ALLOC>::decodeUnicodeEscape(std::string_view input,
         return false;
     }
 
-    const int32_t hex2 = decodeHex(*inputIt++);
+    const ::std::int32_t hex2 = decodeHex(*inputIt++);
     if (hex2 < 0)
     {
         return false;
     }
 
-    const uint32_t characterInt = (static_cast<uint32_t>(hex1) << 4U) | static_cast<uint32_t>(hex2);
+    const ::std::uint32_t characterInt = (static_cast<::std::uint32_t>(hex1) << 4U) | static_cast<::std::uint32_t>(hex2);
     using char_traits = std::char_traits<char>;
     const char character = char_traits::to_char_type(static_cast<char_traits::int_type>(characterInt));
     value.push_back(character);
@@ -303,26 +305,26 @@ bool BasicJsonDecoder<ALLOC>::decodeUnicodeEscape(std::string_view input,
 }
 
 template <typename ALLOC>
-int32_t BasicJsonDecoder<ALLOC>::decodeHex(char character)
+::std::int32_t BasicJsonDecoder<ALLOC>::decodeHex(char character)
 {
     if (character >= '0' && character <= '9')
     {
-        return static_cast<int32_t>(character - '0');
+        return static_cast<::std::int32_t>(character - '0');
     }
     else if (character >= 'a' && character <= 'f')
     {
-        return static_cast<int32_t>(character - 'a' + 10);
+        return static_cast<::std::int32_t>(character - 'a' + 10);
     }
     else if (character >= 'A' && character <= 'F')
     {
-        return static_cast<int32_t>(character - 'A' + 10);
+        return static_cast<::std::int32_t>(character - 'A' + 10);
     }
 
     return -1;
 }
 
 template <typename ALLOC>
-size_t BasicJsonDecoder<ALLOC>::checkNumber(std::string_view input, bool& isDouble, bool& isSigned)
+::std::size_t BasicJsonDecoder<ALLOC>::checkNumber(std::string_view input, bool& isDouble, bool& isSigned)
 {
     std::string_view::const_iterator inputIt = input.begin();
     bool acceptExpSign = false;
@@ -376,7 +378,7 @@ size_t BasicJsonDecoder<ALLOC>::checkNumber(std::string_view input, bool& isDoub
         break; // end of a number
     }
 
-    const size_t numberLen = static_cast<size_t>(inputIt - input.begin());
+    const ::std::size_t numberLen = static_cast<::std::size_t>(inputIt - input.begin());
     if (isSigned && numberLen == 1)
     {
         return 0; // single minus is not a number
@@ -390,7 +392,7 @@ typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeN
 {
     bool isDouble = false;
     bool isSigned = false;
-    const size_t numChars = checkNumber(input, isDouble, isSigned);
+    const ::std::size_t numChars = checkNumber(input, isDouble, isSigned);
     if (numChars == 0)
     {
         return DecoderResult(1, get_allocator());
@@ -418,10 +420,10 @@ typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeS
     const char* pBegin = &input.front();
     char* pEnd = nullptr;
     errno = 0; // no library function sets its value back to zero once changed
-    const int64_t value = std::strtoll(pBegin, &pEnd, 10);
+    const ::std::int64_t value = std::strtoll(pBegin, &pEnd, 10);
 
     const bool overflow = (errno == ERANGE);
-    const size_t numRead = static_cast<size_t>(pEnd - pBegin);
+    const ::std::size_t numRead = static_cast<::std::size_t>(pEnd - pBegin);
 
     return DecoderResult(numRead, value, overflow, get_allocator());
 }
@@ -432,22 +434,22 @@ typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeU
     const char* pBegin = &input.front();
     char* pEnd = nullptr;
     errno = 0; // no library function sets its value back to zero once changed
-    const uint64_t value = std::strtoull(pBegin, &pEnd, 10);
+    const ::std::uint64_t value = std::strtoull(pBegin, &pEnd, 10);
 
     const bool overflow = (errno == ERANGE);
-    const size_t numRead = static_cast<size_t>(pEnd - pBegin);
+    const ::std::size_t numRead = static_cast<::std::size_t>(pEnd - pBegin);
 
     return DecoderResult(numRead, value, overflow, get_allocator());
 }
 
 template <typename ALLOC>
 typename BasicJsonDecoder<ALLOC>::DecoderResult BasicJsonDecoder<ALLOC>::decodeDouble(
-        std::string_view input, size_t numChars)
+        std::string_view input, ::std::size_t numChars)
 {
     const char* pBegin = &input.front();
     char* pEnd = nullptr;
     const double value = std::strtod(pBegin, &pEnd);
-    if (static_cast<size_t>(pEnd - pBegin) != numChars)
+    if (static_cast<::std::size_t>(pEnd - pBegin) != numChars)
     {
         return DecoderResult(numChars, get_allocator());
     }
