@@ -57,13 +57,13 @@ public:
      * \param message Description of the error to append.
      * \param messageLen Length of the message.
      */
-    void append(const char* message, ::std::size_t messageLen);
+    void append(const char* message, std::size_t messageLen);
 
 private:
     void appendImpl(std::string_view message);
 
     std::array<char, 512> m_buffer; // note fixed sized array is deeply copied on copy operations and it's OK
-    ::std::size_t m_len = 0;
+    std::size_t m_len = 0;
 };
 
 /**

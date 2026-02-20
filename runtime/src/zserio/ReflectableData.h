@@ -58,10 +58,10 @@ public:
     Ptr createField(std::string_view name) override;
     void setField(std::string_view name, const BasicAny<ALLOC>& value) override;
 
-    void resize(::std::size_t size) override;
-    Ptr at(::std::size_t index) override;
-    Ptr operator[](::std::size_t index) override;
-    void setAt(const BasicAny<ALLOC>& value, ::std::size_t index) override;
+    void resize(std::size_t size) override;
+    Ptr at(std::size_t index) override;
+    Ptr operator[](std::size_t index) override;
+    void setAt(const BasicAny<ALLOC>& value, std::size_t index) override;
     void append(const BasicAny<ALLOC>& value) override;
 
     BasicAny<ALLOC> getAnyValue(const ALLOC& allocator) override;
@@ -74,9 +74,9 @@ public:
 private:
     ConstPtr getFieldFromObject(const IBasicReflectableData<ALLOC>& object, std::string_view name) const;
     ConstPtr getFromObject(
-            const IBasicReflectableData<ALLOC>& object, std::string_view path, ::std::size_t pos) const;
+            const IBasicReflectableData<ALLOC>& object, std::string_view path, std::size_t pos) const;
     Ptr getFieldFromObject(IBasicReflectableData<ALLOC>& object, std::string_view name);
-    Ptr getFromObject(IBasicReflectableData<ALLOC>& object, std::string_view path, ::std::size_t pos);
+    Ptr getFromObject(IBasicReflectableData<ALLOC>& object, std::string_view path, std::size_t pos);
 };
 
 /**
@@ -164,7 +164,7 @@ protected:
     using Base::Base;
 
 public:
-    ::std::int64_t toInt() const override
+    std::int64_t toInt() const override
     {
         return Base::getValue();
     }
@@ -186,7 +186,7 @@ protected:
     using Base::Base;
 
 public:
-    ::std::uint64_t toUInt() const override
+    std::uint64_t toUInt() const override
     {
         return Base::getValue();
     }
@@ -221,14 +221,14 @@ class Int8ReflectableData : public SignedReflectableDataBase<T, ALLOC>
 private:
     using Base = SignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::int8_t, typename T::ValueType>, "T must be based on ::std::int8_t!");
+    static_assert(std::is_same_v<std::int8_t, typename T::ValueType>, "T must be based on std::int8_t!");
 
 public:
     explicit Int8ReflectableData(T value) :
             Base(typeInfo<T, ALLOC>(), value)
     {}
 
-    ::std::int8_t getInt8() const override
+    std::int8_t getInt8() const override
     {
         return Base::getValue();
     }
@@ -243,14 +243,14 @@ class Int16ReflectableData : public SignedReflectableDataBase<T, ALLOC>
 private:
     using Base = SignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::int16_t, typename T::ValueType>, "T must be based on ::std::int16_t!");
+    static_assert(std::is_same_v<std::int16_t, typename T::ValueType>, "T must be based on std::int16_t!");
 
 public:
     explicit Int16ReflectableData(T value) :
             Base(typeInfo<T, ALLOC>(), value)
     {}
 
-    ::std::int16_t getInt16() const override
+    std::int16_t getInt16() const override
     {
         return Base::getValue();
     }
@@ -265,14 +265,14 @@ class Int32ReflectableData : public SignedReflectableDataBase<T, ALLOC>
 private:
     using Base = SignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::int32_t, typename T::ValueType>, "T must be based on ::std::int32_t!");
+    static_assert(std::is_same_v<std::int32_t, typename T::ValueType>, "T must be based on std::int32_t!");
 
 public:
     explicit Int32ReflectableData(T value) :
             Base(typeInfo<T, ALLOC>(), value)
     {}
 
-    ::std::int32_t getInt32() const override
+    std::int32_t getInt32() const override
     {
         return Base::getValue();
     }
@@ -287,14 +287,14 @@ class Int64ReflectableData : public SignedReflectableDataBase<T, ALLOC>
 private:
     using Base = SignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::int64_t, typename T::ValueType>, "T must be based on ::std::int64_t!");
+    static_assert(std::is_same_v<std::int64_t, typename T::ValueType>, "T must be based on std::int64_t!");
 
 public:
     explicit Int64ReflectableData(T value) :
             Base(typeInfo<T, ALLOC>(), value)
     {}
 
-    ::std::int64_t getInt64() const override
+    std::int64_t getInt64() const override
     {
         return Base::getValue();
     }
@@ -309,14 +309,14 @@ class UInt8ReflectableData : public UnsignedReflectableDataBase<T, ALLOC>
 private:
     using Base = UnsignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(std::is_same_v<::std::uint8_t, typename T::ValueType>, "T must be based on ::std::uint8_t!");
+    static_assert(std::is_same_v<std::uint8_t, typename T::ValueType>, "T must be based on std::uint8_t!");
 
 public:
     explicit UInt8ReflectableData(T value) :
             Base(typeInfo<T, ALLOC>(), value)
     {}
 
-    ::std::uint8_t getUInt8() const override
+    std::uint8_t getUInt8() const override
     {
         return Base::getValue();
     }
@@ -331,15 +331,14 @@ class UInt16ReflectableData : public UnsignedReflectableDataBase<T, ALLOC>
 private:
     using Base = UnsignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(
-            std::is_same_v<::std::uint16_t, typename T::ValueType>, "T must be based on ::std::uint16_t!");
+    static_assert(std::is_same_v<std::uint16_t, typename T::ValueType>, "T must be based on std::uint16_t!");
 
 public:
     explicit UInt16ReflectableData(T value) :
             Base(typeInfo<T, ALLOC>(), value)
     {}
 
-    ::std::uint16_t getUInt16() const override
+    std::uint16_t getUInt16() const override
     {
         return Base::getValue();
     }
@@ -354,15 +353,14 @@ class UInt32ReflectableData : public UnsignedReflectableDataBase<T, ALLOC>
 private:
     using Base = UnsignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(
-            std::is_same_v<::std::uint32_t, typename T::ValueType>, "T must be based on ::std::uint32_t!");
+    static_assert(std::is_same_v<std::uint32_t, typename T::ValueType>, "T must be based on std::uint32_t!");
 
 public:
     explicit UInt32ReflectableData(T value) :
             Base(typeInfo<T, ALLOC>(), value)
     {}
 
-    ::std::uint32_t getUInt32() const override
+    std::uint32_t getUInt32() const override
     {
         return Base::getValue();
     }
@@ -377,15 +375,14 @@ class UInt64ReflectableData : public UnsignedReflectableDataBase<T, ALLOC>
 private:
     using Base = UnsignedReflectableDataBase<T, ALLOC>;
 
-    static_assert(
-            std::is_same_v<::std::uint64_t, typename T::ValueType>, "T must be based on ::std::uint64_t!");
+    static_assert(std::is_same_v<std::uint64_t, typename T::ValueType>, "T must be based on std::uint64_t!");
 
 public:
     explicit UInt64ReflectableData(T value) :
             Base(typeInfo<T, ALLOC>(), value)
     {}
 
-    ::std::uint64_t getUInt64() const override
+    std::uint64_t getUInt64() const override
     {
         return Base::getValue();
     }
@@ -575,26 +572,26 @@ public:
     IBasicReflectableDataPtr<ALLOC> createField(std::string_view name) override;
     void setField(std::string_view name, const BasicAny<ALLOC>& value) override;
 
-    IBasicReflectableDataConstPtr<ALLOC> operator[](::std::size_t index) const override;
-    IBasicReflectableDataPtr<ALLOC> operator[](::std::size_t index) override;
+    IBasicReflectableDataConstPtr<ALLOC> operator[](std::size_t index) const override;
+    IBasicReflectableDataPtr<ALLOC> operator[](std::size_t index) override;
 
     bool getBool() const override;
-    ::std::int8_t getInt8() const override;
-    ::std::int16_t getInt16() const override;
-    ::std::int32_t getInt32() const override;
-    ::std::int64_t getInt64() const override;
-    ::std::uint8_t getUInt8() const override;
-    ::std::uint16_t getUInt16() const override;
-    ::std::uint32_t getUInt32() const override;
-    ::std::uint64_t getUInt64() const override;
+    std::int8_t getInt8() const override;
+    std::int16_t getInt16() const override;
+    std::int32_t getInt32() const override;
+    std::int64_t getInt64() const override;
+    std::uint8_t getUInt8() const override;
+    std::uint16_t getUInt16() const override;
+    std::uint32_t getUInt32() const override;
+    std::uint64_t getUInt64() const override;
     float getFloat() const override;
     double getDouble() const override;
     BytesView getBytes() const override;
     std::string_view getStringView() const override;
     const BasicBitBuffer<ALLOC>& getBitBuffer() const override;
 
-    ::std::int64_t toInt() const override;
-    ::std::uint64_t toUInt() const override;
+    std::int64_t toInt() const override;
+    std::uint64_t toUInt() const override;
     double toDouble() const override;
     BasicString<RebindAlloc<ALLOC, char>> toString(const ALLOC& allocator) const override;
 };
@@ -614,10 +611,10 @@ public:
     using Base::Base;
     using Base::getTypeInfo;
 
-    void resize(::std::size_t index) override;
-    IBasicReflectableDataPtr<ALLOC> at(::std::size_t index) override;
-    IBasicReflectableDataPtr<ALLOC> operator[](::std::size_t index) override;
-    void setAt(const BasicAny<ALLOC>& value, ::std::size_t index) override;
+    void resize(std::size_t index) override;
+    IBasicReflectableDataPtr<ALLOC> at(std::size_t index) override;
+    IBasicReflectableDataPtr<ALLOC> operator[](std::size_t index) override;
+    void setAt(const BasicAny<ALLOC>& value, std::size_t index) override;
     void append(const BasicAny<ALLOC>& value) override;
 
     BasicAny<ALLOC> getAnyValue(const ALLOC& allocator) override;
@@ -625,13 +622,13 @@ public:
 
 } // namespace detail
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(Bool value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::BoolReflectableData<ALLOC>>(allocator, value);
 }
 
-template <BitSize BIT_SIZE, bool IS_SIGNED, typename ALLOC = std::allocator<::std::uint8_t>>
+template <BitSize BIT_SIZE, bool IS_SIGNED, typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(
         detail::FixedIntWrapper<BIT_SIZE, IS_SIGNED> value, const ALLOC& allocator = ALLOC())
 {
@@ -678,7 +675,7 @@ IBasicReflectableDataPtr<ALLOC> reflectable(
     }
 }
 
-template <typename T, typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename T, typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(detail::DynIntWrapper<T> value, const ALLOC& allocator = ALLOC())
 {
     using Type = detail::DynIntWrapper<T>;
@@ -723,110 +720,110 @@ IBasicReflectableDataPtr<ALLOC> reflectable(detail::DynIntWrapper<T> value, cons
     }
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarInt16 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::Int16ReflectableData<VarInt16, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarInt32 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::Int32ReflectableData<VarInt32, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarInt64 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::Int64ReflectableData<VarInt64, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarInt value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::Int64ReflectableData<VarInt, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarUInt16 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::UInt16ReflectableData<VarUInt16, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarUInt32 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::UInt32ReflectableData<VarUInt32, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarUInt64 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::UInt64ReflectableData<VarUInt64, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarUInt value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::UInt64ReflectableData<VarUInt, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(VarSize value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::UInt32ReflectableData<VarSize, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(Float16 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::FloatReflectableData<Float16, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(Float32 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::FloatReflectableData<Float32, ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(Float64 value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::DoubleReflectableData<ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(const BasicBytes<ALLOC>& value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::BytesReflectableData<ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(BytesView value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::BytesReflectableData<ALLOC>>(allocator, value);
 }
 
-template <typename STRING_ALLOC, typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename STRING_ALLOC, typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(
         const BasicString<STRING_ALLOC>& value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::StringReflectableData<ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(std::string_view value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::StringReflectableData<ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectable(BasicBitBuffer<ALLOC>& value, const ALLOC& allocator = ALLOC())
 {
     return std::allocate_shared<detail::BitBufferReflectableData<ALLOC>>(allocator, value);
 }
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataConstPtr<ALLOC> reflectable(
         const BasicBitBuffer<ALLOC>& value, const ALLOC& allocator = ALLOC())
 {
@@ -857,12 +854,12 @@ public:
             m_rawArray(rawArray)
     {}
 
-    ::std::size_t size() const override
+    std::size_t size() const override
     {
         return m_rawArray.size();
     }
 
-    IBasicReflectableDataConstPtr<ALLOC> at(::std::size_t index) const override
+    IBasicReflectableDataConstPtr<ALLOC> at(std::size_t index) const override
     {
         if (index >= size())
         {
@@ -898,17 +895,17 @@ public:
             m_rawArray(rawArray)
     {}
 
-    ::std::size_t size() const override
+    std::size_t size() const override
     {
         return m_rawArray.size();
     }
 
-    void resize(::std::size_t size) override
+    void resize(std::size_t size) override
     {
         m_rawArray.resize(size);
     }
 
-    IBasicReflectableDataConstPtr<ALLOC> at(::std::size_t index) const override
+    IBasicReflectableDataConstPtr<ALLOC> at(std::size_t index) const override
     {
         if (index >= size())
         {
@@ -920,7 +917,7 @@ public:
         return reflectable(m_rawArray[index], Base::get_allocator());
     }
 
-    IBasicReflectableDataPtr<ALLOC> at(::std::size_t index) override
+    IBasicReflectableDataPtr<ALLOC> at(std::size_t index) override
     {
         if (index >= size())
         {
@@ -932,7 +929,7 @@ public:
         return reflectable(m_rawArray[index], Base::get_allocator());
     }
 
-    void setAt(const BasicAny<ALLOC>& value, ::std::size_t index) override
+    void setAt(const BasicAny<ALLOC>& value, std::size_t index) override
     {
         if (index >= size())
         {
@@ -1036,37 +1033,37 @@ public:
         return m_reflectable->getChoice();
     }
 
-    ::std::size_t size() const override
+    std::size_t size() const override
     {
         return m_reflectable->size();
     }
 
-    void resize(::std::size_t size) override
+    void resize(std::size_t size) override
     {
         m_reflectable->resize(size);
     }
 
-    IBasicReflectableDataConstPtr<ALLOC> at(::std::size_t index) const override
+    IBasicReflectableDataConstPtr<ALLOC> at(std::size_t index) const override
     {
         return m_reflectable->at(index);
     }
 
-    IBasicReflectableDataPtr<ALLOC> at(::std::size_t index) override
+    IBasicReflectableDataPtr<ALLOC> at(std::size_t index) override
     {
         return m_reflectable->at(index);
     }
 
-    IBasicReflectableDataConstPtr<ALLOC> operator[](::std::size_t index) const override
+    IBasicReflectableDataConstPtr<ALLOC> operator[](std::size_t index) const override
     {
         return m_reflectable->operator[](index);
     }
 
-    IBasicReflectableDataPtr<ALLOC> operator[](::std::size_t index) override
+    IBasicReflectableDataPtr<ALLOC> operator[](std::size_t index) override
     {
         return m_reflectable->operator[](index);
     }
 
-    void setAt(const BasicAny<ALLOC>& value, ::std::size_t index) override
+    void setAt(const BasicAny<ALLOC>& value, std::size_t index) override
     {
         m_reflectable->setAt(value, index);
     }
@@ -1101,35 +1098,35 @@ public:
     {
         return m_reflectable->getBool();
     }
-    ::std::int8_t getInt8() const override
+    std::int8_t getInt8() const override
     {
         return m_reflectable->getInt8();
     }
-    ::std::int16_t getInt16() const override
+    std::int16_t getInt16() const override
     {
         return m_reflectable->getInt16();
     }
-    ::std::int32_t getInt32() const override
+    std::int32_t getInt32() const override
     {
         return m_reflectable->getInt32();
     }
-    ::std::int64_t getInt64() const override
+    std::int64_t getInt64() const override
     {
         return m_reflectable->getInt64();
     }
-    ::std::uint8_t getUInt8() const override
+    std::uint8_t getUInt8() const override
     {
         return m_reflectable->getUInt8();
     }
-    ::std::uint16_t getUInt16() const override
+    std::uint16_t getUInt16() const override
     {
         return m_reflectable->getUInt16();
     }
-    ::std::uint32_t getUInt32() const override
+    std::uint32_t getUInt32() const override
     {
         return m_reflectable->getUInt32();
     }
-    ::std::uint64_t getUInt64() const override
+    std::uint64_t getUInt64() const override
     {
         return m_reflectable->getUInt64();
     }
@@ -1141,7 +1138,7 @@ public:
     {
         return m_reflectable->getDouble();
     }
-    Span<const ::std::uint8_t> getBytes() const override
+    Span<const std::uint8_t> getBytes() const override
     {
         return m_reflectable->getBytes();
     }
@@ -1155,11 +1152,11 @@ public:
     }
 
     // convenience conversions
-    ::std::int64_t toInt() const override
+    std::int64_t toInt() const override
     {
         return m_reflectable->toInt();
     }
-    ::std::uint64_t toUInt() const override
+    std::uint64_t toUInt() const override
     {
         return m_reflectable->toUInt();
     }
@@ -1213,28 +1210,28 @@ void ReflectableDataBase<ALLOC>::setField(std::string_view, const BasicAny<ALLOC
 }
 
 template <typename ALLOC>
-void ReflectableDataBase<ALLOC>::resize(::std::size_t)
+void ReflectableDataBase<ALLOC>::resize(std::size_t)
 {
     throw CppRuntimeException("Type '")
             << ReflectableDataBase<ALLOC>::getTypeInfo().getSchemaName() << "' is not an array!";
 }
 
 template <typename ALLOC>
-typename ReflectableDataBase<ALLOC>::Ptr ReflectableDataBase<ALLOC>::at(::std::size_t)
+typename ReflectableDataBase<ALLOC>::Ptr ReflectableDataBase<ALLOC>::at(std::size_t)
 {
     throw CppRuntimeException("Type '")
             << ReflectableDataBase<ALLOC>::getTypeInfo().getSchemaName() << "' is not an array!";
 }
 
 template <typename ALLOC>
-typename ReflectableDataBase<ALLOC>::Ptr ReflectableDataBase<ALLOC>::operator[](::std::size_t)
+typename ReflectableDataBase<ALLOC>::Ptr ReflectableDataBase<ALLOC>::operator[](std::size_t)
 {
     throw CppRuntimeException("Type '")
             << ReflectableDataBase<ALLOC>::getTypeInfo().getSchemaName() << "' is not an array!";
 }
 
 template <typename ALLOC>
-void ReflectableDataBase<ALLOC>::setAt(const BasicAny<ALLOC>&, ::std::size_t)
+void ReflectableDataBase<ALLOC>::setAt(const BasicAny<ALLOC>&, std::size_t)
 {
     throw CppRuntimeException("Type '")
             << ReflectableDataBase<ALLOC>::getTypeInfo().getSchemaName() << "' is not an array!";
@@ -1301,11 +1298,11 @@ typename ReflectableDataBase<ALLOC>::ConstPtr ReflectableDataBase<ALLOC>::getFie
 
 template <typename ALLOC>
 typename ReflectableDataBase<ALLOC>::ConstPtr ReflectableDataBase<ALLOC>::getFromObject(
-        const IBasicReflectableData<ALLOC>& object, std::string_view path, ::std::size_t pos) const
+        const IBasicReflectableData<ALLOC>& object, std::string_view path, std::size_t pos) const
 {
     try
     {
-        const ::std::size_t dotPos = path.find('.', pos);
+        const std::size_t dotPos = path.find('.', pos);
         const bool isLast = dotPos == std::string_view::npos;
         const std::string_view name =
                 path.substr(pos, dotPos == std::string_view::npos ? std::string_view::npos : dotPos - pos);
@@ -1345,11 +1342,11 @@ typename ReflectableDataBase<ALLOC>::Ptr ReflectableDataBase<ALLOC>::getFieldFro
 
 template <typename ALLOC>
 typename ReflectableDataBase<ALLOC>::Ptr ReflectableDataBase<ALLOC>::getFromObject(
-        IBasicReflectableData<ALLOC>& object, std::string_view path, ::std::size_t pos)
+        IBasicReflectableData<ALLOC>& object, std::string_view path, std::size_t pos)
 {
     try
     {
-        const ::std::size_t dotPos = path.find('.', pos);
+        const std::size_t dotPos = path.find('.', pos);
         const bool isLast = dotPos == std::string_view::npos;
         const std::string_view name =
                 path.substr(pos, dotPos == std::string_view::npos ? std::string_view::npos : dotPos - pos);
@@ -1409,13 +1406,13 @@ void ReflectableDataArrayBase<ALLOC>::setField(std::string_view, const BasicAny<
 }
 
 template <typename ALLOC>
-IBasicReflectableDataConstPtr<ALLOC> ReflectableDataArrayBase<ALLOC>::operator[](::std::size_t index) const
+IBasicReflectableDataConstPtr<ALLOC> ReflectableDataArrayBase<ALLOC>::operator[](std::size_t index) const
 {
     return this->at(index);
 }
 
 template <typename ALLOC>
-IBasicReflectableDataPtr<ALLOC> ReflectableDataArrayBase<ALLOC>::operator[](::std::size_t index)
+IBasicReflectableDataPtr<ALLOC> ReflectableDataArrayBase<ALLOC>::operator[](std::size_t index)
 {
     return this->at(index);
 }
@@ -1427,49 +1424,49 @@ bool ReflectableDataArrayBase<ALLOC>::getBool() const
 }
 
 template <typename ALLOC>
-::std::int8_t ReflectableDataArrayBase<ALLOC>::getInt8() const
+std::int8_t ReflectableDataArrayBase<ALLOC>::getInt8() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
 
 template <typename ALLOC>
-::std::int16_t ReflectableDataArrayBase<ALLOC>::getInt16() const
+std::int16_t ReflectableDataArrayBase<ALLOC>::getInt16() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
 
 template <typename ALLOC>
-::std::int32_t ReflectableDataArrayBase<ALLOC>::getInt32() const
+std::int32_t ReflectableDataArrayBase<ALLOC>::getInt32() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
 
 template <typename ALLOC>
-::std::int64_t ReflectableDataArrayBase<ALLOC>::getInt64() const
+std::int64_t ReflectableDataArrayBase<ALLOC>::getInt64() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
 
 template <typename ALLOC>
-::std::uint8_t ReflectableDataArrayBase<ALLOC>::getUInt8() const
+std::uint8_t ReflectableDataArrayBase<ALLOC>::getUInt8() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
 
 template <typename ALLOC>
-::std::uint16_t ReflectableDataArrayBase<ALLOC>::getUInt16() const
+std::uint16_t ReflectableDataArrayBase<ALLOC>::getUInt16() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
 
 template <typename ALLOC>
-::std::uint32_t ReflectableDataArrayBase<ALLOC>::getUInt32() const
+std::uint32_t ReflectableDataArrayBase<ALLOC>::getUInt32() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
 
 template <typename ALLOC>
-::std::uint64_t ReflectableDataArrayBase<ALLOC>::getUInt64() const
+std::uint64_t ReflectableDataArrayBase<ALLOC>::getUInt64() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
@@ -1505,13 +1502,13 @@ const BasicBitBuffer<ALLOC>& ReflectableDataArrayBase<ALLOC>::getBitBuffer() con
 }
 
 template <typename ALLOC>
-::std::int64_t ReflectableDataArrayBase<ALLOC>::toInt() const
+std::int64_t ReflectableDataArrayBase<ALLOC>::toInt() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
 
 template <typename ALLOC>
-::std::uint64_t ReflectableDataArrayBase<ALLOC>::toUInt() const
+std::uint64_t ReflectableDataArrayBase<ALLOC>::toUInt() const
 {
     throw CppRuntimeException("Reflectable is an array '") << getTypeInfo().getSchemaName() << "[]'!";
 }
@@ -1529,25 +1526,25 @@ BasicString<RebindAlloc<ALLOC, char>> ReflectableDataArrayBase<ALLOC>::toString(
 }
 
 template <typename ALLOC>
-void ReflectableDataConstArrayBase<ALLOC>::resize(::std::size_t)
+void ReflectableDataConstArrayBase<ALLOC>::resize(std::size_t)
 {
     throw CppRuntimeException("Reflectable '") << getTypeInfo().getSchemaName() << "' is a constant array!";
 }
 
 template <typename ALLOC>
-IBasicReflectableDataPtr<ALLOC> ReflectableDataConstArrayBase<ALLOC>::at(::std::size_t)
+IBasicReflectableDataPtr<ALLOC> ReflectableDataConstArrayBase<ALLOC>::at(std::size_t)
 {
     throw CppRuntimeException("Reflectable '") << getTypeInfo().getSchemaName() << "' is a constant array!";
 }
 
 template <typename ALLOC>
-IBasicReflectableDataPtr<ALLOC> ReflectableDataConstArrayBase<ALLOC>::operator[](::std::size_t)
+IBasicReflectableDataPtr<ALLOC> ReflectableDataConstArrayBase<ALLOC>::operator[](std::size_t)
 {
     throw CppRuntimeException("Reflectable '") << getTypeInfo().getSchemaName() << "' is a constant array!";
 }
 
 template <typename ALLOC>
-void ReflectableDataConstArrayBase<ALLOC>::setAt(const BasicAny<ALLOC>&, ::std::size_t)
+void ReflectableDataConstArrayBase<ALLOC>::setAt(const BasicAny<ALLOC>&, std::size_t)
 {
     throw CppRuntimeException("Reflectable '") << getTypeInfo().getSchemaName() << "' is a constant array!";
 }
@@ -1566,7 +1563,7 @@ BasicAny<ALLOC> ReflectableDataConstArrayBase<ALLOC>::getAnyValue(const ALLOC&)
 
 } // namespace detail
 
-template <typename T, typename VECTOR_ALLOC, typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename T, typename VECTOR_ALLOC, typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataConstPtr<ALLOC> reflectableArray(
         const std::vector<T, VECTOR_ALLOC>& array, const ALLOC& allocator = ALLOC())
 {
@@ -1574,7 +1571,7 @@ IBasicReflectableDataConstPtr<ALLOC> reflectableArray(
             allocator, array);
 }
 
-template <typename T, typename VECTOR_ALLOC, typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename T, typename VECTOR_ALLOC, typename ALLOC = std::allocator<std::uint8_t>>
 IBasicReflectableDataPtr<ALLOC> reflectableArray(
         std::vector<T, VECTOR_ALLOC>& array, const ALLOC& allocator = ALLOC())
 {

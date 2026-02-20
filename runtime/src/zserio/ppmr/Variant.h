@@ -15,7 +15,7 @@ namespace ppmr
  * Typedef to Variant provided for convenience - using PropagatingPolymorphicAllocator.
  */
 template <typename INDEX, typename... T>
-using Variant = BasicVariant<PropagatingPolymorphicAllocator<::std::uint8_t>, INDEX, T...>;
+using Variant = BasicVariant<PropagatingPolymorphicAllocator<std::uint8_t>, INDEX, T...>;
 
 } // namespace ppmr
 } // namespace zserio

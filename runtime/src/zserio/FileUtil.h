@@ -39,7 +39,7 @@ BitBuffer readBufferFromFile(std::string_view fileName);
  *
  * \throw CppRuntimeException When writing fails.
  */
-void writeBufferToFile(const ::std::uint8_t* buffer, ::std::size_t bitSize, BitsTag, std::string_view fileName);
+void writeBufferToFile(const std::uint8_t* buffer, std::size_t bitSize, BitsTag, std::string_view fileName);
 
 /**
  * Writes given buffer to file.
@@ -52,7 +52,7 @@ void writeBufferToFile(const ::std::uint8_t* buffer, ::std::size_t bitSize, Bits
  *
  * \throw CppRuntimeException When writing fails.
  */
-inline void writeBufferToFile(const ::std::uint8_t* buffer, ::std::size_t byteSize, std::string_view fileName)
+inline void writeBufferToFile(const std::uint8_t* buffer, std::size_t byteSize, std::string_view fileName)
 {
     writeBufferToFile(buffer, byteSize * 8, BitsTag(), fileName);
 }

@@ -20,7 +20,7 @@ using namespace std::literals::string_view_literals;
 /**
  * Walker observer which dumps zserio objects to JSON format.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 class BasicJsonWriter : public IBasicWalkObserver<ALLOC>, public AllocatorHolder<ALLOC>
 {
 public:
@@ -86,7 +86,7 @@ public:
      * \param indent Indent as a number of ' ' to be used for indentation.
      * \param allocator Allocator to use.
      */
-    BasicJsonWriter(std::ostream& out, ::std::uint8_t indent, const ALLOC& allocator = ALLOC());
+    BasicJsonWriter(std::ostream& out, std::uint8_t indent, const ALLOC& allocator = ALLOC());
 
     /**
      * Constructor.
@@ -150,12 +150,12 @@ public:
             const IBasicReflectableDataConstPtr<ALLOC>& array, const BasicFieldInfo<ALLOC>& fieldInfo) override;
 
     void beginCompound(const IBasicReflectableDataConstPtr<ALLOC>& compound,
-            const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex) override;
+            const BasicFieldInfo<ALLOC>& fieldInfo, std::size_t elementIndex) override;
     void endCompound(const IBasicReflectableDataConstPtr<ALLOC>& compound,
-            const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex) override;
+            const BasicFieldInfo<ALLOC>& fieldInfo, std::size_t elementIndex) override;
 
     void visitValue(const IBasicReflectableDataConstPtr<ALLOC>& value, const BasicFieldInfo<ALLOC>& fieldInfo,
-            ::std::size_t elementIndex) override;
+            std::size_t elementIndex) override;
 
 private:
     BasicJsonWriter(std::ostream& out, Optional<BasicString<RebindAlloc<ALLOC, char>>>&& optionalIndent,
@@ -172,7 +172,7 @@ private:
     void writeKey(std::string_view key);
     void writeValue(const IBasicReflectableDataConstPtr<ALLOC>& reflectable);
     void writeBitBuffer(const BasicBitBuffer<ALLOC>& bitBuffer);
-    void writeBytes(Span<const ::std::uint8_t> value);
+    void writeBytes(Span<const std::uint8_t> value);
     void writeStringifiedEnum(const IBasicReflectableDataConstPtr<ALLOC>& reflectable);
     void writeStringifiedBitmask(const IBasicReflectableDataConstPtr<ALLOC>& reflectable);
 
@@ -183,10 +183,10 @@ private:
     EnumerableFormat m_enumerableFormat = DEFAULT_ENUMERABLE_FORMAT;
 
     bool m_isFirst = true;
-    ::std::size_t m_level = 0;
+    std::size_t m_level = 0;
 };
 
-/** Typedef to JsonWriter provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedef to JsonWriter provided for convenience - using default std::allocator<std::uint8_t>. */
 /** \{ */
 using JsonWriter = BasicJsonWriter<>;
 /** \} */
@@ -197,7 +197,7 @@ BasicJsonWriter<ALLOC>::BasicJsonWriter(std::ostream& out, const ALLOC& allocato
 {}
 
 template <typename ALLOC>
-BasicJsonWriter<ALLOC>::BasicJsonWriter(std::ostream& out, ::std::uint8_t indent, const ALLOC& allocator) :
+BasicJsonWriter<ALLOC>::BasicJsonWriter(std::ostream& out, std::uint8_t indent, const ALLOC& allocator) :
         BasicJsonWriter(out, BasicString<RebindAlloc<ALLOC, char>>(indent, ' ', allocator), allocator)
 {}
 
@@ -270,7 +270,7 @@ void BasicJsonWriter<ALLOC>::endArray(const IBasicReflectableDataConstPtr<ALLOC>
 
 template <typename ALLOC>
 void BasicJsonWriter<ALLOC>::beginCompound(const IBasicReflectableDataConstPtr<ALLOC>&,
-        const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex)
+        const BasicFieldInfo<ALLOC>& fieldInfo, std::size_t elementIndex)
 {
     beginItem();
 
@@ -284,7 +284,7 @@ void BasicJsonWriter<ALLOC>::beginCompound(const IBasicReflectableDataConstPtr<A
 
 template <typename ALLOC>
 void BasicJsonWriter<ALLOC>::endCompound(
-        const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, ::std::size_t)
+        const IBasicReflectableDataConstPtr<ALLOC>&, const BasicFieldInfo<ALLOC>&, std::size_t)
 {
     endObject();
 
@@ -293,7 +293,7 @@ void BasicJsonWriter<ALLOC>::endCompound(
 
 template <typename ALLOC>
 void BasicJsonWriter<ALLOC>::visitValue(const IBasicReflectableDataConstPtr<ALLOC>& value,
-        const BasicFieldInfo<ALLOC>& fieldInfo, ::std::size_t elementIndex)
+        const BasicFieldInfo<ALLOC>& fieldInfo, std::size_t elementIndex)
 {
     beginItem();
 
@@ -385,7 +385,7 @@ void BasicJsonWriter<ALLOC>::writeIndent()
         const auto& indent = m_indent.value();
         if (!indent.empty())
         {
-            for (::std::size_t i = 0; i < m_level; ++i)
+            for (std::size_t i = 0; i < m_level; ++i)
             {
                 m_out.write(indent.data(), static_cast<std::streamsize>(indent.size()));
             }
@@ -482,8 +482,8 @@ void BasicJsonWriter<ALLOC>::writeBitBuffer(const BasicBitBuffer<ALLOC>& bitBuff
     beginItem();
     writeKey("buffer"sv);
     beginArray();
-    Span<const ::std::uint8_t> buffer = bitBuffer.getData();
-    for (::std::uint8_t element : buffer)
+    Span<const std::uint8_t> buffer = bitBuffer.getData();
+    for (std::uint8_t element : buffer)
     {
         beginItem();
         JsonEncoder::encodeIntegral(m_out, element);
@@ -499,13 +499,13 @@ void BasicJsonWriter<ALLOC>::writeBitBuffer(const BasicBitBuffer<ALLOC>& bitBuff
 }
 
 template <typename ALLOC>
-void BasicJsonWriter<ALLOC>::writeBytes(Span<const ::std::uint8_t> value)
+void BasicJsonWriter<ALLOC>::writeBytes(Span<const std::uint8_t> value)
 {
     beginObject();
     beginItem();
     writeKey("buffer"sv);
     beginArray();
-    for (::std::uint8_t byte : value)
+    for (std::uint8_t byte : value)
     {
         beginItem();
         JsonEncoder::encodeIntegral(m_out, byte);
@@ -520,8 +520,8 @@ template <typename ALLOC>
 void BasicJsonWriter<ALLOC>::writeStringifiedEnum(const IBasicReflectableDataConstPtr<ALLOC>& reflectable)
 {
     const auto& typeInfo = reflectable->getTypeInfo();
-    const ::std::uint64_t enumValue = TypeInfoUtil::isSigned(typeInfo.getUnderlyingType().getCppType())
-            ? static_cast<::std::uint64_t>(reflectable->toInt())
+    const std::uint64_t enumValue = TypeInfoUtil::isSigned(typeInfo.getUnderlyingType().getCppType())
+            ? static_cast<std::uint64_t>(reflectable->toInt())
             : reflectable->toUInt();
     for (const auto& itemInfo : typeInfo.getEnumItems())
     {
@@ -547,8 +547,8 @@ void BasicJsonWriter<ALLOC>::writeStringifiedBitmask(const IBasicReflectableData
 {
     BasicString<RebindAlloc<ALLOC, char>> stringValue(get_allocator());
     const auto& typeInfo = reflectable->getTypeInfo();
-    const ::std::uint64_t bitmaskValue = reflectable->toUInt();
-    ::std::uint64_t valueCheck = 0;
+    const std::uint64_t bitmaskValue = reflectable->toUInt();
+    std::uint64_t valueCheck = 0;
     for (const auto& itemInfo : typeInfo.getBitmaskValues())
     {
         if ((itemInfo.value != 0 && (bitmaskValue & itemInfo.value) == itemInfo.value) ||

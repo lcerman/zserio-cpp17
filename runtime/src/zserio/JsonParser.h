@@ -19,7 +19,7 @@ namespace zserio
  *
  * Parses the JSON on the fly and calls an observer.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 class BasicJsonParser
 {
 public:
@@ -80,14 +80,14 @@ public:
          *
          * \param intValue Signed integer value.
          */
-        virtual void visitValue(::std::int64_t intValue) = 0;
+        virtual void visitValue(std::int64_t intValue) = 0;
 
         /**
          * Call on a JSON unsigned integer value.
          *
          * \param uintValue Unsigned integer value.
          */
-        virtual void visitValue(::std::uint64_t uintValue) = 0;
+        virtual void visitValue(std::uint64_t uintValue) = 0;
 
         /**
          * Call on a JSON floating point value.
@@ -144,7 +144,7 @@ public:
      *
      * \return Line number.
      */
-    ::std::size_t getLine() const
+    std::size_t getLine() const
     {
         return m_tokenizer.getLine();
     }
@@ -154,7 +154,7 @@ public:
      *
      * \return Column number.
      */
-    ::std::size_t getColumn() const
+    std::size_t getColumn() const
     {
         return m_tokenizer.getColumn();
     }
@@ -297,13 +297,13 @@ void BasicJsonParser<ALLOC>::visitValue() const
     {
         m_observer.visitValue(value.template get<bool>());
     }
-    else if (value.template isType<::std::int64_t>())
+    else if (value.template isType<std::int64_t>())
     {
-        m_observer.visitValue(value.template get<::std::int64_t>());
+        m_observer.visitValue(value.template get<std::int64_t>());
     }
-    else if (value.template isType<::std::uint64_t>())
+    else if (value.template isType<std::uint64_t>())
     {
-        m_observer.visitValue(value.template get<::std::uint64_t>());
+        m_observer.visitValue(value.template get<std::uint64_t>());
     }
     else if (value.template isType<double>())
     {
@@ -344,7 +344,7 @@ JsonParserException BasicJsonParser<ALLOC>::createUnexpectedTokenException(
     else
     {
         error << ", expecting one of [";
-        for (::std::size_t i = 0; i < expecting.size(); ++i)
+        for (std::size_t i = 0; i < expecting.size(); ++i)
         {
             if (i > 0)
             {
@@ -357,7 +357,7 @@ JsonParserException BasicJsonParser<ALLOC>::createUnexpectedTokenException(
     return error;
 }
 
-/** Typedef to Json Parser provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedef to Json Parser provided for convenience - using default std::allocator<std::uint8_t>. */
 using JsonParser = BasicJsonParser<>;
 
 } // namespace zserio

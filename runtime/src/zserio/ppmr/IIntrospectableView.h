@@ -18,12 +18,12 @@ namespace ppmr
 
 /**
  * Typedef to reflectable interface provided for convenience - using
- * PropagatingPolymorphicAllocator<::std::uint8_t>.
+ * PropagatingPolymorphicAllocator<std::uint8_t>.
  */
 /** \{ */
-using IIntrospectableView = IBasicIntrospectableView<PropagatingPolymorphicAllocator<::std::uint8_t>>;
+using IIntrospectableView = IBasicIntrospectableView<PropagatingPolymorphicAllocator<std::uint8_t>>;
 using IIntrospectableViewConstPtr =
-        IBasicIntrospectableViewConstPtr<PropagatingPolymorphicAllocator<::std::uint8_t>>;
+        IBasicIntrospectableViewConstPtr<PropagatingPolymorphicAllocator<std::uint8_t>>;
 /** \} */
 
 } // namespace ppmr

@@ -17,58 +17,58 @@ namespace zserio
 {
 
 /**
- * Converts 16-bit float stored in ::std::uint16_t value to 32-bit float.
+ * Converts 16-bit float stored in std::uint16_t value to 32-bit float.
  *
- * \param float16Value Half precision float value stored in ::std::uint16_t to convert.
- *
- * \return Converted single precision float.
- */
-float convertUInt16ToFloat(::std::uint16_t float16Value);
-
-/**
- * Converts 32-bit float to 16-bit float stored in ::std::uint16_t value.
- *
- * \param float32 Single precision float to convert.
- *
- * \return Converted half precision float value stored in ::std::uint16_t.
- */
-::std::uint16_t convertFloatToUInt16(float float32);
-
-/**
- * Converts 32-bit float stored in ::std::uint32_t value to 32-bit float.
- *
- * \param float32Value Single precision float value stored in ::std::uint32_t to convert.
+ * \param float16Value Half precision float value stored in std::uint16_t to convert.
  *
  * \return Converted single precision float.
  */
-float convertUInt32ToFloat(::std::uint32_t float32Value);
+float convertUInt16ToFloat(std::uint16_t float16Value);
 
 /**
- * Converts 32-bit float to 32-bit float stored in ::std::uint32_t value.
+ * Converts 32-bit float to 16-bit float stored in std::uint16_t value.
  *
  * \param float32 Single precision float to convert.
  *
- * \return Converted single precision float value stored in ::std::uint32_t.
+ * \return Converted half precision float value stored in std::uint16_t.
  */
-::std::uint32_t convertFloatToUInt32(float float32);
+std::uint16_t convertFloatToUInt16(float float32);
 
 /**
- * Converts 64-bit float (double) stored in ::std::uint64_t value to 64-bit float (double).
+ * Converts 32-bit float stored in std::uint32_t value to 32-bit float.
  *
- * \param float64Value Double precision float value stored in ::std::uint64_t to convert.
+ * \param float32Value Single precision float value stored in std::uint32_t to convert.
+ *
+ * \return Converted single precision float.
+ */
+float convertUInt32ToFloat(std::uint32_t float32Value);
+
+/**
+ * Converts 32-bit float to 32-bit float stored in std::uint32_t value.
+ *
+ * \param float32 Single precision float to convert.
+ *
+ * \return Converted single precision float value stored in std::uint32_t.
+ */
+std::uint32_t convertFloatToUInt32(float float32);
+
+/**
+ * Converts 64-bit float (double) stored in std::uint64_t value to 64-bit float (double).
+ *
+ * \param float64Value Double precision float value stored in std::uint64_t to convert.
  *
  * \return Converted double precision float.
  */
-double convertUInt64ToDouble(::std::uint64_t float64Value);
+double convertUInt64ToDouble(std::uint64_t float64Value);
 
 /**
- * Converts 64-bit float (double) to 64-bit float (double) stored in ::std::uint64_t value.
+ * Converts 64-bit float (double) to 64-bit float (double) stored in std::uint64_t value.
  *
  * \param float64 Double precision float to convert.
  *
- * \return Converted double precision float value stored in ::std::uint64_t.
+ * \return Converted double precision float value stored in std::uint64_t.
  */
-::std::uint64_t convertDoubleToUInt64(double float64);
+std::uint64_t convertDoubleToUInt64(double float64);
 
 } // namespace zserio
 

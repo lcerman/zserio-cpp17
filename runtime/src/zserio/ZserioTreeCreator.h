@@ -40,17 +40,14 @@ bool checkArithmeticValueRanges(U value)
     else if constexpr (std::is_signed_v<std::decay_t<U>> && std::is_signed_v<std::decay_t<T>>)
     {
         // value is signed and it is converted to signed value
-        return (static_cast<::std::int64_t>(value) >=
-                        static_cast<::std::int64_t>(std::numeric_limits<T>::min()) &&
-                static_cast<::std::int64_t>(value) <=
-                        static_cast<::std::int64_t>(std::numeric_limits<T>::max()));
+        return (static_cast<std::int64_t>(value) >= static_cast<std::int64_t>(std::numeric_limits<T>::min()) &&
+                static_cast<std::int64_t>(value) <= static_cast<std::int64_t>(std::numeric_limits<T>::max()));
     }
     else if constexpr (std::is_signed_v<std::decay_t<U>> && std::is_unsigned_v<std::decay_t<T>>)
     {
         // value is signed and it is converted to unsigned value
         return (value >= 0 &&
-                static_cast<::std::uint64_t>(value) <=
-                        static_cast<::std::uint64_t>(std::numeric_limits<T>::max()));
+                static_cast<std::uint64_t>(value) <= static_cast<std::uint64_t>(std::numeric_limits<T>::max()));
     }
 }
 
@@ -166,7 +163,7 @@ BasicAny<ALLOC> parseEnumStringValue(
             if (TypeInfoUtil::isSigned(typeInfo.getUnderlyingType().getCppType()))
             {
                 return makeAnyValue(
-                        typeInfo.getUnderlyingType(), static_cast<::std::int64_t>(itemInfo.value), allocator);
+                        typeInfo.getUnderlyingType(), static_cast<std::int64_t>(itemInfo.value), allocator);
             }
             else
             {
@@ -231,18 +228,18 @@ template <typename ALLOC>
 BasicAny<ALLOC> parseBitmaskStringValue(
         std::string_view stringValue, const IBasicTypeInfo<ALLOC>& typeInfo, const ALLOC& allocator)
 {
-    ::std::uint64_t value = 0;
-    ::std::size_t pos = 0;
+    std::uint64_t value = 0;
+    std::size_t pos = 0;
     while (pos < stringValue.size())
     {
         bool match = false;
-        const ::std::size_t available = stringValue.size() - pos;
+        const std::size_t available = stringValue.size() - pos;
         for (const auto& itemInfo : typeInfo.getBitmaskValues())
         {
             if (available >= itemInfo.schemaName.size() &&
                     stringValue.substr(pos, itemInfo.schemaName.size()) == itemInfo.schemaName)
             {
-                const ::std::size_t newPos = pos + itemInfo.schemaName.size();
+                const std::size_t newPos = pos + itemInfo.schemaName.size();
                 // check that the identifier really ends here
                 if (newPos == stringValue.size() || stringValue[newPos] == ' ' || stringValue[newPos] == '|')
                 {
@@ -289,7 +286,7 @@ BasicAny<ALLOC> parseBitmaskNumericStringValue(
 {
     char* pEnd = nullptr;
     errno = 0;
-    ::std::uint64_t value = std::strtoull(stringValue, &pEnd, 10);
+    std::uint64_t value = std::strtoull(stringValue, &pEnd, 10);
     if (errno == ERANGE)
     {
         return BasicAny<ALLOC>(allocator);
@@ -365,21 +362,21 @@ BasicAny<ALLOC> makeAnyValue(const IBasicTypeInfo<ALLOC>& typeInfo, T&& value, c
     case CppType::BOOL:
         return makeAnyBoolValue<bool>(std::forward<T>(value), allocator);
     case CppType::UINT8:
-        return makeAnyIntegralValue<::std::uint8_t>(std::forward<T>(value), allocator);
+        return makeAnyIntegralValue<std::uint8_t>(std::forward<T>(value), allocator);
     case CppType::UINT16:
-        return makeAnyIntegralValue<::std::uint16_t>(std::forward<T>(value), allocator);
+        return makeAnyIntegralValue<std::uint16_t>(std::forward<T>(value), allocator);
     case CppType::UINT32:
-        return makeAnyIntegralValue<::std::uint32_t>(std::forward<T>(value), allocator);
+        return makeAnyIntegralValue<std::uint32_t>(std::forward<T>(value), allocator);
     case CppType::UINT64:
-        return makeAnyIntegralValue<::std::uint64_t>(std::forward<T>(value), allocator);
+        return makeAnyIntegralValue<std::uint64_t>(std::forward<T>(value), allocator);
     case CppType::INT8:
-        return makeAnyIntegralValue<::std::int8_t>(std::forward<T>(value), allocator);
+        return makeAnyIntegralValue<std::int8_t>(std::forward<T>(value), allocator);
     case CppType::INT16:
-        return makeAnyIntegralValue<::std::int16_t>(std::forward<T>(value), allocator);
+        return makeAnyIntegralValue<std::int16_t>(std::forward<T>(value), allocator);
     case CppType::INT32:
-        return makeAnyIntegralValue<::std::int32_t>(std::forward<T>(value), allocator);
+        return makeAnyIntegralValue<std::int32_t>(std::forward<T>(value), allocator);
     case CppType::INT64:
-        return makeAnyIntegralValue<::std::int64_t>(std::forward<T>(value), allocator);
+        return makeAnyIntegralValue<std::int64_t>(std::forward<T>(value), allocator);
     case CppType::FLOAT:
         return makeAnyFloatingValue<float>(std::forward<T>(value), allocator);
     case CppType::DOUBLE:
@@ -402,7 +399,7 @@ BasicAny<ALLOC> makeAnyValue(const IBasicTypeInfo<ALLOC>&, BasicAny<ALLOC>&& any
     return std::move(anyValue);
 }
 
-enum class CreatorState : ::std::uint8_t
+enum class CreatorState : std::uint8_t
 {
     BEFORE_ROOT,
     IN_COMPOUND,
@@ -566,8 +563,8 @@ private:
     detail::CreatorState m_state = detail::CreatorState::BEFORE_ROOT;
 };
 
-/** Typedef provided for convenience - using default std::allocator<::std::uint8_t>. */
-using ZserioTreeCreator = BasicZserioTreeCreator<std::allocator<::std::uint8_t>>;
+/** Typedef provided for convenience - using default std::allocator<std::uint8_t>. */
+using ZserioTreeCreator = BasicZserioTreeCreator<std::allocator<std::uint8_t>>;
 
 template <typename ALLOC>
 BasicZserioTreeCreator<ALLOC>::BasicZserioTreeCreator(

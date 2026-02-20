@@ -9,7 +9,7 @@
 namespace zserio
 {
 
-void writeBufferToFile(const ::std::uint8_t* buffer, ::std::size_t bitSize, BitsTag, std::string_view fileName)
+void writeBufferToFile(const std::uint8_t* buffer, std::size_t bitSize, BitsTag, std::string_view fileName)
 {
     std::ofstream stream(fileName.data(), std::ofstream::binary | std::ofstream::trunc);
     if (!stream)
@@ -17,7 +17,7 @@ void writeBufferToFile(const ::std::uint8_t* buffer, ::std::size_t bitSize, Bits
         throw CppRuntimeException("writeBufferToFile: Failed to open '") << fileName << "' for writing!";
     }
 
-    const ::std::size_t byteSize = (bitSize + 7) / 8;
+    const std::size_t byteSize = (bitSize + 7) / 8;
     if (!stream.write(reinterpret_cast<const char*>(buffer), static_cast<std::streamsize>(byteSize)))
     {
         throw CppRuntimeException("writeBufferToFile: Failed to write '") << fileName << "'!";
@@ -41,13 +41,13 @@ BitBuffer readBufferFromFile(std::string_view fileName)
         throw CppRuntimeException("readBufferFromFile: Failed to get file size of '") << fileName << "'!";
     }
 
-    const ::std::size_t sizeLimit = std::numeric_limits<::std::size_t>::max() / 8;
-    if (static_cast<::std::uint64_t>(fileSize) > sizeLimit)
+    const std::size_t sizeLimit = std::numeric_limits<std::size_t>::max() / 8;
+    if (static_cast<std::uint64_t>(fileSize) > sizeLimit)
     {
         throw CppRuntimeException("readBufferFromFile: File size exceeds limit '") << sizeLimit << "'!";
     }
 
-    BitBuffer bitBuffer(static_cast<::std::size_t>(fileSize) * 8);
+    BitBuffer bitBuffer(static_cast<std::size_t>(fileSize) * 8);
     if (!stream.read(reinterpret_cast<char*>(bitBuffer.getBuffer()),
                 static_cast<std::streamsize>(bitBuffer.getByteSize())))
     {

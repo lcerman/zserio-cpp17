@@ -64,7 +64,7 @@ public:
 template <typename T>
 void JsonEncoder::encodeIntegral(std::ostream& stream, T value)
 {
-    using U = typename std::conditional<std::is_signed<T>::value, ::std::int64_t, ::std::uint64_t>::type;
+    using U = typename std::conditional<std::is_signed<T>::value, std::int64_t, std::uint64_t>::type;
     stream << static_cast<U>(value);
 }
 

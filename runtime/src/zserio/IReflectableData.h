@@ -17,7 +17,7 @@ namespace zserio
  * This interface allows modification of all information available in the Data abstraction of the Zserio
  * objects.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 class IBasicReflectableData : public IIntrospectableData<IBasicReflectableData<ALLOC>, ALLOC>
 {
 public:
@@ -90,7 +90,7 @@ public:
      *
      * \throws CppRuntimeException When the reflected object is not an array.
      */
-    virtual void resize(::std::size_t size) = 0;
+    virtual void resize(std::size_t size) = 0;
 
     /**
      * Gets reflectable to an array element.
@@ -102,14 +102,14 @@ public:
      * \throw CppRuntimeException When the reflected object is not an array or when the given index is
      *                            out of bounds of the underlying array.
      */
-    virtual Ptr at(::std::size_t index) = 0;
+    virtual Ptr at(std::size_t index) = 0;
 
     /**
      * \copydoc IBasicReflectableData::at
      *
      * Overloaded method provided for convenience.
      */
-    virtual Ptr operator[](::std::size_t index) = 0;
+    virtual Ptr operator[](std::size_t index) = 0;
 
     /**
      * Sets an element value at the given index within the reflected array.
@@ -119,7 +119,7 @@ public:
      *
      * \throws CppRuntimeException When the reflected object is not an array.
      */
-    virtual void setAt(const BasicAny<ALLOC>& value, ::std::size_t index) = 0;
+    virtual void setAt(const BasicAny<ALLOC>& value, std::size_t index) = 0;
 
     /**
      * Appends an element at the given index within the reflected array.
@@ -180,14 +180,14 @@ public:
 
 /** Typedef to reflectable smart pointer needed for convenience in generated code. */
 /** \{ */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 using IBasicReflectableDataPtr = typename IBasicReflectableData<ALLOC>::Ptr;
 
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 using IBasicReflectableDataConstPtr = typename IBasicReflectableData<ALLOC>::ConstPtr;
 /** \} */
 
-/** Typedef to reflectable interface provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedef to reflectable interface provided for convenience - using default std::allocator<std::uint8_t>. */
 /** \{ */
 using IReflectableData = IBasicReflectableData<>;
 using IReflectableDataPtr = IBasicReflectableDataPtr<>;
@@ -225,7 +225,7 @@ IBasicReflectableDataPtr<ALLOC> reflectable(T& value, const ALLOC& allocator = A
     return detail::Reflectable<T, ALLOC>::create(value, allocator);
 }
 
-template <typename T, typename ALLOC = std::allocator<::std::uint8_t>,
+template <typename T, typename ALLOC = std::allocator<std::uint8_t>,
         std::enable_if_t<(std::is_enum_v<T> || is_bitmask_v<T>) && !has_allocator_v<std::decay_t<T>>, int> = 0>
 IBasicReflectableDataPtr<ALLOC> reflectable(T value, const ALLOC& allocator = ALLOC())
 {

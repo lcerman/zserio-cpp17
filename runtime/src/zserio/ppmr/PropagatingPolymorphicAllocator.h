@@ -79,7 +79,7 @@ public:
      *
      * \param size Number of values to allocate memory for.
      */
-    value_type* allocate(::std::size_t size)
+    value_type* allocate(std::size_t size)
     {
         return static_cast<value_type*>(m_resource->allocate(size * sizeof(value_type), alignof(value_type)));
     }
@@ -91,7 +91,7 @@ public:
      * \param size Number of values held by the memory pointed to by memory.
      *         Shall be the same size as was used for allocation of memory.
      */
-    void deallocate(value_type* memory, ::std::size_t size) noexcept
+    void deallocate(value_type* memory, std::size_t size) noexcept
     {
         m_resource->deallocate(memory, size * sizeof(value_type), alignof(value_type));
     }

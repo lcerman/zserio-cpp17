@@ -7,7 +7,7 @@
 namespace zserio
 {
 
-static void checkBitFieldLength(::std::size_t length)
+static void checkBitFieldLength(std::size_t length)
 {
     if (length == 0 || length > 64)
     {
@@ -15,13 +15,13 @@ static void checkBitFieldLength(::std::size_t length)
     }
 }
 
-::std::int64_t getBitFieldLowerBound(::std::size_t length, bool isSigned)
+std::int64_t getBitFieldLowerBound(std::size_t length, bool isSigned)
 {
     checkBitFieldLength(length);
 
     if (isSigned)
     {
-        return -static_cast<::std::int64_t>((UINT64_C(1) << (length - 1)) - 1) - 1;
+        return -static_cast<std::int64_t>((UINT64_C(1) << (length - 1)) - 1) - 1;
     }
     else
     {
@@ -29,7 +29,7 @@ static void checkBitFieldLength(::std::size_t length)
     }
 }
 
-::std::uint64_t getBitFieldUpperBound(::std::size_t length, bool isSigned)
+std::uint64_t getBitFieldUpperBound(std::size_t length, bool isSigned)
 {
     checkBitFieldLength(length);
 

@@ -11,8 +11,8 @@ namespace zserio
 namespace ppmr
 {
 
-/** Typedef to Any provided for convenience - using PropagatingPolymorphicAllocator<::std::uint8_t>. */
-using Any = BasicAny<PropagatingPolymorphicAllocator<::std::uint8_t>>;
+/** Typedef to Any provided for convenience - using PropagatingPolymorphicAllocator<std::uint8_t>. */
+using Any = BasicAny<PropagatingPolymorphicAllocator<std::uint8_t>>;
 
 } // namespace ppmr
 } // namespace zserio

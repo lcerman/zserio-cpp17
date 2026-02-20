@@ -18,12 +18,12 @@ namespace pmr
 
 /**
  * Typedef to reflectable interface provided for convenience - using
- * std::pmr::polymorphic_allocator<::std::uint8_t>.
+ * std::pmr::polymorphic_allocator<std::uint8_t>.
  */
 /** \{ */
-using IIntrospectableView = IBasicIntrospectableView<std::pmr::polymorphic_allocator<::std::uint8_t>>;
+using IIntrospectableView = IBasicIntrospectableView<std::pmr::polymorphic_allocator<std::uint8_t>>;
 using IIntrospectableViewConstPtr =
-        IBasicIntrospectableViewConstPtr<std::pmr::polymorphic_allocator<::std::uint8_t>>;
+        IBasicIntrospectableViewConstPtr<std::pmr::polymorphic_allocator<std::uint8_t>>;
 /** \} */
 
 } // namespace pmr

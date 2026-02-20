@@ -11,10 +11,10 @@ namespace zserio
 namespace pmr
 {
 
-/** Typedef to BitBuffer provided for convenience - using std::pmr::polymorphic_allocator<::std::uint8_t>. */
-using BitBuffer = BasicBitBuffer<std::pmr::polymorphic_allocator<::std::uint8_t>>;
+/** Typedef to BitBuffer provided for convenience - using std::pmr::polymorphic_allocator<std::uint8_t>. */
+using BitBuffer = BasicBitBuffer<std::pmr::polymorphic_allocator<std::uint8_t>>;
 
-/** Typedef to BitBufferView provided for convenience - using std::pmr::polymorphic_allocator<::std::uint8_t>.
+/** Typedef to BitBufferView provided for convenience - using std::pmr::polymorphic_allocator<std::uint8_t>.
  */
 using BitBufferView = std::reference_wrapper<const BitBuffer>;
 

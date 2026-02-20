@@ -202,49 +202,49 @@ struct fixed_int_value_type;
 template <BitSize BIT_SIZE>
 struct fixed_int_value_type<BIT_SIZE, true, std::enable_if_t<(BIT_SIZE > 0 && BIT_SIZE <= 8)>>
 {
-    using type = ::std::int8_t;
+    using type = std::int8_t;
 };
 
 template <BitSize BIT_SIZE>
 struct fixed_int_value_type<BIT_SIZE, true, std::enable_if_t<(BIT_SIZE > 8 && BIT_SIZE <= 16)>>
 {
-    using type = ::std::int16_t;
+    using type = std::int16_t;
 };
 
 template <BitSize BIT_SIZE>
 struct fixed_int_value_type<BIT_SIZE, true, std::enable_if_t<(BIT_SIZE > 16 && BIT_SIZE <= 32)>>
 {
-    using type = ::std::int32_t;
+    using type = std::int32_t;
 };
 
 template <BitSize BIT_SIZE>
 struct fixed_int_value_type<BIT_SIZE, true, std::enable_if_t<(BIT_SIZE > 32 && BIT_SIZE <= 64)>>
 {
-    using type = ::std::int64_t;
+    using type = std::int64_t;
 };
 
 template <BitSize BIT_SIZE>
 struct fixed_int_value_type<BIT_SIZE, false, std::enable_if_t<(BIT_SIZE > 0 && BIT_SIZE <= 8)>>
 {
-    using type = ::std::uint8_t;
+    using type = std::uint8_t;
 };
 
 template <BitSize BIT_SIZE>
 struct fixed_int_value_type<BIT_SIZE, false, std::enable_if_t<(BIT_SIZE > 8 && BIT_SIZE <= 16)>>
 {
-    using type = ::std::uint16_t;
+    using type = std::uint16_t;
 };
 
 template <BitSize BIT_SIZE>
 struct fixed_int_value_type<BIT_SIZE, false, std::enable_if_t<(BIT_SIZE > 16 && BIT_SIZE <= 32)>>
 {
-    using type = ::std::uint32_t;
+    using type = std::uint32_t;
 };
 
 template <BitSize BIT_SIZE>
 struct fixed_int_value_type<BIT_SIZE, false, std::enable_if_t<(BIT_SIZE > 32 && BIT_SIZE <= 64)>>
 {
-    using type = ::std::uint64_t;
+    using type = std::uint64_t;
 };
 
 template <BitSize BIT_SIZE, bool IS_SIGNED>
@@ -268,7 +268,7 @@ public:
     using NumericTypeWrapper<VALUE_TYPE>::NumericTypeWrapper;
 };
 
-enum class VarIntType : ::std::uint8_t
+enum class VarIntType : std::uint8_t
 {
     VAR16,
     VAR32,
@@ -287,7 +287,7 @@ public:
     using NumericTypeWrapper<VALUE_TYPE>::NumericTypeWrapper;
 };
 
-enum class FloatType : ::std::uint8_t
+enum class FloatType : std::uint8_t
 {
     FLOAT16,
     FLOAT32,
@@ -507,7 +507,7 @@ struct NumericLimits<detail::VarIntWrapper<VALUE_TYPE, VAR_TYPE>>
     }
 
 private:
-    static constexpr ::std::uint64_t FIRST_BYTE_BITS = std::is_signed_v<VALUE_TYPE> ? 6 : 7;
+    static constexpr std::uint64_t FIRST_BYTE_BITS = std::is_signed_v<VALUE_TYPE> ? 6 : 7;
 };
 
 /**
@@ -556,7 +556,7 @@ private:
 
     static constexpr VALUE_TYPE minSignedValue(BitSize numBits)
     {
-        if constexpr (std::is_same_v<VALUE_TYPE, ::std::int64_t>)
+        if constexpr (std::is_same_v<VALUE_TYPE, std::int64_t>)
         {
             if (numBits == 64)
             {
@@ -564,12 +564,12 @@ private:
             }
         }
 
-        return static_cast<VALUE_TYPE>(-static_cast<::std::int64_t>(1ULL << (numBits - 1U)));
+        return static_cast<VALUE_TYPE>(-static_cast<std::int64_t>(1ULL << (numBits - 1U)));
     }
 
     static constexpr VALUE_TYPE maxSignedValue(BitSize numBits)
     {
-        if constexpr (std::is_same_v<VALUE_TYPE, ::std::int64_t>)
+        if constexpr (std::is_same_v<VALUE_TYPE, std::int64_t>)
         {
             if (numBits == 64)
             {
@@ -582,7 +582,7 @@ private:
 
     static constexpr VALUE_TYPE maxUnsignedValue(BitSize numBits)
     {
-        if constexpr (std::is_same_v<VALUE_TYPE, ::std::uint64_t>)
+        if constexpr (std::is_same_v<VALUE_TYPE, std::uint64_t>)
         {
             if (numBits == 64)
             {
@@ -862,33 +862,33 @@ using UInt62 = detail::FixedIntWrapper<62, false>;
 using UInt63 = detail::FixedIntWrapper<63, false>;
 using UInt64 = detail::FixedIntWrapper<64, false>;
 
-template <::std::size_t BIT_SIZE>
+template <std::size_t BIT_SIZE>
 using Int = detail::FixedIntWrapper<BIT_SIZE, true>;
 
-template <::std::size_t BIT_SIZE>
+template <std::size_t BIT_SIZE>
 using UInt = detail::FixedIntWrapper<BIT_SIZE, false>;
 
-using DynInt8 = detail::DynIntWrapper<::std::int8_t>;
-using DynInt16 = detail::DynIntWrapper<::std::int16_t>;
-using DynInt32 = detail::DynIntWrapper<::std::int32_t>;
-using DynInt64 = detail::DynIntWrapper<::std::int64_t>;
+using DynInt8 = detail::DynIntWrapper<std::int8_t>;
+using DynInt16 = detail::DynIntWrapper<std::int16_t>;
+using DynInt32 = detail::DynIntWrapper<std::int32_t>;
+using DynInt64 = detail::DynIntWrapper<std::int64_t>;
 
-using DynUInt8 = detail::DynIntWrapper<::std::uint8_t>;
-using DynUInt16 = detail::DynIntWrapper<::std::uint16_t>;
-using DynUInt32 = detail::DynIntWrapper<::std::uint32_t>;
-using DynUInt64 = detail::DynIntWrapper<::std::uint64_t>;
+using DynUInt8 = detail::DynIntWrapper<std::uint8_t>;
+using DynUInt16 = detail::DynIntWrapper<std::uint16_t>;
+using DynUInt32 = detail::DynIntWrapper<std::uint32_t>;
+using DynUInt64 = detail::DynIntWrapper<std::uint64_t>;
 
-using VarInt16 = detail::VarIntWrapper<::std::int16_t, detail::VarIntType::VAR16>;
-using VarInt32 = detail::VarIntWrapper<::std::int32_t, detail::VarIntType::VAR32>;
-using VarInt64 = detail::VarIntWrapper<::std::int64_t, detail::VarIntType::VAR64>;
-using VarInt = detail::VarIntWrapper<::std::int64_t, detail::VarIntType::VAR>;
+using VarInt16 = detail::VarIntWrapper<std::int16_t, detail::VarIntType::VAR16>;
+using VarInt32 = detail::VarIntWrapper<std::int32_t, detail::VarIntType::VAR32>;
+using VarInt64 = detail::VarIntWrapper<std::int64_t, detail::VarIntType::VAR64>;
+using VarInt = detail::VarIntWrapper<std::int64_t, detail::VarIntType::VAR>;
 
-using VarUInt16 = detail::VarIntWrapper<::std::uint16_t, detail::VarIntType::VAR16>;
-using VarUInt32 = detail::VarIntWrapper<::std::uint32_t, detail::VarIntType::VAR32>;
-using VarUInt64 = detail::VarIntWrapper<::std::uint64_t, detail::VarIntType::VAR64>;
-using VarUInt = detail::VarIntWrapper<::std::uint64_t, detail::VarIntType::VAR>;
+using VarUInt16 = detail::VarIntWrapper<std::uint16_t, detail::VarIntType::VAR16>;
+using VarUInt32 = detail::VarIntWrapper<std::uint32_t, detail::VarIntType::VAR32>;
+using VarUInt64 = detail::VarIntWrapper<std::uint64_t, detail::VarIntType::VAR64>;
+using VarUInt = detail::VarIntWrapper<std::uint64_t, detail::VarIntType::VAR>;
 
-using VarSize = detail::VarIntWrapper<::std::uint32_t, detail::VarIntType::VARSIZE>;
+using VarSize = detail::VarIntWrapper<std::uint32_t, detail::VarIntType::VARSIZE>;
 
 using Float16 = detail::FloatWrapper<float, detail::FloatType::FLOAT16>;
 using Float32 = detail::FloatWrapper<float, detail::FloatType::FLOAT32>;

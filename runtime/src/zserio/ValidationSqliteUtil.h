@@ -46,7 +46,7 @@ struct ValidationSqliteUtil
      *
      * \throw SqliteException if the table does not exist.
      */
-    static ::std::size_t getNumberOfTableRows(SqliteConnection& connection, std::string_view attachedDbName,
+    static std::size_t getNumberOfTableRows(SqliteConnection& connection, std::string_view attachedDbName,
             std::string_view tableName, const ALLOC& allocator)
     {
         StringType sqlQuery(allocator);
@@ -66,7 +66,7 @@ struct ValidationSqliteUtil
                     << SqliteErrorCode(result);
         }
 
-        return static_cast<::std::size_t>(sqlite3_column_int64(statement.get(), 0));
+        return static_cast<std::size_t>(sqlite3_column_int64(statement.get(), 0));
     }
 
     /**

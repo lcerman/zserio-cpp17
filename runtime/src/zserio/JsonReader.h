@@ -71,13 +71,13 @@ public:
     void visitKey(std::string_view key) override;
     void visitValue(std::nullptr_t) override;
     void visitValue(bool boolValue) override;
-    void visitValue(::std::int64_t intValue) override;
-    void visitValue(::std::uint64_t uintValue) override;
+    void visitValue(std::int64_t intValue) override;
+    void visitValue(std::uint64_t uintValue) override;
     void visitValue(double doubleValue) override;
     void visitValue(std::string_view stringValue) override;
 
 private:
-    enum State : ::std::uint8_t
+    enum State : std::uint8_t
     {
         VISIT_KEY,
         BEGIN_ARRAY_BUFFER,
@@ -86,8 +86,8 @@ private:
     };
 
     State m_state;
-    Optional<Vector<::std::uint8_t, ALLOC>> m_buffer;
-    Optional<::std::size_t> m_bitSize;
+    Optional<Vector<std::uint8_t, ALLOC>> m_buffer;
+    Optional<std::size_t> m_bitSize;
 };
 
 template <typename ALLOC>
@@ -130,13 +130,13 @@ public:
     void visitKey(std::string_view key) override;
     void visitValue(std::nullptr_t) override;
     void visitValue(bool boolValue) override;
-    void visitValue(::std::int64_t intValue) override;
-    void visitValue(::std::uint64_t uintValue) override;
+    void visitValue(std::int64_t intValue) override;
+    void visitValue(std::uint64_t uintValue) override;
     void visitValue(double doubleValue) override;
     void visitValue(std::string_view stringValue) override;
 
 private:
-    enum State : ::std::uint8_t
+    enum State : std::uint8_t
     {
         VISIT_KEY,
         BEGIN_ARRAY_BUFFER,
@@ -144,7 +144,7 @@ private:
     };
 
     State m_state;
-    Optional<Vector<::std::uint8_t, ALLOC>> m_buffer;
+    Optional<Vector<std::uint8_t, ALLOC>> m_buffer;
 };
 
 template <typename ALLOC>
@@ -167,8 +167,8 @@ public:
     void visitKey(std::string_view key) override;
     void visitValue(std::nullptr_t) override;
     void visitValue(bool boolValue) override;
-    void visitValue(::std::int64_t intValue) override;
-    void visitValue(::std::uint64_t uintValue) override;
+    void visitValue(std::int64_t intValue) override;
+    void visitValue(std::uint64_t uintValue) override;
     void visitValue(double doubleValue) override;
     void visitValue(std::string_view stringValue) override;
 
@@ -193,7 +193,7 @@ using namespace std::literals::string_view_literals;
 /**
  * Reads zserio object tree defined by a type info from a text stream.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 class BasicJsonReader
 {
 public:
@@ -242,7 +242,7 @@ private:
     BasicJsonParser<ALLOC> m_parser;
 };
 
-/** Typedef to Json Reader provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedef to Json Reader provided for convenience - using default std::allocator<std::uint8_t>. */
 using JsonReader = BasicJsonReader<>;
 
 namespace detail
@@ -277,7 +277,7 @@ void BitBufferAdapter<ALLOC>::beginArray()
     if (m_state == BEGIN_ARRAY_BUFFER)
     {
         m_state = VISIT_VALUE_BUFFER;
-        m_buffer = Vector<::std::uint8_t, ALLOC>(get_allocator());
+        m_buffer = Vector<std::uint8_t, ALLOC>(get_allocator());
     }
     else
     {
@@ -335,23 +335,23 @@ void BitBufferAdapter<ALLOC>::visitValue(bool)
 }
 
 template <typename ALLOC>
-void BitBufferAdapter<ALLOC>::visitValue(::std::int64_t)
+void BitBufferAdapter<ALLOC>::visitValue(std::int64_t)
 {
     throw CppRuntimeException("JsonReader: Unexpected visitValue (int) in BitBuffer!");
 }
 
 template <typename ALLOC>
-void BitBufferAdapter<ALLOC>::visitValue(::std::uint64_t uintValue)
+void BitBufferAdapter<ALLOC>::visitValue(std::uint64_t uintValue)
 {
     if (m_state == VISIT_VALUE_BUFFER)
     {
-        if (uintValue > static_cast<::std::uint64_t>(std::numeric_limits<::std::uint8_t>::max()))
+        if (uintValue > static_cast<std::uint64_t>(std::numeric_limits<std::uint8_t>::max()))
         {
             throw CppRuntimeException("JsonReader: Cannot create byte for Bit Buffer from value '")
                     << uintValue << "'!";
         }
 
-        m_buffer->push_back(static_cast<::std::uint8_t>(uintValue));
+        m_buffer->push_back(static_cast<std::uint8_t>(uintValue));
     }
     else if (m_state == VISIT_VALUE_BITSIZE)
     {
@@ -405,7 +405,7 @@ void BytesAdapter<ALLOC>::beginArray()
     if (m_state == BEGIN_ARRAY_BUFFER)
     {
         m_state = VISIT_VALUE_BUFFER;
-        m_buffer = Vector<::std::uint8_t, ALLOC>(get_allocator());
+        m_buffer = Vector<std::uint8_t, ALLOC>(get_allocator());
     }
     else
     {
@@ -459,23 +459,23 @@ void BytesAdapter<ALLOC>::visitValue(bool)
 }
 
 template <typename ALLOC>
-void BytesAdapter<ALLOC>::visitValue(::std::int64_t)
+void BytesAdapter<ALLOC>::visitValue(std::int64_t)
 {
     throw CppRuntimeException("JsonReader: Unexpected visitValue (int) in bytes!");
 }
 
 template <typename ALLOC>
-void BytesAdapter<ALLOC>::visitValue(::std::uint64_t uintValue)
+void BytesAdapter<ALLOC>::visitValue(std::uint64_t uintValue)
 {
     if (m_state == VISIT_VALUE_BUFFER)
     {
-        if (uintValue > static_cast<::std::uint64_t>(std::numeric_limits<::std::uint8_t>::max()))
+        if (uintValue > static_cast<std::uint64_t>(std::numeric_limits<std::uint8_t>::max()))
         {
             throw CppRuntimeException("JsonReader: Cannot create byte for bytes from value '")
                     << uintValue << "'!";
         }
 
-        m_buffer->push_back(static_cast<::std::uint8_t>(uintValue));
+        m_buffer->push_back(static_cast<std::uint8_t>(uintValue));
     }
     else
     {
@@ -704,7 +704,7 @@ void CreatorAdapter<ALLOC>::visitValue(bool boolValue)
 }
 
 template <typename ALLOC>
-void CreatorAdapter<ALLOC>::visitValue(::std::int64_t intValue)
+void CreatorAdapter<ALLOC>::visitValue(std::int64_t intValue)
 {
     if (m_objectValueAdapter)
     {
@@ -722,7 +722,7 @@ void CreatorAdapter<ALLOC>::visitValue(::std::int64_t intValue)
 }
 
 template <typename ALLOC>
-void CreatorAdapter<ALLOC>::visitValue(::std::uint64_t uintValue)
+void CreatorAdapter<ALLOC>::visitValue(std::uint64_t uintValue)
 {
     if (m_objectValueAdapter)
     {

@@ -23,14 +23,14 @@ public:
      *
      * \param numberOfTables Number of tables in the database.
      */
-    virtual void beginDatabase(::std::size_t numberOfTables) = 0;
+    virtual void beginDatabase(std::size_t numberOfTables) = 0;
 
     /**
      * Called after the database is validated.
      *
      * \param numberOfValidatedTables Number of tables which were validated.
      */
-    virtual void endDatabase(::std::size_t numberOfValidatedTables) = 0;
+    virtual void endDatabase(std::size_t numberOfValidatedTables) = 0;
 
     /**
      * Called just before the table with tableName is validated.
@@ -40,7 +40,7 @@ public:
      *
      * \return True to validate the table, false to skip the table.
      */
-    virtual bool beginTable(std::string_view tableName, ::std::size_t numberOfRows) = 0;
+    virtual bool beginTable(std::string_view tableName, std::size_t numberOfRows) = 0;
 
     /**
      * Called after the table with tableName validation is finished.
@@ -50,7 +50,7 @@ public:
      *
      * \return True to continue validation, false to stop the whole validation.
      */
-    virtual bool endTable(std::string_view tableName, ::std::size_t numberOfValidatedRows) = 0;
+    virtual bool endTable(std::string_view tableName, std::size_t numberOfValidatedRows) = 0;
 
     /**
      * Defines types of validation errors.

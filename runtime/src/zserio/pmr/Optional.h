@@ -15,7 +15,7 @@ namespace pmr
  * Typedef to Optional provided for convenience - using std::pmr::polymorphic_allocator.
  */
 template <typename T>
-using Optional = zserio::BasicOptional<std::pmr::polymorphic_allocator<::std::uint8_t>, T>;
+using Optional = zserio::BasicOptional<std::pmr::polymorphic_allocator<std::uint8_t>, T>;
 
 } // namespace pmr
 } // namespace zserio

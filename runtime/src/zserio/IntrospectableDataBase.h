@@ -56,23 +56,23 @@ public:
     ConstPtr getField(std::string_view name) const override;
     std::string_view getChoice() const override;
 
-    ::std::size_t size() const override;
-    ConstPtr at(::std::size_t index) const override;
-    ConstPtr operator[](::std::size_t index) const override;
+    std::size_t size() const override;
+    ConstPtr at(std::size_t index) const override;
+    ConstPtr operator[](std::size_t index) const override;
 
     BasicAny<ALLOC> getAnyValue(const ALLOC& allocator) const override;
     BasicAny<ALLOC> getAnyValue() const override;
 
     // exact checked getters
     bool getBool() const override;
-    ::std::int8_t getInt8() const override;
-    ::std::int16_t getInt16() const override;
-    ::std::int32_t getInt32() const override;
-    ::std::int64_t getInt64() const override;
-    ::std::uint8_t getUInt8() const override;
-    ::std::uint16_t getUInt16() const override;
-    ::std::uint32_t getUInt32() const override;
-    ::std::uint64_t getUInt64() const override;
+    std::int8_t getInt8() const override;
+    std::int16_t getInt16() const override;
+    std::int32_t getInt32() const override;
+    std::int64_t getInt64() const override;
+    std::uint8_t getUInt8() const override;
+    std::uint16_t getUInt16() const override;
+    std::uint32_t getUInt32() const override;
+    std::uint64_t getUInt64() const override;
     float getFloat() const override;
     double getDouble() const override;
     BytesView getBytes() const override;
@@ -80,8 +80,8 @@ public:
     const BasicBitBuffer<ALLOC>& getBitBuffer() const override;
 
     // convenience conversions
-    ::std::int64_t toInt() const override;
-    ::std::uint64_t toUInt() const override;
+    std::int64_t toInt() const override;
+    std::uint64_t toUInt() const override;
     double toDouble() const override;
     BasicString<RebindAlloc<ALLOC, char>> toString(const ALLOC& allocator) const override;
     BasicString<RebindAlloc<ALLOC, char>> toString() const override;
@@ -126,20 +126,20 @@ std::string_view IntrospectableDataBase<I, ALLOC>::getChoice() const
 }
 
 template <typename I, typename ALLOC>
-::std::size_t IntrospectableDataBase<I, ALLOC>::size() const
+std::size_t IntrospectableDataBase<I, ALLOC>::size() const
 {
     throw CppRuntimeException("Type '") << m_typeInfo.getSchemaName() << "' is not an array!";
 }
 
 template <typename I, typename ALLOC>
-typename IntrospectableDataBase<I, ALLOC>::ConstPtr IntrospectableDataBase<I, ALLOC>::at(::std::size_t) const
+typename IntrospectableDataBase<I, ALLOC>::ConstPtr IntrospectableDataBase<I, ALLOC>::at(std::size_t) const
 {
     throw CppRuntimeException("Type '") << m_typeInfo.getSchemaName() << "' is not an array!";
 }
 
 template <typename I, typename ALLOC>
 typename IntrospectableDataBase<I, ALLOC>::ConstPtr IntrospectableDataBase<I, ALLOC>::operator[](
-        ::std::size_t) const
+        std::size_t) const
 {
     throw CppRuntimeException("Type '") << m_typeInfo.getSchemaName() << "' is not an array!";
 }
@@ -163,49 +163,49 @@ bool IntrospectableDataBase<I, ALLOC>::getBool() const
 }
 
 template <typename I, typename ALLOC>
-::std::int8_t IntrospectableDataBase<I, ALLOC>::getInt8() const
+std::int8_t IntrospectableDataBase<I, ALLOC>::getInt8() const
 {
     throw CppRuntimeException("'") << m_typeInfo.getSchemaName() << "' is not int8 type!";
 }
 
 template <typename I, typename ALLOC>
-::std::int16_t IntrospectableDataBase<I, ALLOC>::getInt16() const
+std::int16_t IntrospectableDataBase<I, ALLOC>::getInt16() const
 {
     throw CppRuntimeException("'") << m_typeInfo.getSchemaName() << "' is not int16 type!";
 }
 
 template <typename I, typename ALLOC>
-::std::int32_t IntrospectableDataBase<I, ALLOC>::getInt32() const
+std::int32_t IntrospectableDataBase<I, ALLOC>::getInt32() const
 {
     throw CppRuntimeException("'") << m_typeInfo.getSchemaName() << "' is not int32 type!";
 }
 
 template <typename I, typename ALLOC>
-::std::int64_t IntrospectableDataBase<I, ALLOC>::getInt64() const
+std::int64_t IntrospectableDataBase<I, ALLOC>::getInt64() const
 {
     throw CppRuntimeException("'") << m_typeInfo.getSchemaName() << "' is not int64 type!";
 }
 
 template <typename I, typename ALLOC>
-::std::uint8_t IntrospectableDataBase<I, ALLOC>::getUInt8() const
+std::uint8_t IntrospectableDataBase<I, ALLOC>::getUInt8() const
 {
     throw CppRuntimeException("'") << m_typeInfo.getSchemaName() << "' is not uint8 type!";
 }
 
 template <typename I, typename ALLOC>
-::std::uint16_t IntrospectableDataBase<I, ALLOC>::getUInt16() const
+std::uint16_t IntrospectableDataBase<I, ALLOC>::getUInt16() const
 {
     throw CppRuntimeException("'") << m_typeInfo.getSchemaName() << "' is not uint16 type!";
 }
 
 template <typename I, typename ALLOC>
-::std::uint32_t IntrospectableDataBase<I, ALLOC>::getUInt32() const
+std::uint32_t IntrospectableDataBase<I, ALLOC>::getUInt32() const
 {
     throw CppRuntimeException("'") << m_typeInfo.getSchemaName() << "' is not uint32 type!";
 }
 
 template <typename I, typename ALLOC>
-::std::uint64_t IntrospectableDataBase<I, ALLOC>::getUInt64() const
+std::uint64_t IntrospectableDataBase<I, ALLOC>::getUInt64() const
 {
     throw CppRuntimeException("'") << m_typeInfo.getSchemaName() << "' is not uint64 type!";
 }
@@ -241,14 +241,14 @@ const BasicBitBuffer<ALLOC>& IntrospectableDataBase<I, ALLOC>::getBitBuffer() co
 }
 
 template <typename I, typename ALLOC>
-::std::int64_t IntrospectableDataBase<I, ALLOC>::toInt() const
+std::int64_t IntrospectableDataBase<I, ALLOC>::toInt() const
 {
     throw CppRuntimeException("Conversion from '")
             << m_typeInfo.getSchemaName() << "' to signed integer is not available!";
 }
 
 template <typename I, typename ALLOC>
-::std::uint64_t IntrospectableDataBase<I, ALLOC>::toUInt() const
+std::uint64_t IntrospectableDataBase<I, ALLOC>::toUInt() const
 {
     throw CppRuntimeException("Conversion from '")
             << m_typeInfo.getSchemaName() << "' to unsigned integer is not available!";

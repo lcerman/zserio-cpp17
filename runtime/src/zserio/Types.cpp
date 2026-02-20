@@ -10,19 +10,19 @@ namespace zserio
 namespace detail
 {
 
-static const std::array<::std::uint64_t, 2> VARINT16_MAX_VALUES = {
+static const std::array<std::uint64_t, 2> VARINT16_MAX_VALUES = {
         (UINT64_C(1) << (6U)) - 1,
         (UINT64_C(1) << (6U + 8U)) - 1,
 };
 
-static const std::array<::std::uint64_t, 4> VARINT32_MAX_VALUES = {
+static const std::array<std::uint64_t, 4> VARINT32_MAX_VALUES = {
         (UINT64_C(1) << (6U)) - 1,
         (UINT64_C(1) << (6U + 7U)) - 1,
         (UINT64_C(1) << (6U + 7U + 7U)) - 1,
         (UINT64_C(1) << (6U + 7U + 7U + 8U)) - 1,
 };
 
-static const std::array<::std::uint64_t, 8> VARINT64_MAX_VALUES = {
+static const std::array<std::uint64_t, 8> VARINT64_MAX_VALUES = {
         (UINT64_C(1) << (6U)) - 1,
         (UINT64_C(1) << (6U + 7U)) - 1,
         (UINT64_C(1) << (6U + 7U + 7U)) - 1,
@@ -33,19 +33,19 @@ static const std::array<::std::uint64_t, 8> VARINT64_MAX_VALUES = {
         (UINT64_C(1) << (6U + 7U + 7U + 7U + 7U + 7U + 7U + 8U)) - 1,
 };
 
-static const std::array<::std::uint64_t, 2> VARUINT16_MAX_VALUES = {
+static const std::array<std::uint64_t, 2> VARUINT16_MAX_VALUES = {
         (UINT64_C(1) << (7U)) - 1,
         (UINT64_C(1) << (7U + 8U)) - 1,
 };
 
-static const std::array<::std::uint64_t, 4> VARUINT32_MAX_VALUES = {
+static const std::array<std::uint64_t, 4> VARUINT32_MAX_VALUES = {
         (UINT64_C(1) << (7U)) - 1,
         (UINT64_C(1) << (7U + 7U)) - 1,
         (UINT64_C(1) << (7U + 7U + 7U)) - 1,
         (UINT64_C(1) << (7U + 7U + 7U + 8U)) - 1,
 };
 
-static const std::array<::std::uint64_t, 8> VARUINT64_MAX_VALUES = {
+static const std::array<std::uint64_t, 8> VARUINT64_MAX_VALUES = {
         (UINT64_C(1) << (7U)) - 1,
         (UINT64_C(1) << (7U + 7U)) - 1,
         (UINT64_C(1) << (7U + 7U + 7U)) - 1,
@@ -56,7 +56,7 @@ static const std::array<::std::uint64_t, 8> VARUINT64_MAX_VALUES = {
         (UINT64_C(1) << (7U + 7U + 7U + 7U + 7U + 7U + 7U + 8)) - 1,
 };
 
-static const std::array<::std::uint64_t, 9> VARINT_MAX_VALUES = {
+static const std::array<std::uint64_t, 9> VARINT_MAX_VALUES = {
         (UINT64_C(1) << (6U)) - 1,
         (UINT64_C(1) << (6U + 7U)) - 1,
         (UINT64_C(1) << (6U + 7U + 7U)) - 1,
@@ -68,7 +68,7 @@ static const std::array<::std::uint64_t, 9> VARINT_MAX_VALUES = {
         (UINT64_C(1) << (6U + 7U + 7U + 7U + 7U + 7U + 7U + 7U + 8)) - 1,
 };
 
-static const std::array<::std::uint64_t, 9> VARUINT_MAX_VALUES = {
+static const std::array<std::uint64_t, 9> VARUINT_MAX_VALUES = {
         (UINT64_C(1) << (7U)) - 1,
         (UINT64_C(1) << (7U + 7U)) - 1,
         (UINT64_C(1) << (7U + 7U + 7U)) - 1,
@@ -80,7 +80,7 @@ static const std::array<::std::uint64_t, 9> VARUINT_MAX_VALUES = {
         UINT64_MAX,
 };
 
-static const std::array<::std::uint64_t, 5> VARSIZE_MAX_VALUES = {
+static const std::array<std::uint64_t, 5> VARSIZE_MAX_VALUES = {
         (UINT64_C(1) << (7U)) - 1,
         (UINT64_C(1) << (7U + 7U)) - 1,
         (UINT64_C(1) << (7U + 7U + 7U)) - 1,
@@ -88,12 +88,12 @@ static const std::array<::std::uint64_t, 5> VARSIZE_MAX_VALUES = {
         (UINT64_C(1) << (2U + 7U + 7U + 7U + 8U)) - 1,
 };
 
-template <::std::size_t SIZE>
+template <std::size_t SIZE>
 static BitSize bitSizeOfVarIntImpl(
-        ::std::uint64_t value, const std::array<::std::uint64_t, SIZE>& maxValues, const char* varIntName)
+        std::uint64_t value, const std::array<std::uint64_t, SIZE>& maxValues, const char* varIntName)
 {
     BitSize byteSize = 1;
-    for (::std::uint64_t maxValue : maxValues)
+    for (std::uint64_t maxValue : maxValues)
     {
         if (value <= maxValue)
         {
@@ -112,9 +112,9 @@ static BitSize bitSizeOfVarIntImpl(
 }
 
 template <typename T>
-static ::std::uint64_t convertToAbsValue(typename T::ValueType value)
+static std::uint64_t convertToAbsValue(typename T::ValueType value)
 {
-    return static_cast<::std::uint64_t>((value < 0) ? -value : value);
+    return static_cast<std::uint64_t>((value < 0) ? -value : value);
 }
 
 BitSize bitSizeOf(VarInt16 value, BitSize)

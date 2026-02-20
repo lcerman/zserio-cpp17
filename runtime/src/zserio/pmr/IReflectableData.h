@@ -18,12 +18,12 @@ namespace pmr
 
 /**
  * Typedef to reflectable interface provided for convenience - using
- * std::pmr::polymorphic_allocator<::std::uint8_t>.
+ * std::pmr::polymorphic_allocator<std::uint8_t>.
  */
 /** \{ */
-using IReflectableData = IBasicReflectableData<std::pmr::polymorphic_allocator<::std::uint8_t>>;
-using IReflectableDataPtr = IBasicReflectableDataPtr<std::pmr::polymorphic_allocator<::std::uint8_t>>;
-using IReflectableDataConstPtr = IBasicReflectableDataConstPtr<std::pmr::polymorphic_allocator<::std::uint8_t>>;
+using IReflectableData = IBasicReflectableData<std::pmr::polymorphic_allocator<std::uint8_t>>;
+using IReflectableDataPtr = IBasicReflectableDataPtr<std::pmr::polymorphic_allocator<std::uint8_t>>;
+using IReflectableDataConstPtr = IBasicReflectableDataConstPtr<std::pmr::polymorphic_allocator<std::uint8_t>>;
 /** \} */
 
 } // namespace pmr

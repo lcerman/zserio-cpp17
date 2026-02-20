@@ -226,9 +226,9 @@ bool operator>=(const Extended<T>& lhs, const Extended<T>& rhs)
  * \return Calculated hash code.
  */
 template <typename T>
-::std::uint32_t calcHashCode(::std::uint32_t seed, const Extended<T>& extendedValue)
+std::uint32_t calcHashCode(std::uint32_t seed, const Extended<T>& extendedValue)
 {
-    ::std::uint32_t result = seed;
+    std::uint32_t result = seed;
     if (extendedValue.isPresent())
     {
         result = calcHashCode(result, *extendedValue);
@@ -244,7 +244,7 @@ namespace std
 template <typename T>
 struct hash<zserio::Extended<T>>
 {
-    ::std::size_t operator()(const zserio::Extended<T>& extendedValue) const
+    std::size_t operator()(const zserio::Extended<T>& extendedValue) const
     {
         return zserio::calcHashCode(zserio::HASH_SEED, extendedValue);
     }

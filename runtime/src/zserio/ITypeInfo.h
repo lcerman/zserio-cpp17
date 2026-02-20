@@ -15,17 +15,17 @@ namespace zserio
 enum class CppType
 {
     BOOL, /**< C++ bool type */
-    INT8, /**< C++ ::std::int8_t type */
-    INT16, /**< C++ ::std::int16_t type */
-    INT32, /**< C++ ::std::int32_t type */
-    INT64, /**< C++ ::std::int64_t type */
-    UINT8, /**< C++ ::std::uint8_t type */
-    UINT16, /**< C++ ::std::uint16_t type */
-    UINT32, /**< C++ ::std::uint32_t type */
-    UINT64, /**< C++ ::std::uint64_t type */
+    INT8, /**< C++ std::int8_t type */
+    INT16, /**< C++ std::int16_t type */
+    INT32, /**< C++ std::int32_t type */
+    INT64, /**< C++ std::int64_t type */
+    UINT8, /**< C++ std::uint8_t type */
+    UINT16, /**< C++ std::uint16_t type */
+    UINT32, /**< C++ std::uint32_t type */
+    UINT64, /**< C++ std::uint64_t type */
     FLOAT, /**< C++ float type */
     DOUBLE, /**< C++ double type */
-    BYTES, /**< C++ bytes type (mapped as std::vector<::std::uint8_t>) */
+    BYTES, /**< C++ bytes type (mapped as std::vector<std::uint8_t>) */
     STRING, /**< C++ string type */
     BIT_BUFFER, /**< C++ zserio::BitBuffer type */
     ENUM, /**< C++ enumeration generated from zserio enumeration type */
@@ -231,7 +231,7 @@ struct BasicMethodInfo;
  * Not all methods are implemented for all zserio objects. For example, the method getFields() is implemented
  * for compound types only. To check the zserio object type consider to use TypeInfoUtil helper methods.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 class IBasicTypeInfo
 {
 public:
@@ -270,7 +270,7 @@ public:
      *
      * \throw CppRuntimeException If the zserio type is not fixed size integral (e.g. varint).
      */
-    virtual ::std::uint8_t getBitSize() const = 0;
+    virtual std::uint8_t getBitSize() const = 0;
 
     // methods for compound types
 
@@ -467,7 +467,7 @@ public:
 /**
  * Type information for compound type field.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicFieldInfo
 {
     BasicFieldInfo(std::string_view schemaName_, const IBasicTypeInfo<ALLOC>& typeInfo_,
@@ -510,7 +510,7 @@ struct BasicFieldInfo
 /**
  * Type information for compound type parameter.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicParameterInfo
 {
     std::string_view schemaName; /**< parameter schema name */
@@ -520,7 +520,7 @@ struct BasicParameterInfo
 /**
  * Type information for compound type function.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicFunctionInfo
 {
     std::string_view schemaName; /**< function schema name */
@@ -531,7 +531,7 @@ struct BasicFunctionInfo
 /**
  * Type information for choice type case.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicCaseInfo
 {
     Span<const std::string_view> caseExpressions; /**< sequence of case expressions */
@@ -543,7 +543,7 @@ struct BasicCaseInfo
  */
 struct ItemInfo
 {
-    ItemInfo(std::string_view schemaName_, ::std::uint64_t value_, bool isDeprecated_, bool isRemoved_) :
+    ItemInfo(std::string_view schemaName_, std::uint64_t value_, bool isDeprecated_, bool isRemoved_) :
             schemaName(schemaName_),
             value(value_),
             isDeprecated(isDeprecated_),
@@ -551,7 +551,7 @@ struct ItemInfo
     {}
 
     std::string_view schemaName; /**< enumeration item or bitmask value schema name */
-    ::std::uint64_t value; /**< enumeration item or bitmask value cast to ::std::uint64_t */
+    std::uint64_t value; /**< enumeration item or bitmask value cast to std::uint64_t */
     bool isDeprecated; /**< flag whether the item is deprecated */
     bool isRemoved; /**< flag whether the item is removed */
 };
@@ -559,7 +559,7 @@ struct ItemInfo
 /**
  * Type information for SQL table column.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicColumnInfo
 {
     BasicColumnInfo(std::string_view schemaName_, const IBasicTypeInfo<ALLOC>& typeInfo_,
@@ -584,7 +584,7 @@ struct BasicColumnInfo
 /**
  * Type information for SQL database table.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicTableInfo
 {
     std::string_view schemaName; /**< table schema name */
@@ -594,7 +594,7 @@ struct BasicTableInfo
 /**
  * Type information for template argument.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicTemplateArgumentInfo
 {
     const IBasicTypeInfo<ALLOC>& typeInfo; /**< reference to type information for a template argument */
@@ -603,7 +603,7 @@ struct BasicTemplateArgumentInfo
 /**
  * Type information for pubsub message.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicMessageInfo
 {
     BasicMessageInfo(std::string_view schemaName_, const IBasicTypeInfo<ALLOC>& typeInfo_, bool isPublished_,
@@ -625,7 +625,7 @@ struct BasicMessageInfo
 /**
  * Type information for service method.
  */
-template <typename ALLOC = std::allocator<::std::uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 struct BasicMethodInfo
 {
     /** service schema name */
@@ -646,13 +646,13 @@ struct TypeInfo;
 template <typename T, typename V = void>
 struct type_info_default_alloc
 {
-    using type = std::allocator<::std::uint8_t>;
+    using type = std::allocator<std::uint8_t>;
 };
 
 template <typename T>
 struct type_info_default_alloc<T, std::enable_if_t<has_allocator_v<T>>>
 {
-    using type = RebindAlloc<typename T::allocator_type, ::std::uint8_t>;
+    using type = RebindAlloc<typename T::allocator_type, std::uint8_t>;
 };
 
 template <typename T, typename V = void>
@@ -671,7 +671,7 @@ const IBasicTypeInfo<ALLOC>& typeInfo()
     return detail::TypeInfo<T, ALLOC>::get();
 }
 
-/** Typedef provided for convenience - using default std::allocator<::std::uint8_t>. */
+/** Typedef provided for convenience - using default std::allocator<std::uint8_t>. */
 /** \{ */
 using ITypeInfo = IBasicTypeInfo<>;
 using FieldInfo = BasicFieldInfo<>;

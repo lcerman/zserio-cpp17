@@ -13,9 +13,9 @@ namespace pmr
 
 /**
  * Typedef for Zserio Bytes type provided for convenience - using
- * std::pmr::polymorphic_allocator<::std::uint8_t>.
+ * std::pmr::polymorphic_allocator<std::uint8_t>.
  */
-using Bytes = BasicBytes<std::pmr::polymorphic_allocator<::std::uint8_t>>;
+using Bytes = BasicBytes<std::pmr::polymorphic_allocator<std::uint8_t>>;
 
 } // namespace pmr
 } // namespace zserio

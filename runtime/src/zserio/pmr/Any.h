@@ -12,7 +12,7 @@ namespace pmr
 {
 
 /** Typedef to Any provided for convenience */
-using Any = BasicAny<std::pmr::polymorphic_allocator<::std::uint8_t>>;
+using Any = BasicAny<std::pmr::polymorphic_allocator<std::uint8_t>>;
 
 } // namespace pmr
 } // namespace zserio
