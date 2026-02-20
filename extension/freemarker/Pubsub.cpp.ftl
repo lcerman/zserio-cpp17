@@ -27,7 +27,7 @@ public:
             m_callback(callback), m_allocator(allocator)
     {}
 
-    void operator()(::std::string_view topic, ::zserio::Span<const uint8_t> data) override
+    void operator()(::std::string_view topic, ::zserio::Span<const ::std::uint8_t> data) override
     {
         ZSERIO_MESSAGE message(m_allocator);
         ::zserio::deserializeFromBytes(data, message);
@@ -43,8 +43,8 @@ private:
 
 // specialization for bytes
 template <>
-void ${name}OnRaw<::zserio::Span<const uint8_t>>::operator()(::std::string_view topic,
-        ::zserio::Span<const uint8_t> data)
+void ${name}OnRaw<::zserio::Span<const ::std::uint8_t>>::operator()(::std::string_view topic,
+        ::zserio::Span<const ::std::uint8_t> data)
 {
     m_callback->operator()(topic, data);
 }

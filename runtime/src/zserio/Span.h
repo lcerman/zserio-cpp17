@@ -99,7 +99,7 @@ public:
      * \param last_ Pointer to one-after-last element in the sequence.
      */
     constexpr Span(pointer first_, pointer last_) :
-            m_storage(first_, static_cast<size_t>(last_ - first_))
+            m_storage(first_, static_cast<std::size_t>(last_ - first_))
     {}
 
     /**

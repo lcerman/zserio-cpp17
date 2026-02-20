@@ -153,13 +153,13 @@ public:
     <#if field.sqlTypeData.isBlob>
                     const void* blobDataPtr = sqlite3_column_blob(m_stmt.get(), index);
                     const int blobDataLength = sqlite3_column_bytes(m_stmt.get(), index);
-                    ::zserio::Span<const uint8_t> blobData(static_cast<const uint8_t*>(blobDataPtr),
-                            static_cast<size_t>(blobDataLength));
+                    ::zserio::Span<const ::std::uint8_t> blobData(static_cast<const ::std::uint8_t*>(blobDataPtr),
+                            static_cast<::std::size_t>(blobDataLength));
                     row.<@sql_row_member_name field/>.emplace();
                     ::zserio::deserializeFromBytes(blobData, *row.<@sql_row_member_name field/><#rt>
                             <#lt><@sql_table_view_parameters field, "m_parameterProvider"/>);
     <#elseif field.sqlTypeData.isInteger>
-                    const int64_t intValue = sqlite3_column_int64(m_stmt.get(), index);
+                    const ::std::int64_t intValue = sqlite3_column_int64(m_stmt.get(), index);
         <#if field.typeInfo.isEnum>
                     row.<@sql_row_member_name field/> = ::zserio::valueToEnum<${field.typeInfo.typeFullName}>(<#rt>
                             static_cast<${field.underlyingTypeInfo.typeFullName}::ValueType>(intValue));
@@ -468,7 +468,7 @@ public:
     bool validate(::zserio::IValidationObserver& validationObserver<#rt>
             <#lt><#if needsParameterProvider>, IParameterProvider& parameterProvider</#if>, bool& continueValidation)
     {
-        const size_t numberOfRows = <#if hasNonVirtualField>::zserio::ValidationSqliteUtil<${types.allocator.default}>::getNumberOfTableRows(
+        const ::std::size_t numberOfRows = <#if hasNonVirtualField>::zserio::ValidationSqliteUtil<${types.allocator.default}>::getNumberOfTableRows(
                 m_db, m_attachedDbName, m_name, get_allocator_ref());<#else>0;</#if>
         continueValidation = true;
         if (!validationObserver.beginTable(m_name, numberOfRows))
@@ -476,7 +476,7 @@ public:
             return false;
         }
 
-        size_t numberOfValidatedRows = 0;
+        ::std::size_t numberOfValidatedRows = 0;
 <#if hasNonVirtualField>
         if (validateSchema(validationObserver))
         {
@@ -715,8 +715,8 @@ private:
         try
         {
             const int blobDataLength = sqlite3_column_bytes(statement, ${field?index});
-            ::zserio::BitStreamReader reader(static_cast<const uint8_t*>(blobDataPtr),
-                    static_cast<size_t>(blobDataLength));
+            ::zserio::BitStreamReader reader(static_cast<const ::std::uint8_t*>(blobDataPtr),
+                    static_cast<::std::size_t>(blobDataLength));
             row.<@sql_row_member_name field/>.emplace();
             auto blobView = ::zserio::detail::read(reader, *row.<@sql_row_member_name field/><#rt>
                     <#lt><@sql_table_view_parameters field, "parameterProvider"/>);
@@ -771,7 +771,7 @@ private:
         }
 
                 <#if field.sqlTypeData.isInteger>
-        const int64_t intValue = sqlite3_column_int64(statement, ${field?index});
+        const ::std::int64_t intValue = sqlite3_column_int64(statement, ${field?index});
                     <#if field.sqlRangeCheckData??>
         // range check
         const ${field.sqlRangeCheckData.typeInfo.typeFullName} rangeCheckValue = static_cast<${field.sqlRangeCheckData.typeInfo.typeFullName}::ValueType>(intValue);
@@ -918,7 +918,7 @@ private:
                 result = sqlite3_bind_blob(&statement, index, bitBuffer.getBuffer(),
                         static_cast<int>(bitBuffer.getByteSize()), SQLITE_TRANSIENT);
     <#elseif field.sqlTypeData.isInteger>
-                const int64_t intValue = static_cast<int64_t>(rowView.${field.getterName}()<#if field.typeInfo.isBitmask>->getValue()<#else>.value()</#if>);
+                const ::std::int64_t intValue = static_cast<::std::int64_t>(rowView.${field.getterName}()<#if field.typeInfo.isBitmask>->getValue()<#else>.value()</#if>);
                 result = sqlite3_bind_int64(&statement, index, intValue);
     <#elseif field.sqlTypeData.isReal>
                 const ${field.typeInfo.typeFullName} realValue = *rowView.${field.getterName}();
@@ -1009,7 +1009,7 @@ private:
                 throw ::zserio::SqliteException("Column name '") << columnName
                         << "' doesn't exist in '${name}'!";
             }
-            columnsMapping.at(static_cast<size_t>(it - ${name}::columnNames.begin())) = true;
+            columnsMapping.at(static_cast<::std::size_t>(it - ${name}::columnNames.begin())) = true;
         }
 
         return columnsMapping;
@@ -1026,7 +1026,7 @@ private:
         ColumnFormat format)
     {
         bool isFirst = true;
-        for (size_t i = 0; i < columnsMapping.size(); ++i)
+        for (::std::size_t i = 0; i < columnsMapping.size(); ++i)
         {
             if (columnsMapping[i])
             {

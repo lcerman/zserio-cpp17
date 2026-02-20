@@ -1,6 +1,8 @@
 #ifndef ZSERIO_PPMR_I_INTROSPECTABLE_VIEW_H_INC
 #define ZSERIO_PPMR_I_INTROSPECTABLE_VIEW_H_INC
 
+#include <cstdint>
+
 #include "zserio/IIntrospectableView.h"
 #include "zserio/ppmr/PropagatingPolymorphicAllocator.h"
 
@@ -15,11 +17,13 @@ namespace ppmr
 {
 
 /**
- * Typedef to reflectable interface provided for convenience - using PropagatingPolymorphicAllocator<uint8_t>.
+ * Typedef to reflectable interface provided for convenience - using
+ * PropagatingPolymorphicAllocator<std::uint8_t>.
  */
 /** \{ */
-using IIntrospectableView = IBasicIntrospectableView<PropagatingPolymorphicAllocator<uint8_t>>;
-using IIntrospectableViewConstPtr = IBasicIntrospectableViewConstPtr<PropagatingPolymorphicAllocator<uint8_t>>;
+using IIntrospectableView = IBasicIntrospectableView<PropagatingPolymorphicAllocator<std::uint8_t>>;
+using IIntrospectableViewConstPtr =
+        IBasicIntrospectableViewConstPtr<PropagatingPolymorphicAllocator<std::uint8_t>>;
 /** \} */
 
 } // namespace ppmr

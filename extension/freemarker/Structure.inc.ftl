@@ -187,7 +187,7 @@ ${I}return <@structure_field_view_getter_inner field, indent/>;
                 m_owner(owner)
         {}
 
-        void setOffset(size_t index, BitSize byteOffset) const;
+        void setOffset(::std::size_t index, BitSize byteOffset) const;
 
     private:
         const View<${compoundFullName}>& m_owner;
@@ -202,7 +202,7 @@ ${I}return <@structure_field_view_getter_inner field, indent/>;
         <#if field.offset?? && field.offset.containsIndex>
 
 void ObjectTraits<${compoundFullName}>::<@structure_offset_setter_name field/>::setOffset(<#rt>
-        <#lt>size_t index, BitSize byteOffset) const
+        <#lt>::std::size_t index, BitSize byteOffset) const
 {
             <#if field.offset.typeInfo??>
     ${field.offset.ownerIndirectSetter} = static_cast<${field.offset.typeInfo.typeFullName}::ValueType>(byteOffset);
@@ -224,7 +224,7 @@ void ObjectTraits<${compoundFullName}>::<@structure_offset_setter_name field/>::
                 m_owner(owner)
         {}
 
-        void setOffset(size_t index, BitSize byteOffset) const
+        void setOffset(::std::size_t index, BitSize byteOffset) const
         {
             <#if field.offset.typeInfo??>
             ${field.offset.ownerIndirectSetter} =
@@ -259,7 +259,7 @@ void ObjectTraits<${compoundFullName}>::<@structure_offset_setter_name field/>::
     <#local I>${""?left_pad(indent * 4)}</#local>
     <#if field.isExtended>
         <#if numExtendedFields == 1>
-${I}uint32_t numExtendedFields = 0;
+${I}::std::uint32_t numExtendedFields = 0;
         </#if>
 ${I}if (view.${field.getterName}().isPresent())
 ${I}{
@@ -312,7 +312,7 @@ ${I}detail::validate<@array_template_args field/>(<#rt>
         <#if field.isExtended>*</#if><#if field.optional??>*</#if>view.${field.getterName}(), <#t>
         "'${name}.${field.name}'"<#t>
         <#if field.array?? && field.array.viewIndirectLength??>
-        , static_cast<size_t>(${field.array.viewIndirectLength})<#t>
+        , static_cast<::std::size_t>(${field.array.viewIndirectLength})<#t>
         </#if>
         <#lt>);
 </#macro>

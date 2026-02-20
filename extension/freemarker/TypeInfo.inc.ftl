@@ -225,7 +225,7 @@ ${I}}
 <#macro item_info name value isDeprecated isRemoved comma indent>
     <#local I>${""?left_pad(indent * 4)}</#local>
 ${I}::zserio::ItemInfo{ "${name}", <#rt>
-        <#lt>static_cast<uint64_t>(${value}), <#if isDeprecated>true<#else>false</#if>, <#rt>
+        <#lt>static_cast<::std::uint64_t>(${value}), <#if isDeprecated>true<#else>false</#if>, <#rt>
         <#lt><#if isRemoved>true<#else>false</#if>}<#if comma>,</#if>
 </#macro>
 

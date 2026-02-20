@@ -305,7 +305,7 @@ public final class TypesContext
     {
         public AllocatorDefinition(String allocatorType, String allocatorSystemInclude)
         {
-            this(allocatorType, allocatorSystemInclude, "uint8_t");
+            this(allocatorType, allocatorSystemInclude, "::std::uint8_t");
         }
 
         public AllocatorDefinition(

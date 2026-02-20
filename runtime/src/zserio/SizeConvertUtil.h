@@ -8,26 +8,26 @@ namespace zserio
 {
 
 /**
- * Converts size (array size, string size or bit buffer size) of type size_t to uint32_t value.
+ * Converts size (array size, string size or bit buffer size) of type std::size_t to std::uint32_t value.
  *
- * \param value Size of type size_t to convert.
+ * \param value Size of type std::size_t to convert.
  *
- * \return uint32_t value converted from size.
+ * \return std::uint32_t value converted from size.
  *
- * \throw CppRuntimeException when input value is not convertible to uint32_t value.
+ * \throw CppRuntimeException when input value is not convertible to std::uint32_t value.
  */
-uint32_t convertSizeToUInt32(size_t value);
+std::uint32_t convertSizeToUInt32(std::size_t value);
 
 /**
- * Converts uint64_t value to size (array size, string size of bit buffer size).
+ * Converts std::uint64_t value to size (array size, string size of bit buffer size).
  *
- * \param value uint64_t value to convert.
+ * \param value std::uint64_t value to convert.
  *
- * \return size_t value converted from uint64_t value.
+ * \return std::size_t value converted from std::uint64_t value.
  *
- * \throw CppRuntimeException when input value is not convertible to size_t value.
+ * \throw CppRuntimeException when input value is not convertible to std::size_t value.
  */
-size_t convertUInt64ToSize(uint64_t value);
+std::size_t convertUInt64ToSize(std::uint64_t value);
 
 } // namespace zserio
 

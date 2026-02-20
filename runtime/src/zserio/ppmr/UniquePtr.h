@@ -1,6 +1,8 @@
 #ifndef ZSERIO_PPMR_UNIQUE_PTR_H_INC
 #define ZSERIO_PPMR_UNIQUE_PTR_H_INC
 
+#include <cstdint>
+
 #include "zserio/UniquePtr.h"
 #include "zserio/ppmr/PropagatingPolymorphicAllocator.h"
 
@@ -10,7 +12,8 @@ namespace ppmr
 {
 
 /**
- * Typedef to zserio::UniquePtr provided for convenience - using PropagatingPolymorphicAllocator<uint8_t>.
+ * Typedef to zserio::UniquePtr provided for convenience - using
+ * PropagatingPolymorphicAllocator<std::uint8_t>.
  */
 template <typename T>
 using UniquePtr = zserio::UniquePtr<T, PropagatingPolymorphicAllocator<T>>;

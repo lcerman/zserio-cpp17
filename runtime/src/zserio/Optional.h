@@ -1,6 +1,8 @@
 #ifndef ZSERIO_OPTIONAL_H_INC
 #define ZSERIO_OPTIONAL_H_INC
 
+#include <cstddef>
+#include <cstdint>
 #include <optional>
 
 #include "zserio/AllocatorHolder.h"
@@ -847,7 +849,7 @@ private:
 // Using declarations
 
 template <typename T>
-using Optional = BasicOptional<std::allocator<uint8_t>, T>;
+using Optional = BasicOptional<std::allocator<std::uint8_t>, T>;
 
 /**
  * Calculates Optional hash code from given seed.
@@ -858,9 +860,9 @@ using Optional = BasicOptional<std::allocator<uint8_t>, T>;
  * \return Calculated hash code.
  */
 template <typename ALLOC, typename T>
-uint32_t calcHashCode(uint32_t seed, const BasicOptional<ALLOC, T>& opt)
+std::uint32_t calcHashCode(std::uint32_t seed, const BasicOptional<ALLOC, T>& opt)
 {
-    uint32_t result = seed;
+    std::uint32_t result = seed;
     if (opt)
     {
         result = calcHashCode(result, *opt);
@@ -1322,7 +1324,7 @@ namespace std
 template <typename ALLOC, typename T>
 struct hash<zserio::BasicOptional<ALLOC, T>>
 {
-    size_t operator()(const zserio::BasicOptional<ALLOC, T>& opt) const
+    std::size_t operator()(const zserio::BasicOptional<ALLOC, T>& opt) const
     {
         return zserio::calcHashCode(zserio::HASH_SEED, opt);
     }

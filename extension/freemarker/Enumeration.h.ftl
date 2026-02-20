@@ -58,7 +58,7 @@ struct EnumTraits<${fullName}>
 };
 
 template <>
-size_t enumToOrdinal<${fullName}>(${fullName} value);
+::std::size_t enumToOrdinal<${fullName}>(${fullName} value);
 
 template <>
 ${fullName} valueToEnum<${fullName}>(${underlyingTypeInfo.typeFullName} rawValue);
@@ -84,7 +84,7 @@ ${types.introspectableConstPtr.name} introspectable(${fullName} value, const ${t
 template <>
 struct hash<${fullName}>
 {
-    size_t operator()(const ${fullName}& value) const;
+    ::std::size_t operator()(const ${fullName}& value) const;
 };
 <@namespace_end ["std"]/>
 

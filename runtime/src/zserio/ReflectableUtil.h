@@ -3,6 +3,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <limits>
 #include <string_view>
@@ -45,7 +47,7 @@ public:
      *
      * \return True when the reflectables are equal, false otherwise.
      */
-    template <typename ALLOC = std::allocator<uint8_t>>
+    template <typename ALLOC = std::allocator<std::uint8_t>>
     static bool equal(
             const IBasicReflectableDataConstPtr<ALLOC>& lhs, const IBasicReflectableDataConstPtr<ALLOC>& rhs);
 
@@ -60,7 +62,7 @@ public:
      *
      * \return Value of the type T.
      */
-    template <typename T, typename ALLOC = std::allocator<uint8_t>,
+    template <typename T, typename ALLOC = std::allocator<std::uint8_t>,
             typename std::enable_if<detail::gets_value_by_value<T>::value, int>::type = 0>
     static T getValue(const IBasicReflectableDataConstPtr<ALLOC>& reflectable, const ALLOC& allocator = ALLOC())
     {
@@ -80,7 +82,7 @@ public:
      *
      * \throw CppRuntimeException When wrong type is requested ("Bad type in AnyHolder").
      */
-    template <typename T, typename ALLOC = std::allocator<uint8_t>,
+    template <typename T, typename ALLOC = std::allocator<std::uint8_t>,
             typename std::enable_if<!detail::gets_value_by_value<T>::value, int>::type = 0>
     static const T& getValue(
             const IBasicReflectableDataConstPtr<ALLOC>& reflectable, const ALLOC& allocator = ALLOC())
@@ -101,7 +103,7 @@ public:
      *
      * \throw CppRuntimeException When wrong type is requested ("Bad type in AnyHolder").
      */
-    template <typename T, typename ALLOC = std::allocator<uint8_t>,
+    template <typename T, typename ALLOC = std::allocator<std::uint8_t>,
             typename std::enable_if<!detail::gets_value_by_value<T>::value &&
                             !std::is_same<BasicBitBuffer<ALLOC>, T>::value,
                     int>::type = 0>
@@ -121,7 +123,7 @@ public:
      *
      * \throw CppRuntimeException When wrong type is requested ("Bad type in BasicAny").
      */
-    template <typename T, typename ALLOC = std::allocator<uint8_t>,
+    template <typename T, typename ALLOC = std::allocator<std::uint8_t>,
             typename std::enable_if<std::is_same<BasicBitBuffer<ALLOC>, T>::value, int>::type = 0>
     static const T& getValue(
             const IBasicReflectableDataPtr<ALLOC>& reflectable, const ALLOC& allocator = ALLOC())
@@ -202,7 +204,7 @@ bool ReflectableUtil::arraysEqual(const IBasicReflectableDataConstPtr<ALLOC>& lh
         return false;
     }
 
-    for (size_t i = 0; i < lhsArray->size(); ++i)
+    for (std::size_t i = 0; i < lhsArray->size(); ++i)
     {
         if (!equal<ALLOC>(lhsArray->at(i), rhsArray->at(i)))
         {
@@ -279,8 +281,8 @@ bool ReflectableUtil::valuesEqual(const IBasicReflectableDataConstPtr<ALLOC>& lh
         return doubleValuesAlmostEqual(lhsValue->toDouble(), rhsValue->toDouble());
     case CppType::BYTES:
         {
-            Span<const uint8_t> lhs = lhsValue->getBytes();
-            Span<const uint8_t> rhs = rhsValue->getBytes();
+            Span<const std::uint8_t> lhs = lhsValue->getBytes();
+            Span<const std::uint8_t> rhs = rhsValue->getBytes();
 
             return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
         }

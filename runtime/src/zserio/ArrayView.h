@@ -1,6 +1,8 @@
 #ifndef ZSERIO_ARRAY_H_INC
 #define ZSERIO_ARRAY_H_INC
 
+#include <cstddef>
+#include <cstdint>
 #include <string_view>
 #include <type_traits>
 
@@ -112,14 +114,14 @@ public:
      */
     bool operator==(const ArrayView& other) const
     {
-        const size_t thisSize = size();
-        const size_t otherSize = other.size();
+        const std::size_t thisSize = size();
+        const std::size_t otherSize = other.size();
         if (thisSize != otherSize)
         {
             return false;
         }
 
-        for (size_t i = 0; i < thisSize; ++i)
+        for (std::size_t i = 0; i < thisSize; ++i)
         {
             if ((*this)[i] != other[i])
             {
@@ -139,11 +141,11 @@ public:
      */
     bool operator<(const ArrayView& other) const
     {
-        const size_t thisSize = size();
-        const size_t otherSize = other.size();
-        const size_t minSize = std::min(thisSize, otherSize);
+        const std::size_t thisSize = size();
+        const std::size_t otherSize = other.size();
+        const std::size_t minSize = std::min(thisSize, otherSize);
 
-        for (size_t i = 0; i < minSize; ++i)
+        for (std::size_t i = 0; i < minSize; ++i)
         {
             if ((*this)[i] < other[i])
             {
@@ -211,7 +213,7 @@ public:
      *
      * \return Length of the array.
      */
-    size_t size() const
+    std::size_t size() const
     {
         return m_data.size();
     }
@@ -232,7 +234,7 @@ public:
      * \param index Element index.
      * \return View to the specified element.
      */
-    decltype(auto) at(size_t index) const
+    decltype(auto) at(std::size_t index) const
     {
         if (index >= m_data.size())
         {
@@ -250,7 +252,7 @@ public:
      * \param index Element index.
      * \return View to the specified element.
      */
-    decltype(auto) operator[](size_t index) const
+    decltype(auto) operator[](std::size_t index) const
     {
         return Traits::at(m_owner, m_data[index], index);
     }
@@ -350,7 +352,7 @@ public:
     {
     public:
         using iterator_category = std::random_access_iterator_tag;
-        using value_type = decltype(std::declval<ArrayView>().at(std::declval<size_t>()));
+        using value_type = decltype(std::declval<ArrayView>().at(std::declval<std::size_t>()));
         using difference_type = std::ptrdiff_t;
         using pointer = void;
         using reference = value_type; // we always return by value!
@@ -366,7 +368,7 @@ public:
             value_type value;
         };
 
-        ConstIterator(const ArrayView* array, size_t index) :
+        ConstIterator(const ArrayView* array, std::size_t index) :
                 m_array(array),
                 m_index(index)
         {}
@@ -383,7 +385,7 @@ public:
 
         value_type operator[](difference_type offset) const
         {
-            return m_array->at(m_index + static_cast<size_t>(offset));
+            return m_array->at(m_index + static_cast<std::size_t>(offset));
         }
 
         ConstIterator& operator++()
@@ -414,29 +416,29 @@ public:
 
         ConstIterator& operator+=(difference_type offset)
         {
-            m_index += static_cast<size_t>(offset);
+            m_index += static_cast<std::size_t>(offset);
             return *this;
         }
 
         ConstIterator operator+(difference_type offset) const
         {
-            return ConstIterator(m_array, m_index + static_cast<size_t>(offset));
+            return ConstIterator(m_array, m_index + static_cast<std::size_t>(offset));
         }
 
         friend ConstIterator operator+(difference_type offset, const ConstIterator& other)
         {
-            return ConstIterator(other.m_array, other.m_index + static_cast<size_t>(offset));
+            return ConstIterator(other.m_array, other.m_index + static_cast<std::size_t>(offset));
         }
 
         ConstIterator& operator-=(difference_type offset)
         {
-            m_index -= static_cast<size_t>(offset);
+            m_index -= static_cast<std::size_t>(offset);
             return *this;
         }
 
         ConstIterator operator-(difference_type offset) const
         {
-            return ConstIterator(m_array, m_index - static_cast<size_t>(offset));
+            return ConstIterator(m_array, m_index - static_cast<std::size_t>(offset));
         }
 
         difference_type operator-(const ConstIterator& other) const
@@ -481,7 +483,7 @@ public:
 
     private:
         const ArrayView* m_array;
-        size_t m_index;
+        std::size_t m_index;
     };
 
 private:
@@ -493,7 +495,7 @@ namespace detail
 {
 
 template <ArrayType ARRAY_TYPE, typename T, typename ARRAY_TRAITS>
-void validate(const ArrayView<T, ARRAY_TRAITS>& array, std::string_view fieldName, size_t schemaSize = 0)
+void validate(const ArrayView<T, ARRAY_TRAITS>& array, std::string_view fieldName, std::size_t schemaSize = 0)
 {
     if constexpr (ARRAY_TYPE == ArrayType::NORMAL || ARRAY_TYPE == ArrayType::ALIGNED)
     {
@@ -506,7 +508,7 @@ void validate(const ArrayView<T, ARRAY_TRAITS>& array, std::string_view fieldNam
 
     validate(VarSize{convertSizeToUInt32(array.size())}, fieldName);
 
-    for (size_t i = 0; i < array.size(); ++i)
+    for (std::size_t i = 0; i < array.size(); ++i)
     {
         validate(array[i], fieldName);
     }
@@ -522,7 +524,7 @@ BitSize bitSizeOf(const ArrayView<T, ARRAY_TRAITS>& array, BitSize bitPosition =
         endBitPosition += bitSizeOf(fromCheckedValue<VarSize>(convertSizeToUInt32(array.size())));
     }
 
-    for (size_t i = 0; i < array.size(); ++i)
+    for (std::size_t i = 0; i < array.size(); ++i)
     {
         if constexpr (ARRAY_TYPE == ArrayType::ALIGNED || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
         {
@@ -537,7 +539,7 @@ BitSize bitSizeOf(const ArrayView<T, ARRAY_TRAITS>& array, BitSize bitPosition =
 
 struct DummyOffsetSetter
 {
-    static void setOffset(size_t /*index*/, BitSize /*byteOffset*/)
+    static void setOffset(std::size_t /*index*/, BitSize /*byteOffset*/)
     {}
 };
 
@@ -554,7 +556,7 @@ BitSize initializeOffsets(const ArrayView<T, ARRAY_TRAITS>& array, BitSize bitPo
         endBitPosition += bitSizeOf(fromCheckedValue<VarSize>(convertSizeToUInt32(array.size())));
     }
 
-    for (size_t i = 0; i < array.size(); ++i)
+    for (std::size_t i = 0; i < array.size(); ++i)
     {
         if constexpr (ARRAY_TYPE == ArrayType::ALIGNED || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
         {
@@ -562,7 +564,8 @@ BitSize initializeOffsets(const ArrayView<T, ARRAY_TRAITS>& array, BitSize bitPo
             offsetSetter.setOffset(i, endBitPosition / 8);
         }
 
-        using AtResult = decltype(std::declval<const ArrayView<T, ARRAY_TRAITS>&>().at(std::declval<size_t>()));
+        using AtResult =
+                decltype(std::declval<const ArrayView<T, ARRAY_TRAITS>&>().at(std::declval<std::size_t>()));
         if constexpr (std::is_same_v<View<ValueType>, AtResult>)
         {
             endBitPosition += initializeOffsets(array[i], endBitPosition);
@@ -577,7 +580,7 @@ BitSize initializeOffsets(const ArrayView<T, ARRAY_TRAITS>& array, BitSize bitPo
 }
 
 template <ArrayType ARRAY_TYPE, typename ARRAY_TRAITS>
-size_t readArrayLength(BitStreamReader& reader, size_t arrayLength)
+std::size_t readArrayLength(BitStreamReader& reader, std::size_t arrayLength)
 {
     if constexpr (ARRAY_TYPE == ArrayType::NORMAL || ARRAY_TYPE == ArrayType::ALIGNED)
     {
@@ -589,19 +592,19 @@ size_t readArrayLength(BitStreamReader& reader, size_t arrayLength)
     }
     else
     {
-        const size_t remainingBits = reader.getBufferBitSize() - reader.getBitPosition();
+        const std::size_t remainingBits = reader.getBufferBitSize() - reader.getBitPosition();
         return remainingBits / ARRAY_TRAITS::bitSizeOf();
     }
 }
 
 template <ArrayType ARRAY_TYPE, typename T, typename ALLOC, typename ARRAY_TRAITS = ArrayTraits<T>>
 void read(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, detail::array_owner_type_t<ARRAY_TRAITS>& owner,
-        size_t arrayLength = 0)
+        std::size_t arrayLength = 0)
 {
-    const size_t readLength = readArrayLength<ARRAY_TYPE, ARRAY_TRAITS>(reader, arrayLength);
+    const std::size_t readLength = readArrayLength<ARRAY_TYPE, ARRAY_TRAITS>(reader, arrayLength);
     rawArray.clear();
     rawArray.reserve(readLength);
-    for (size_t i = 0; i < readLength; ++i)
+    for (std::size_t i = 0; i < readLength; ++i)
     {
         if constexpr (ARRAY_TYPE == ArrayType::ALIGNED || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
         {
@@ -614,7 +617,7 @@ void read(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, detail::array_own
 
 template <ArrayType ARRAY_TYPE, typename T, typename ALLOC,
         std::enable_if_t<is_dummy_array_owner_v<detail::array_owner_type_t<ArrayTraits<T>>>, int> = 0>
-void read(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, size_t arrayLength = 0)
+void read(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, std::size_t arrayLength = 0)
 {
     DummyArrayOwner owner;
     read<ARRAY_TYPE, T, ALLOC>(reader, rawArray, owner, arrayLength);
@@ -622,14 +625,14 @@ void read(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, size_t arrayLengt
 
 template <ArrayType ARRAY_TYPE, typename ARRAY_TRAITS, typename T, typename ALLOC>
 void readWithTraits(BitStreamReader& reader, Vector<T, ALLOC>& rawArray,
-        detail::array_owner_type_t<ARRAY_TRAITS>& owner, size_t arrayLength = 0)
+        detail::array_owner_type_t<ARRAY_TRAITS>& owner, std::size_t arrayLength = 0)
 {
     read<ARRAY_TYPE, T, ALLOC, ARRAY_TRAITS>(reader, rawArray, owner, arrayLength);
 }
 
 template <ArrayType ARRAY_TYPE, typename ARRAY_TRAITS, typename T, typename ALLOC,
         std::enable_if_t<is_dummy_array_owner_v<detail::array_owner_type_t<ARRAY_TRAITS>>, int> = 0>
-void readWithTraits(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, size_t arrayLength = 0)
+void readWithTraits(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, std::size_t arrayLength = 0)
 {
     DummyArrayOwner owner;
     readWithTraits<ARRAY_TYPE, ARRAY_TRAITS, T, ALLOC>(reader, rawArray, owner, arrayLength);
@@ -643,7 +646,7 @@ void write(BitStreamWriter& writer, const ArrayView<T, ARRAY_TRAITS>& array)
         write(writer, fromCheckedValue<VarSize>(convertSizeToUInt32(array.size())));
     }
 
-    for (size_t i = 0; i < array.size(); ++i)
+    for (std::size_t i = 0; i < array.size(); ++i)
     {
         if constexpr (ARRAY_TYPE == ArrayType::ALIGNED || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
         {
@@ -665,7 +668,7 @@ BitSize bitSizeOfPacked(const ArrayView<T, ARRAY_TRAITS>& array, BitSize bitPosi
 
         BitSize endBitPosition = bitPosition;
 
-        const size_t arrayLength = array.size();
+        const std::size_t arrayLength = array.size();
         if constexpr (ARRAY_TYPE == ArrayType::AUTO || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
         {
             endBitPosition += bitSizeOf(fromCheckedValue<VarSize>(convertSizeToUInt32(arrayLength)));
@@ -675,12 +678,12 @@ BitSize bitSizeOfPacked(const ArrayView<T, ARRAY_TRAITS>& array, BitSize bitPosi
         {
             detail::packing_context_type_t<ValueType> context;
 
-            for (size_t i = 0; i < arrayLength; ++i)
+            for (std::size_t i = 0; i < arrayLength; ++i)
             {
                 initContext(context, array[i]);
             }
 
-            for (size_t i = 0; i < arrayLength; ++i)
+            for (std::size_t i = 0; i < arrayLength; ++i)
             {
                 if constexpr (ARRAY_TYPE == ArrayType::ALIGNED || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
                 {
@@ -711,7 +714,7 @@ BitSize initializeOffsetsPacked(const ArrayView<T, ARRAY_TRAITS>& array, BitSize
 
         BitSize endBitPosition = bitPosition;
 
-        const size_t arrayLength = array.size();
+        const std::size_t arrayLength = array.size();
         if constexpr (ARRAY_TYPE == ArrayType::AUTO || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
         {
             endBitPosition += bitSizeOf(fromCheckedValue<VarSize>(convertSizeToUInt32(arrayLength)));
@@ -721,12 +724,12 @@ BitSize initializeOffsetsPacked(const ArrayView<T, ARRAY_TRAITS>& array, BitSize
         {
             detail::packing_context_type_t<ValueType> context;
 
-            for (size_t i = 0; i < arrayLength; ++i)
+            for (std::size_t i = 0; i < arrayLength; ++i)
             {
                 initContext(context, array[i]);
             }
 
-            for (size_t i = 0; i < arrayLength; ++i)
+            for (std::size_t i = 0; i < arrayLength; ++i)
             {
                 if constexpr (ARRAY_TYPE == ArrayType::ALIGNED || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
                 {
@@ -734,8 +737,8 @@ BitSize initializeOffsetsPacked(const ArrayView<T, ARRAY_TRAITS>& array, BitSize
                     offsetSetter.setOffset(i, endBitPosition / 8);
                 }
 
-                using AtResult =
-                        decltype(std::declval<const ArrayView<T, ARRAY_TRAITS>&>().at(std::declval<size_t>()));
+                using AtResult = decltype(std::declval<const ArrayView<T, ARRAY_TRAITS>&>().at(
+                        std::declval<std::size_t>()));
                 if constexpr (std::is_same_v<View<ValueType>, AtResult>)
                 {
                     endBitPosition += initializeOffsets(context, array[i], endBitPosition);
@@ -764,7 +767,7 @@ void writePacked(BitStreamWriter& writer, const ArrayView<T, ARRAY_TRAITS>& arra
 
         static_assert(ARRAY_TYPE != ArrayType::IMPLICIT, "Implicit array cannot be packed!");
 
-        const size_t arrayLength = array.size();
+        const std::size_t arrayLength = array.size();
         if constexpr (ARRAY_TYPE == ArrayType::AUTO || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
         {
             write(writer, fromCheckedValue<VarSize>(convertSizeToUInt32(array.size())));
@@ -774,12 +777,12 @@ void writePacked(BitStreamWriter& writer, const ArrayView<T, ARRAY_TRAITS>& arra
         {
             detail::packing_context_type_t<ValueType> context;
 
-            for (size_t i = 0; i < arrayLength; ++i)
+            for (std::size_t i = 0; i < arrayLength; ++i)
             {
                 initContext(context, array[i]);
             }
 
-            for (size_t i = 0; i < arrayLength; ++i)
+            for (std::size_t i = 0; i < arrayLength; ++i)
             {
                 if constexpr (ARRAY_TYPE == ArrayType::ALIGNED || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
                 {
@@ -798,13 +801,13 @@ void writePacked(BitStreamWriter& writer, const ArrayView<T, ARRAY_TRAITS>& arra
 
 template <ArrayType ARRAY_TYPE, typename T, typename ALLOC, typename ARRAY_TRAITS = ArrayTraits<T>>
 void readPacked(BitStreamReader& reader, Vector<T, ALLOC>& rawArray,
-        detail::array_owner_type_t<ARRAY_TRAITS>& owner, size_t arrayLength = 0)
+        detail::array_owner_type_t<ARRAY_TRAITS>& owner, std::size_t arrayLength = 0)
 {
     if constexpr (is_packable_v<T>)
     {
         using ValueType = T;
 
-        const size_t readLength = readArrayLength<ARRAY_TYPE, ARRAY_TRAITS>(reader, arrayLength);
+        const std::size_t readLength = readArrayLength<ARRAY_TYPE, ARRAY_TRAITS>(reader, arrayLength);
         rawArray.clear();
 
         if (readLength > 0)
@@ -813,7 +816,7 @@ void readPacked(BitStreamReader& reader, Vector<T, ALLOC>& rawArray,
 
             detail::packing_context_type_t<ValueType> context;
 
-            for (size_t i = 0; i < readLength; ++i)
+            for (std::size_t i = 0; i < readLength; ++i)
             {
                 if constexpr (ARRAY_TYPE == ArrayType::ALIGNED || ARRAY_TYPE == ArrayType::ALIGNED_AUTO)
                 {
@@ -833,7 +836,7 @@ void readPacked(BitStreamReader& reader, Vector<T, ALLOC>& rawArray,
 template <ArrayType ARRAY_TYPE, typename T, typename ALLOC,
         typename ARRAY_TRAITS = ArrayTraits<std::remove_cv_t<T>>,
         std::enable_if_t<is_dummy_array_owner_v<detail::array_owner_type_t<ARRAY_TRAITS>>, int> = 0>
-void readPacked(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, size_t arrayLength = 0)
+void readPacked(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, std::size_t arrayLength = 0)
 {
     DummyArrayOwner owner;
     readPacked<ARRAY_TYPE, T, ALLOC, ARRAY_TRAITS>(reader, rawArray, owner, arrayLength);
@@ -841,14 +844,14 @@ void readPacked(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, size_t arra
 
 template <ArrayType ARRAY_TYPE, typename ARRAY_TRAITS, typename T, typename ALLOC>
 void readPackedWithTraits(BitStreamReader& reader, Vector<T, ALLOC>& rawArray,
-        detail::array_owner_type_t<ARRAY_TRAITS>& owner, size_t arrayLength = 0)
+        detail::array_owner_type_t<ARRAY_TRAITS>& owner, std::size_t arrayLength = 0)
 {
     readPacked<ARRAY_TYPE, T, ALLOC, ARRAY_TRAITS>(reader, rawArray, owner, arrayLength);
 }
 
 template <ArrayType ARRAY_TYPE, typename ARRAY_TRAITS, typename T, typename ALLOC,
         std::enable_if_t<is_dummy_array_owner_v<detail::array_owner_type_t<ARRAY_TRAITS>>, int> = 0>
-void readPackedWithTraits(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, size_t arrayLength = 0)
+void readPackedWithTraits(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, std::size_t arrayLength = 0)
 {
     DummyArrayOwner owner;
     readPackedWithTraits<ARRAY_TYPE, ARRAY_TRAITS, T, ALLOC>(reader, rawArray, owner, arrayLength);
@@ -857,10 +860,10 @@ void readPackedWithTraits(BitStreamReader& reader, Vector<T, ALLOC>& rawArray, s
 } // namespace detail
 
 template <typename T, typename ARRAY_TRAITS>
-uint32_t calcHashCode(uint32_t seedValue, const ArrayView<T, ARRAY_TRAITS>& array)
+std::uint32_t calcHashCode(std::uint32_t seedValue, const ArrayView<T, ARRAY_TRAITS>& array)
 {
-    uint32_t result = seedValue;
-    for (size_t i = 0; i < array.size(); ++i)
+    std::uint32_t result = seedValue;
+    for (std::size_t i = 0; i < array.size(); ++i)
     {
         result = calcHashCode(result, array[i]);
     }

@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstddef>
 #include <cstring>
 
 #include "zserio/CppRuntimeException.h"
@@ -21,15 +22,15 @@ const char* CppRuntimeException::what() const noexcept
 
 void CppRuntimeException::append(const char* message)
 {
-    const size_t available = m_buffer.size() - 1 - m_len;
-    const size_t numCharsToAppend = strnlen(message, available);
+    const std::size_t available = m_buffer.size() - 1 - m_len;
+    const std::size_t numCharsToAppend = strnlen(message, available);
     appendImpl(std::string_view(message, numCharsToAppend));
 }
 
-void CppRuntimeException::append(const char* message, size_t messageLen)
+void CppRuntimeException::append(const char* message, std::size_t messageLen)
 {
-    const size_t available = m_buffer.size() - 1 - m_len;
-    const size_t numCharsToAppend = std::min(messageLen, available);
+    const std::size_t available = m_buffer.size() - 1 - m_len;
+    const std::size_t numCharsToAppend = std::min(messageLen, available);
     appendImpl(std::string_view(message, numCharsToAppend));
 }
 

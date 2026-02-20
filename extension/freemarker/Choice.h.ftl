@@ -31,7 +31,7 @@ struct ${name};
 template <>
 struct ChoiceTag<${fullName}>
 {
-    enum Tag : size_t
+    enum Tag : ::std::size_t
     {
         ZSERIO_UNDEFINED,
 <#list fieldList as field>
@@ -209,13 +209,13 @@ struct Introspectable<${fullName}, ${types.allocator.default}>
 template <>
 struct hash<${fullName}>
 {
-    size_t operator()(const ${fullName}& value) const;
+    ::std::size_t operator()(const ${fullName}& value) const;
 };
 
 template <>
 struct hash<::zserio::View<${fullName}>>
 {
-    size_t operator()(const ::zserio::View<${fullName}>& view) const;
+    ::std::size_t operator()(const ::zserio::View<${fullName}>& view) const;
 };
 <@namespace_end ["std"]/>
 

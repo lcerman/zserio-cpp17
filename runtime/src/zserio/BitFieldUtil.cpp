@@ -1,10 +1,13 @@
+#include <cstddef>
+#include <cstdint>
+
 #include "zserio/BitFieldUtil.h"
 #include "zserio/CppRuntimeException.h"
 
 namespace zserio
 {
 
-static void checkBitFieldLength(size_t length)
+static void checkBitFieldLength(std::size_t length)
 {
     if (length == 0 || length > 64)
     {
@@ -12,13 +15,13 @@ static void checkBitFieldLength(size_t length)
     }
 }
 
-int64_t getBitFieldLowerBound(size_t length, bool isSigned)
+std::int64_t getBitFieldLowerBound(std::size_t length, bool isSigned)
 {
     checkBitFieldLength(length);
 
     if (isSigned)
     {
-        return -static_cast<int64_t>((UINT64_C(1) << (length - 1)) - 1) - 1;
+        return -static_cast<std::int64_t>((UINT64_C(1) << (length - 1)) - 1) - 1;
     }
     else
     {
@@ -26,7 +29,7 @@ int64_t getBitFieldLowerBound(size_t length, bool isSigned)
     }
 }
 
-uint64_t getBitFieldUpperBound(size_t length, bool isSigned)
+std::uint64_t getBitFieldUpperBound(std::size_t length, bool isSigned)
 {
     checkBitFieldLength(length);
 

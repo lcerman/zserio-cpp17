@@ -15,7 +15,7 @@ namespace zserio
  *
  * \return Lower bound for the bit field.
  */
-int64_t getBitFieldLowerBound(size_t length, bool isSigned);
+std::int64_t getBitFieldLowerBound(std::size_t length, bool isSigned);
 
 /**
  * Calculates lower bound for the given bit field.
@@ -25,7 +25,7 @@ int64_t getBitFieldLowerBound(size_t length, bool isSigned);
  *
  * \return Upper bound for the bit field.
  */
-uint64_t getBitFieldUpperBound(size_t length, bool isSigned);
+std::uint64_t getBitFieldUpperBound(std::size_t length, bool isSigned);
 
 } // namespace zserio
 

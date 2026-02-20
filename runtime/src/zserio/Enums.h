@@ -31,7 +31,7 @@ struct EnumTraits
  * \return Ordinal number of the enum item.
  */
 template <typename T>
-size_t enumToOrdinal(T value);
+std::size_t enumToOrdinal(T value);
 
 /**
  * Converts the given raw value to an appropriate enum item.
@@ -80,7 +80,7 @@ T stringToEnum(std::string_view itemName)
                 << itemName << "' doesn't exist in enum '" << EnumTraits<T>::enumName << "'!";
     }
 
-    const size_t ordinal = static_cast<size_t>(std::distance(EnumTraits<T>::names.begin(), foundIt));
+    const std::size_t ordinal = static_cast<std::size_t>(std::distance(EnumTraits<T>::names.begin(), foundIt));
     return EnumTraits<T>::values[ordinal];
 }
 

@@ -2,6 +2,7 @@
 #define ZSERIO_STRING_CONVERT_UTIL_H_INC
 
 #include <array>
+#include <cstdint>
 #include <limits>
 #include <sstream>
 #include <string_view>
@@ -120,22 +121,22 @@ inline void convertFloatToString(std::array<char, 24>& integerPartBuffer,
         std::array<char, 24>& floatingPartBuffer, float value, const char*& integerPartString,
         const char*& floatingPartString)
 {
-    if (value >= static_cast<float>(std::numeric_limits<int64_t>::max()))
+    if (value >= static_cast<float>(std::numeric_limits<std::int64_t>::max()))
     {
         integerPartString = "+Inf";
         floatingPartString = nullptr;
     }
-    else if (value <= static_cast<float>(std::numeric_limits<int64_t>::min()))
+    else if (value <= static_cast<float>(std::numeric_limits<std::int64_t>::min()))
     {
         integerPartString = "-Inf";
         floatingPartString = nullptr;
     }
     else
     {
-        const int64_t integerPart = static_cast<int64_t>(value);
-        const int64_t floatingPart =
-                static_cast<int64_t>((value - static_cast<float>(integerPart)) * 1e3F); // 3 digits
-        const int64_t floatingPartAbs = (floatingPart < 0) ? 0 - floatingPart : floatingPart;
+        const std::int64_t integerPart = static_cast<std::int64_t>(value);
+        const std::int64_t floatingPart =
+                static_cast<std::int64_t>((value - static_cast<float>(integerPart)) * 1e3F); // 3 digits
+        const std::int64_t floatingPartAbs = (floatingPart < 0) ? 0 - floatingPart : floatingPart;
         integerPartString = convertIntToString(integerPartBuffer, integerPart);
         floatingPartString = convertIntToString(floatingPartBuffer, floatingPartAbs);
     }

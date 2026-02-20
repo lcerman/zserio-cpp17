@@ -1,6 +1,7 @@
 #ifndef ZSERIO_STRING_H_INC
 #define ZSERIO_STRING_H_INC
 
+#include <cstdint>
 #include <string>
 #include <string_view>
 
@@ -17,7 +18,7 @@ template <typename ALLOC>
 using BasicString = std::basic_string<char, std::char_traits<char>, ALLOC>;
 
 /**
- * Typedef to std::string provided for convenience - using std::allocator<uint8_t>.
+ * Typedef to std::string provided for convenience - using std::allocator<std::uint8_t>.
  */
 using String = BasicString<std::allocator<char>>;
 

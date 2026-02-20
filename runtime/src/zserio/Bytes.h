@@ -14,20 +14,20 @@ namespace zserio
 {
 
 /**
- * Typedef for Zserio Bytes type - vector with uint8_t value.
+ * Typedef for Zserio Bytes type - vector with std::uint8_t value.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
-using BasicBytes = std::vector<uint8_t, ALLOC>;
+template <typename ALLOC = std::allocator<std::uint8_t>>
+using BasicBytes = std::vector<std::uint8_t, ALLOC>;
 
 /**
- * Typedef for Zserio Bytes type provided for convenience - using std::allocator<uint8_t>.
+ * Typedef for Zserio Bytes type provided for convenience - using std::allocator<std::uint8_t>.
  */
 using Bytes = BasicBytes<>;
 
 /**
  * Typedef for View on Zserio Byte s type.
  */
-using BytesView = Span<const uint8_t>;
+using BytesView = Span<const std::uint8_t>;
 
 template <typename ALLOC>
 struct view_type<BasicBytes<ALLOC>>

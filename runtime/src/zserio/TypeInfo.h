@@ -2,6 +2,8 @@
 #define ZSERIO_TYPE_INFO_INC_H
 
 #include <algorithm>
+#include <cstddef>
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -57,7 +59,7 @@ public:
     std::string_view getSchemaName() const override;
     SchemaType getSchemaType() const override;
     CppType getCppType() const override;
-    uint8_t getBitSize() const override;
+    std::uint8_t getBitSize() const override;
 
     Span<const BasicFieldInfo<ALLOC>> getFields() const override;
     Span<const BasicParameterInfo<ALLOC>> getParameters() const override;
@@ -95,7 +97,7 @@ private:
 /**
  * Type information abstract base class for builtin types.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 class BuiltinTypeInfo : public TypeInfoBase<ALLOC>
 {
 public:
@@ -128,15 +130,15 @@ public:
      * \param bitSize The bit size of the fixed size integral schema type.
      */
     FixedSizeBuiltinTypeInfo(
-            std::string_view schemaName, SchemaType schemaType, CppType cppType, uint8_t bitSize);
+            std::string_view schemaName, SchemaType schemaType, CppType cppType, std::uint8_t bitSize);
 
-    uint8_t getBitSize() const override;
+    std::uint8_t getBitSize() const override;
 
     template <BitSize BIT_SIZE, bool IS_SIGNED>
     static const FixedSizeBuiltinTypeInfo& getFixedBitField();
 
 private:
-    uint8_t m_bitSize;
+    std::uint8_t m_bitSize;
 };
 
 /**
@@ -514,7 +516,7 @@ public:
     std::string_view getSchemaName() const override;
     SchemaType getSchemaType() const override;
     CppType getCppType() const override;
-    uint8_t getBitSize() const override;
+    std::uint8_t getBitSize() const override;
 
     Span<const BasicFieldInfo<ALLOC>> getFields() const override;
     Span<const BasicParameterInfo<ALLOC>> getParameters() const override;
@@ -576,7 +578,7 @@ CppType TypeInfoBase<ALLOC>::getCppType() const
 }
 
 template <typename ALLOC>
-uint8_t TypeInfoBase<ALLOC>::getBitSize() const
+std::uint8_t TypeInfoBase<ALLOC>::getBitSize() const
 {
     throw CppRuntimeException("Type '") << getSchemaName() << "' is not a fixed size type!";
 }
@@ -766,13 +768,13 @@ const BuiltinTypeInfo<ALLOC>& BuiltinTypeInfo<ALLOC>::getDynamicBitField()
 
 template <typename ALLOC>
 FixedSizeBuiltinTypeInfo<ALLOC>::FixedSizeBuiltinTypeInfo(
-        std::string_view schemaName, SchemaType schemaType, CppType cppType, uint8_t bitSize) :
+        std::string_view schemaName, SchemaType schemaType, CppType cppType, std::uint8_t bitSize) :
         BuiltinTypeInfo<ALLOC>(schemaName, schemaType, cppType),
         m_bitSize(bitSize)
 {}
 
 template <typename ALLOC>
-uint8_t FixedSizeBuiltinTypeInfo<ALLOC>::getBitSize() const
+std::uint8_t FixedSizeBuiltinTypeInfo<ALLOC>::getBitSize() const
 {
     return m_bitSize;
 }
@@ -921,7 +923,7 @@ const FixedSizeBuiltinTypeInfo<ALLOC>& FixedSizeBuiltinTypeInfo<ALLOC>::getFixed
                         {"bit:63", SchemaType::UINT63, CppType::UINT64, 63},
                         {"bit:64", SchemaType::UINT64, CppType::UINT64, 64}}};
 
-        return bitFieldTypeInfoArray[static_cast<size_t>(BIT_SIZE - 1)];
+        return bitFieldTypeInfoArray[static_cast<std::size_t>(BIT_SIZE - 1)];
     }
 }
 
@@ -1171,7 +1173,7 @@ CppType RecursiveTypeInfo<ALLOC>::getCppType() const
 }
 
 template <typename ALLOC>
-uint8_t RecursiveTypeInfo<ALLOC>::getBitSize() const
+std::uint8_t RecursiveTypeInfo<ALLOC>::getBitSize() const
 {
     return m_typeInfoFunc().getBitSize();
 }
@@ -1452,11 +1454,11 @@ struct TypeInfo<BasicBytes<ALLOC>, ALLOC>
 };
 
 template <typename ALLOC>
-struct TypeInfo<BasicString<ALLOC>, RebindAlloc<ALLOC, uint8_t>>
+struct TypeInfo<BasicString<ALLOC>, RebindAlloc<ALLOC, std::uint8_t>>
 {
-    static const IBasicTypeInfo<RebindAlloc<ALLOC, uint8_t>>& get()
+    static const IBasicTypeInfo<RebindAlloc<ALLOC, std::uint8_t>>& get()
     {
-        static const BuiltinTypeInfo<RebindAlloc<ALLOC, uint8_t>> typeInfo = {
+        static const BuiltinTypeInfo<RebindAlloc<ALLOC, std::uint8_t>> typeInfo = {
                 "string", SchemaType::STRING, CppType::STRING};
         return typeInfo;
     }

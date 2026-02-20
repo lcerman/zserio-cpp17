@@ -1,6 +1,8 @@
 #ifndef ZSERIO_VIEW_H_INC
 #define ZSERIO_VIEW_H_INC
 
+#include <cstddef>
+#include <cstdint>
 #include <string_view>
 #include <tuple>
 
@@ -39,7 +41,7 @@ template <typename T>
 struct ObjectTraits;
 
 // TODO[Mi-L@]: Do we need to have U&& here? It should take either simple type, or view (or string_view, etc.).
-template <size_t I, typename T, typename U>
+template <std::size_t I, typename T, typename U>
 view_type_t<std::tuple_element_t<I, typename ObjectTraits<T>::Parameters>> makeParameter(U arg)
 {
     using ParamType = std::tuple_element_t<I, typename ObjectTraits<T>::Parameters>;
@@ -149,12 +151,12 @@ class View<detail::DynIntWrapper<VALUE_TYPE>>
 public:
     using ValueType = VALUE_TYPE;
 
-    View(detail::DynIntWrapper<VALUE_TYPE> value, uint8_t numBits) :
+    View(detail::DynIntWrapper<VALUE_TYPE> value, std::uint8_t numBits) :
             m_value(value),
             m_numBits(numBits)
     {}
 
-    uint8_t numBits() const
+    std::uint8_t numBits() const
     {
         return m_numBits;
     }
@@ -171,7 +173,7 @@ public:
 
 private:
     detail::DynIntWrapper<VALUE_TYPE> m_value;
-    uint8_t m_numBits;
+    std::uint8_t m_numBits;
 };
 
 template <typename VALUE_TYPE>
@@ -256,9 +258,9 @@ namespace std
 template <typename VALUE_TYPE>
 struct hash<zserio::View<zserio::detail::DynIntWrapper<VALUE_TYPE>>>
 {
-    size_t operator()(const zserio::View<zserio::detail::DynIntWrapper<VALUE_TYPE>>& view) const
+    std::size_t operator()(const zserio::View<zserio::detail::DynIntWrapper<VALUE_TYPE>>& view) const
     {
-        uint32_t result = zserio::HASH_SEED;
+        std::uint32_t result = zserio::HASH_SEED;
         result = zserio::calcHashCode(result, view.numBits());
         result = zserio::calcHashCode(result, view.value());
         return result;

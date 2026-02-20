@@ -2,6 +2,7 @@
 #define ZSERIO_BIT_BUFFER_H_INC
 
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
 #include <functional>
 #include <string_view>
@@ -31,12 +32,12 @@ struct BitsTag
  * Because bit buffer size does not have to be byte aligned (divisible by 8), it's possible that not all bits
  * of the last byte are used. In this case, only most significant bits of the corresponded size are used.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 class BasicBitBuffer
 {
 public:
-    static_assert(std::is_same<uint8_t, typename ALLOC::value_type>::value,
-            "Allocator with uint8_t value_type is required!");
+    static_assert(std::is_same<std::uint8_t, typename ALLOC::value_type>::value,
+            "Allocator with std::uint8_t value_type is required!");
 
     using allocator_type = ALLOC;
 
@@ -70,7 +71,7 @@ public:
      * \param bitSize Size in bits of created bit buffer.
      * \param allocator Allocator to use for internal vector allocation.
      */
-    explicit BasicBitBuffer(size_t bitSize, const ALLOC& allocator = {});
+    explicit BasicBitBuffer(std::size_t bitSize, const ALLOC& allocator = {});
 
     /**
      * Constructor from span.
@@ -78,7 +79,7 @@ public:
      * \param buffer Span of bytes from which the bit buffer should be created.
      * \param allocator Allocator to use for internal vector allocation.
      */
-    explicit BasicBitBuffer(Span<const uint8_t> buffer, const ALLOC& allocator = {});
+    explicit BasicBitBuffer(Span<const std::uint8_t> buffer, const ALLOC& allocator = {});
 
     /**
      * Constructor from span and bit size.
@@ -89,14 +90,14 @@ public:
      *
      * \throw CppRuntimeException If given bit size is out of range for given Span.
      */
-    explicit BasicBitBuffer(Span<const uint8_t> buffer, size_t bitSize, const ALLOC& allocator = {});
+    explicit BasicBitBuffer(Span<const std::uint8_t> buffer, std::size_t bitSize, const ALLOC& allocator = {});
 
     /**
      * Constructor from moved STL vector.
      *
      * \param buffer STL vector of bytes from which the bit buffer should be created.
      */
-    explicit BasicBitBuffer(std::vector<uint8_t, ALLOC>&& buffer);
+    explicit BasicBitBuffer(std::vector<std::uint8_t, ALLOC>&& buffer);
 
     /**
      * Constructor from moved STL vector and bit size.
@@ -106,7 +107,7 @@ public:
      *
      * \throw CppRuntimeException If given bit size is out of range for given vector.
      */
-    explicit BasicBitBuffer(std::vector<uint8_t, ALLOC>&& buffer, size_t bitSize);
+    explicit BasicBitBuffer(std::vector<std::uint8_t, ALLOC>&& buffer, std::size_t bitSize);
 
     /**
      * Allocator aware copy constructor.
@@ -204,28 +205,28 @@ public:
      *
      * \return Calculated hash code.
      */
-    uint32_t hashCode() const;
+    std::uint32_t hashCode() const;
 
     /**
      * Gets the underlying buffer.
      *
      * \return Pointer to the constant underlying buffer.
      */
-    const uint8_t* getBuffer() const;
+    const std::uint8_t* getBuffer() const;
 
     /**
      * Gets the underlying buffer.
      *
      * \return Pointer to the underlying buffer.
      */
-    uint8_t* getBuffer();
+    std::uint8_t* getBuffer();
 
     /**
      * Gets the number of bits stored in the bit buffer.
      *
      * \return Bit buffer size in bits.
      */
-    size_t getBitSize() const;
+    std::size_t getBitSize() const;
 
     /**
      * Gets the number of bytes stored in the bit buffer.
@@ -234,34 +235,34 @@ public:
      *
      * \return Bit buffer size in bytes.
      */
-    size_t getByteSize() const;
+    std::size_t getByteSize() const;
 
     /**
      * Convenience getter for the underlying buffer.
      *
      * \return Reference to the underlying vector of bytes.
      */
-    const std::vector<uint8_t, ALLOC>& getBytes() const;
+    const std::vector<std::uint8_t, ALLOC>& getBytes() const;
 
     /**
      * Convenience getter for the underlying buffer.
      *
      * \return The span to the underlying vector of bytes.
      */
-    Span<const uint8_t> getData() const;
+    Span<const std::uint8_t> getData() const;
 
     /**
      * Convenience getter for the underlying buffer.
      *
      * \return The span to the underlying vector of bytes.
      */
-    Span<uint8_t> getData();
+    Span<std::uint8_t> getData();
 
 private:
-    uint8_t getMaskedLastByte() const;
+    std::uint8_t getMaskedLastByte() const;
 
-    std::vector<uint8_t, ALLOC> m_buffer;
-    size_t m_bitSize;
+    std::vector<std::uint8_t, ALLOC> m_buffer;
+    std::size_t m_bitSize;
 };
 
 template <typename ALLOC>
@@ -277,23 +278,24 @@ BasicBitBuffer<ALLOC>::BasicBitBuffer(const ALLOC& allocator) :
 {}
 
 template <typename ALLOC>
-BasicBitBuffer<ALLOC>::BasicBitBuffer(size_t bitSize, const ALLOC& allocator) :
+BasicBitBuffer<ALLOC>::BasicBitBuffer(std::size_t bitSize, const ALLOC& allocator) :
         m_buffer((bitSize + 7) / 8, 0, allocator),
         m_bitSize(bitSize)
 {}
 
 template <typename ALLOC>
-BasicBitBuffer<ALLOC>::BasicBitBuffer(Span<const uint8_t> buffer, const ALLOC& allocator) :
+BasicBitBuffer<ALLOC>::BasicBitBuffer(Span<const std::uint8_t> buffer, const ALLOC& allocator) :
         m_buffer(buffer.begin(), buffer.end(), allocator),
         m_bitSize(8 * buffer.size())
 {}
 
 template <typename ALLOC>
-BasicBitBuffer<ALLOC>::BasicBitBuffer(Span<const uint8_t> buffer, size_t bitSize, const ALLOC& allocator) :
+BasicBitBuffer<ALLOC>::BasicBitBuffer(
+        Span<const std::uint8_t> buffer, std::size_t bitSize, const ALLOC& allocator) :
         m_buffer(buffer.begin(), buffer.end(), allocator),
         m_bitSize(bitSize)
 {
-    const size_t byteSize = (bitSize + 7) / 8;
+    const std::size_t byteSize = (bitSize + 7) / 8;
     if (buffer.size() < byteSize)
     {
         throw CppRuntimeException("BitBuffer: Bit size ")
@@ -302,17 +304,17 @@ BasicBitBuffer<ALLOC>::BasicBitBuffer(Span<const uint8_t> buffer, size_t bitSize
 }
 
 template <typename ALLOC>
-BasicBitBuffer<ALLOC>::BasicBitBuffer(std::vector<uint8_t, ALLOC>&& buffer) :
+BasicBitBuffer<ALLOC>::BasicBitBuffer(std::vector<std::uint8_t, ALLOC>&& buffer) :
         m_buffer(std::move(buffer)),
         m_bitSize(8 * m_buffer.size())
 {}
 
 template <typename ALLOC>
-BasicBitBuffer<ALLOC>::BasicBitBuffer(std::vector<uint8_t, ALLOC>&& buffer, size_t bitSize) :
+BasicBitBuffer<ALLOC>::BasicBitBuffer(std::vector<std::uint8_t, ALLOC>&& buffer, std::size_t bitSize) :
         m_buffer(std::move(buffer)),
         m_bitSize(bitSize)
 {
-    const size_t byteSize = (bitSize + 7) / 8;
+    const std::size_t byteSize = (bitSize + 7) / 8;
     if (m_buffer.size() < byteSize)
     {
         throw CppRuntimeException("BitBuffer: Bit size ")
@@ -342,7 +344,7 @@ bool BasicBitBuffer<ALLOC>::operator==(const BasicBitBuffer& other) const
             return false;
         }
 
-        const size_t byteSize = getByteSize();
+        const std::size_t byteSize = getByteSize();
         if (byteSize > 0)
         {
             if (byteSize > 1)
@@ -366,8 +368,8 @@ bool BasicBitBuffer<ALLOC>::operator==(const BasicBitBuffer& other) const
 template <typename ALLOC>
 bool BasicBitBuffer<ALLOC>::operator<(const BasicBitBuffer& other) const
 {
-    const size_t byteSize1 = getByteSize();
-    const size_t byteSize2 = other.getByteSize();
+    const std::size_t byteSize1 = getByteSize();
+    const std::size_t byteSize2 = other.getByteSize();
 
     if (byteSize1 == 0)
     {
@@ -378,7 +380,7 @@ bool BasicBitBuffer<ALLOC>::operator<(const BasicBitBuffer& other) const
         return false;
     }
 
-    using DifferenceType = typename std::vector<uint8_t, ALLOC>::iterator::difference_type;
+    using DifferenceType = typename std::vector<std::uint8_t, ALLOC>::iterator::difference_type;
 
     auto first1 = m_buffer.begin();
     const auto last1 = first1 + static_cast<DifferenceType>(byteSize1 - 1);
@@ -411,10 +413,10 @@ bool BasicBitBuffer<ALLOC>::operator<(const BasicBitBuffer& other) const
 }
 
 template <typename ALLOC>
-uint32_t BasicBitBuffer<ALLOC>::hashCode() const
+std::uint32_t BasicBitBuffer<ALLOC>::hashCode() const
 {
-    uint32_t result = HASH_SEED;
-    const size_t byteSize = getByteSize();
+    std::uint32_t result = HASH_SEED;
+    const std::size_t byteSize = getByteSize();
     if (byteSize > 0)
     {
         if (byteSize > 1)
@@ -432,66 +434,66 @@ uint32_t BasicBitBuffer<ALLOC>::hashCode() const
 }
 
 template <typename ALLOC>
-const uint8_t* BasicBitBuffer<ALLOC>::getBuffer() const
+const std::uint8_t* BasicBitBuffer<ALLOC>::getBuffer() const
 {
     return m_buffer.data();
 }
 
 template <typename ALLOC>
-uint8_t* BasicBitBuffer<ALLOC>::getBuffer()
+std::uint8_t* BasicBitBuffer<ALLOC>::getBuffer()
 {
     return m_buffer.data();
 }
 
 template <typename ALLOC>
-size_t BasicBitBuffer<ALLOC>::getBitSize() const
+std::size_t BasicBitBuffer<ALLOC>::getBitSize() const
 {
     return m_bitSize;
 }
 
 template <typename ALLOC>
-size_t BasicBitBuffer<ALLOC>::getByteSize() const
+std::size_t BasicBitBuffer<ALLOC>::getByteSize() const
 {
     return (m_bitSize + 7) / 8;
 }
 
 template <typename ALLOC>
-const std::vector<uint8_t, ALLOC>& BasicBitBuffer<ALLOC>::getBytes() const
+const std::vector<std::uint8_t, ALLOC>& BasicBitBuffer<ALLOC>::getBytes() const
 {
     return m_buffer;
 }
 
 template <typename ALLOC>
-Span<const uint8_t> BasicBitBuffer<ALLOC>::getData() const
+Span<const std::uint8_t> BasicBitBuffer<ALLOC>::getData() const
 {
-    return Span<const uint8_t>(m_buffer);
+    return Span<const std::uint8_t>(m_buffer);
 }
 
 template <typename ALLOC>
-Span<uint8_t> BasicBitBuffer<ALLOC>::getData()
+Span<std::uint8_t> BasicBitBuffer<ALLOC>::getData()
 {
-    return Span<uint8_t>(m_buffer);
+    return Span<std::uint8_t>(m_buffer);
 }
 
 template <typename ALLOC>
-uint8_t BasicBitBuffer<ALLOC>::getMaskedLastByte() const
+std::uint8_t BasicBitBuffer<ALLOC>::getMaskedLastByte() const
 {
-    const size_t roundedByteSize = m_bitSize / 8;
-    const uint8_t lastByteBits = static_cast<uint8_t>(m_bitSize - 8 * roundedByteSize);
+    const std::size_t roundedByteSize = m_bitSize / 8;
+    const std::uint8_t lastByteBits = static_cast<std::uint8_t>(m_bitSize - 8 * roundedByteSize);
 
     return (lastByteBits == 0)
             ? m_buffer[roundedByteSize - 1]
-            : static_cast<uint8_t>(m_buffer[roundedByteSize] & (0xFFU << (8U - lastByteBits)));
+            : static_cast<std::uint8_t>(m_buffer[roundedByteSize] & (0xFFU << (8U - lastByteBits)));
 }
 
-/** Typedef to BitBuffer provided for convenience - using std::allocator<uint8_t>. */
+/** Typedef to BitBuffer provided for convenience - using std::allocator<std::uint8_t>. */
 using BitBuffer = BasicBitBuffer<>;
 
 /** BitBufferView which is just a reference_wrapper for simplicity. */
 template <typename ALLOC>
 using BasicBitBufferView = std::reference_wrapper<const BasicBitBuffer<ALLOC>>;
 
-/** Typedef to BitBufferView provided for convenience - using std::allocator<uint8_t>. */
+/** Typedef to BitBufferView provided for convenience - using std::allocator<std::uint8_t>. */
 using BitBufferView = std::reference_wrapper<const BitBuffer>;
 
 template <typename ALLOC>
@@ -564,7 +566,7 @@ CppRuntimeException& operator<<(CppRuntimeException& exception, const BasicBitBu
  * \return Calculated hash code.
  */
 template <typename ALLOC>
-uint32_t calcHashCode(uint32_t seedValue, const BasicBitBuffer<ALLOC>& value)
+std::uint32_t calcHashCode(std::uint32_t seedValue, const BasicBitBuffer<ALLOC>& value)
 {
     return calcHashCode(seedValue, std::hash<BasicBitBuffer<ALLOC>>{}(value));
 }
@@ -607,9 +609,9 @@ namespace std
 template <typename ALLOC>
 struct hash<zserio::BasicBitBuffer<ALLOC>>
 {
-    size_t operator()(const zserio::BasicBitBuffer<ALLOC>& bitBuffer) const
+    std::size_t operator()(const zserio::BasicBitBuffer<ALLOC>& bitBuffer) const
     {
-        return static_cast<size_t>(bitBuffer.hashCode());
+        return static_cast<std::size_t>(bitBuffer.hashCode());
     }
 };
 
@@ -619,9 +621,9 @@ struct hash<zserio::BasicBitBuffer<ALLOC>>
 template <typename ALLOC>
 struct hash<zserio::BasicBitBufferView<ALLOC>>
 {
-    size_t operator()(const zserio::BasicBitBufferView<ALLOC>& bitBuffer) const
+    std::size_t operator()(const zserio::BasicBitBufferView<ALLOC>& bitBuffer) const
     {
-        return static_cast<size_t>(bitBuffer.get().hashCode());
+        return static_cast<std::size_t>(bitBuffer.get().hashCode());
     }
 };
 

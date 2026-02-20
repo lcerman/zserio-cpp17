@@ -80,17 +80,17 @@ inline constexpr bool is_delta_context_v = is_delta_context<T>::value;
 template <typename T>
 struct NumericArrayTraits
 {
-    static const T& at(const detail::DummyArrayOwner&, const T& element, size_t)
+    static const T& at(const detail::DummyArrayOwner&, const T& element, std::size_t)
     {
         return element;
     }
 
-    static T& at(const detail::DummyArrayOwner&, T& element, size_t)
+    static T& at(const detail::DummyArrayOwner&, T& element, std::size_t)
     {
         return element;
     }
 
-    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, T& element, size_t)
+    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, T& element, std::size_t)
     {
         detail::read(reader, element);
     }
@@ -106,8 +106,8 @@ struct IntegralArrayTraits : NumericArrayTraits<T>
 {
     using NumericArrayTraits<T>::read;
 
-    static void read(
-            DeltaContext& context, BitStreamReader& reader, const detail::DummyArrayOwner&, T& element, size_t)
+    static void read(DeltaContext& context, BitStreamReader& reader, const detail::DummyArrayOwner&, T& element,
+            std::size_t)
     {
         detail::read(context, reader, element);
     }
@@ -121,19 +121,19 @@ struct ArrayTraits
 {
     template <typename OBJECT_ = OBJECT,
             std::enable_if_t<std::is_constructible_v<View<OBJECT_>, const OBJECT&>, int> = 0>
-    static View<OBJECT> at(const detail::DummyArrayOwner&, const OBJECT& element, size_t)
+    static View<OBJECT> at(const detail::DummyArrayOwner&, const OBJECT& element, std::size_t)
     {
         return View<OBJECT>(element);
     }
 
     template <typename OBJECT_ = OBJECT,
             std::enable_if_t<std::is_constructible_v<View<OBJECT_>, OBJECT&>, int> = 0>
-    static View<OBJECT> at(const detail::DummyArrayOwner&, OBJECT& element, size_t)
+    static View<OBJECT> at(const detail::DummyArrayOwner&, OBJECT& element, std::size_t)
     {
         return View<OBJECT>(element);
     }
 
-    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, OBJECT& element, size_t)
+    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, OBJECT& element, std::size_t)
     {
         (void)detail::read(reader, element);
     }
@@ -141,7 +141,7 @@ struct ArrayTraits
     template <typename OBJECT_ = OBJECT>
     static std::enable_if_t<!detail::is_delta_context_v<detail::packing_context_type_t<OBJECT_>>> read(
             typename detail::ObjectTraits<OBJECT_>::PackingContext& packingContext, BitStreamReader& reader,
-            const detail::DummyArrayOwner&, OBJECT& element, size_t)
+            const detail::DummyArrayOwner&, OBJECT& element, std::size_t)
     {
         detail::read(packingContext, reader, element);
     }
@@ -169,13 +169,13 @@ struct ArrayTraits<detail::FloatWrapper<VALUE_TYPE, FLOAT_TYPE>>
 template <typename ALLOC>
 struct ArrayTraits<BasicBytes<ALLOC>>
 {
-    static constexpr BytesView at(const detail::DummyArrayOwner&, const BasicBytes<ALLOC>& element, size_t)
+    static constexpr BytesView at(const detail::DummyArrayOwner&, const BasicBytes<ALLOC>& element, std::size_t)
     {
         return element;
     }
 
     static void read(
-            BitStreamReader& reader, const detail::DummyArrayOwner&, BasicBytes<ALLOC>& element, size_t)
+            BitStreamReader& reader, const detail::DummyArrayOwner&, BasicBytes<ALLOC>& element, std::size_t)
     {
         detail::read(reader, element);
     }
@@ -185,13 +185,13 @@ template <typename ALLOC>
 struct ArrayTraits<BasicBitBuffer<ALLOC>>
 {
     static constexpr BasicBitBufferView<ALLOC> at(
-            const detail::DummyArrayOwner&, const BasicBitBuffer<ALLOC>& element, size_t)
+            const detail::DummyArrayOwner&, const BasicBitBuffer<ALLOC>& element, std::size_t)
     {
         return element;
     }
 
-    static void read(
-            BitStreamReader& reader, const detail::DummyArrayOwner&, BasicBitBuffer<ALLOC>& element, size_t)
+    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, BasicBitBuffer<ALLOC>& element,
+            std::size_t)
     {
         detail::read(reader, element);
     }
@@ -200,13 +200,13 @@ struct ArrayTraits<BasicBitBuffer<ALLOC>>
 template <typename ALLOC>
 struct ArrayTraits<BasicString<ALLOC>>
 {
-    static constexpr std::string_view at(const detail::DummyArrayOwner&, std::string_view element, size_t)
+    static constexpr std::string_view at(const detail::DummyArrayOwner&, std::string_view element, std::size_t)
     {
         return element;
     }
 
     static void read(
-            BitStreamReader& reader, const detail::DummyArrayOwner&, BasicString<ALLOC>& element, size_t)
+            BitStreamReader& reader, const detail::DummyArrayOwner&, BasicString<ALLOC>& element, std::size_t)
     {
         detail::read(reader, element);
     }
@@ -215,18 +215,18 @@ struct ArrayTraits<BasicString<ALLOC>>
 template <typename T>
 struct ArrayTraits<T, std::enable_if_t<std::is_enum_v<T>>>
 {
-    static T at(const detail::DummyArrayOwner&, T element, size_t)
+    static T at(const detail::DummyArrayOwner&, T element, std::size_t)
     {
         return element;
     }
 
-    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, T& element, size_t)
+    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, T& element, std::size_t)
     {
         detail::read(reader, element);
     }
 
     static void read(detail::DeltaContext& context, BitStreamReader& reader, const detail::DummyArrayOwner&,
-            T& element, size_t)
+            T& element, std::size_t)
     {
         detail::read(context, reader, element);
     }
@@ -235,18 +235,18 @@ struct ArrayTraits<T, std::enable_if_t<std::is_enum_v<T>>>
 template <typename T>
 struct ArrayTraits<T, std::enable_if_t<zserio::is_bitmask_v<T>>>
 {
-    static T at(const detail::DummyArrayOwner&, T element, size_t)
+    static T at(const detail::DummyArrayOwner&, T element, std::size_t)
     {
         return element;
     }
 
-    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, T& element, size_t)
+    static void read(BitStreamReader& reader, const detail::DummyArrayOwner&, T& element, std::size_t)
     {
         detail::read(reader, element);
     }
 
     static void read(detail::DeltaContext& context, BitStreamReader& reader, const detail::DummyArrayOwner&,
-            T& element, size_t)
+            T& element, std::size_t)
     {
         detail::read(context, reader, element);
     }

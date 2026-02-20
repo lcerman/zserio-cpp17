@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstring>
 
 #include "zserio/FloatUtil.h"
@@ -5,44 +6,44 @@
 namespace zserio
 {
 
-static constexpr uint16_t FLOAT16_SIGN_MASK = UINT16_C(0x8000);
-static constexpr uint16_t FLOAT16_EXPONENT_MASK = UINT16_C(0x7C00);
-static constexpr uint16_t FLOAT16_SIGNIFICAND_MASK = UINT16_C(0x03FF);
+static constexpr std::uint16_t FLOAT16_SIGN_MASK = UINT16_C(0x8000);
+static constexpr std::uint16_t FLOAT16_EXPONENT_MASK = UINT16_C(0x7C00);
+static constexpr std::uint16_t FLOAT16_SIGNIFICAND_MASK = UINT16_C(0x03FF);
 
-static constexpr uint16_t FLOAT16_SIGN_BIT_POSITION = UINT16_C(15);
-static constexpr uint16_t FLOAT16_EXPONENT_BIT_POSITION = UINT16_C(10);
+static constexpr std::uint16_t FLOAT16_SIGN_BIT_POSITION = UINT16_C(15);
+static constexpr std::uint16_t FLOAT16_EXPONENT_BIT_POSITION = UINT16_C(10);
 
-static constexpr uint16_t FLOAT16_SIGNIFICAND_NUM_BITS = FLOAT16_EXPONENT_BIT_POSITION;
+static constexpr std::uint16_t FLOAT16_SIGNIFICAND_NUM_BITS = FLOAT16_EXPONENT_BIT_POSITION;
 
-static constexpr uint16_t FLOAT16_EXPONENT_INFINITY_NAN = UINT16_C(0x001F);
-static constexpr uint16_t FLOAT16_EXPONENT_BIAS = UINT16_C(15);
+static constexpr std::uint16_t FLOAT16_EXPONENT_INFINITY_NAN = UINT16_C(0x001F);
+static constexpr std::uint16_t FLOAT16_EXPONENT_BIAS = UINT16_C(15);
 
-static constexpr uint32_t FLOAT32_SIGN_MASK = UINT32_C(0x80000000);
-static constexpr uint32_t FLOAT32_EXPONENT_MASK = UINT32_C(0x7F800000);
-static constexpr uint32_t FLOAT32_SIGNIFICAND_MASK = UINT32_C(0x007FFFFF);
+static constexpr std::uint32_t FLOAT32_SIGN_MASK = UINT32_C(0x80000000);
+static constexpr std::uint32_t FLOAT32_EXPONENT_MASK = UINT32_C(0x7F800000);
+static constexpr std::uint32_t FLOAT32_SIGNIFICAND_MASK = UINT32_C(0x007FFFFF);
 
-static constexpr uint32_t FLOAT32_SIGN_BIT_POSITION = UINT32_C(31);
-static constexpr uint32_t FLOAT32_EXPONENT_BIT_POSITION = UINT32_C(23);
+static constexpr std::uint32_t FLOAT32_SIGN_BIT_POSITION = UINT32_C(31);
+static constexpr std::uint32_t FLOAT32_EXPONENT_BIT_POSITION = UINT32_C(23);
 
-static constexpr uint32_t FLOAT32_SIGNIFICAND_NUM_BITS = FLOAT32_EXPONENT_BIT_POSITION;
+static constexpr std::uint32_t FLOAT32_SIGNIFICAND_NUM_BITS = FLOAT32_EXPONENT_BIT_POSITION;
 
-static constexpr uint32_t FLOAT32_EXPONENT_INFINITY_NAN = UINT32_C(0x00FF);
-static constexpr uint32_t FLOAT32_EXPONENT_BIAS = UINT32_C(127);
+static constexpr std::uint32_t FLOAT32_EXPONENT_INFINITY_NAN = UINT32_C(0x00FF);
+static constexpr std::uint32_t FLOAT32_EXPONENT_BIAS = UINT32_C(127);
 
-float convertUInt16ToFloat(uint16_t float16Value)
+float convertUInt16ToFloat(std::uint16_t float16Value)
 {
     // decompose half precision float (float16)
-    const uint16_t sign16Shifted = (float16Value & FLOAT16_SIGN_MASK);
-    const uint16_t exponent16 = static_cast<uint16_t>(
-            static_cast<uint16_t>(float16Value & FLOAT16_EXPONENT_MASK) >> FLOAT16_EXPONENT_BIT_POSITION);
-    const uint16_t significand16 = (float16Value & FLOAT16_SIGNIFICAND_MASK);
+    const std::uint16_t sign16Shifted = (float16Value & FLOAT16_SIGN_MASK);
+    const std::uint16_t exponent16 = static_cast<std::uint16_t>(
+            static_cast<std::uint16_t>(float16Value & FLOAT16_EXPONENT_MASK) >> FLOAT16_EXPONENT_BIT_POSITION);
+    const std::uint16_t significand16 = (float16Value & FLOAT16_SIGNIFICAND_MASK);
 
     // calculate significand for single precision float (float32)
-    uint32_t significand32 = static_cast<uint32_t>(significand16)
+    std::uint32_t significand32 = static_cast<std::uint32_t>(significand16)
             << (FLOAT32_SIGNIFICAND_NUM_BITS - FLOAT16_SIGNIFICAND_NUM_BITS);
 
     // calculate exponent for single precision float (float32)
-    uint32_t exponent32 = 0;
+    std::uint32_t exponent32 = 0;
     if (exponent16 == 0)
     {
         if (significand32 != 0)
@@ -67,35 +68,35 @@ float convertUInt16ToFloat(uint16_t float16Value)
     else
     {
         // normal number
-        exponent32 = static_cast<uint32_t>(exponent16) - FLOAT16_EXPONENT_BIAS + FLOAT32_EXPONENT_BIAS;
+        exponent32 = static_cast<std::uint32_t>(exponent16) - FLOAT16_EXPONENT_BIAS + FLOAT32_EXPONENT_BIAS;
     }
 
     // compose single precision float (float32)
-    const uint32_t sign32Shifted = static_cast<uint32_t>(sign16Shifted)
+    const std::uint32_t sign32Shifted = static_cast<std::uint32_t>(sign16Shifted)
             << (FLOAT32_SIGN_BIT_POSITION - FLOAT16_SIGN_BIT_POSITION);
-    const uint32_t exponent32Shifted = exponent32 << FLOAT32_EXPONENT_BIT_POSITION;
-    const uint32_t float32Value = sign32Shifted | exponent32Shifted | significand32;
+    const std::uint32_t exponent32Shifted = exponent32 << FLOAT32_EXPONENT_BIT_POSITION;
+    const std::uint32_t float32Value = sign32Shifted | exponent32Shifted | significand32;
 
     // convert it to float
     return convertUInt32ToFloat(float32Value);
 }
 
-uint16_t convertFloatToUInt16(float float32)
+std::uint16_t convertFloatToUInt16(float float32)
 {
-    const uint32_t float32Value = convertFloatToUInt32(float32);
+    const std::uint32_t float32Value = convertFloatToUInt32(float32);
 
     // decompose single precision float (float32)
-    const uint32_t sign32Shifted = (float32Value & FLOAT32_SIGN_MASK);
-    const uint32_t exponent32 = (float32Value & FLOAT32_EXPONENT_MASK) >> FLOAT32_EXPONENT_BIT_POSITION;
-    const uint32_t significand32 = (float32Value & FLOAT32_SIGNIFICAND_MASK);
+    const std::uint32_t sign32Shifted = (float32Value & FLOAT32_SIGN_MASK);
+    const std::uint32_t exponent32 = (float32Value & FLOAT32_EXPONENT_MASK) >> FLOAT32_EXPONENT_BIT_POSITION;
+    const std::uint32_t significand32 = (float32Value & FLOAT32_SIGNIFICAND_MASK);
 
     // calculate significand for half precision float (float16)
-    uint16_t significand16 = static_cast<uint16_t>(
+    std::uint16_t significand16 = static_cast<std::uint16_t>(
             (significand32 >> (FLOAT32_SIGNIFICAND_NUM_BITS - FLOAT16_SIGNIFICAND_NUM_BITS)));
 
     // calculate exponent for half precision float (float16)
     bool needsRounding = false;
-    uint16_t exponent16 = 0;
+    std::uint16_t exponent16 = 0;
     if (exponent32 == 0)
     {
         if (significand32 != 0)
@@ -112,8 +113,9 @@ uint16_t convertFloatToUInt16(float float32)
     else
     {
         // normal number
-        const int16_t signedExponent16 = static_cast<int16_t>(static_cast<int32_t>(exponent32) -
-                static_cast<int32_t>(FLOAT32_EXPONENT_BIAS) + static_cast<int32_t>(FLOAT16_EXPONENT_BIAS));
+        const std::int16_t signedExponent16 = static_cast<std::int16_t>(static_cast<std::int32_t>(exponent32) -
+                static_cast<std::int32_t>(FLOAT32_EXPONENT_BIAS) +
+                static_cast<std::int32_t>(FLOAT16_EXPONENT_BIAS));
         if (signedExponent16 > FLOAT16_EXPONENT_INFINITY_NAN)
         {
             // exponent overflow, set infinity or NaN
@@ -122,7 +124,7 @@ uint16_t convertFloatToUInt16(float float32)
         else if (signedExponent16 <= 0)
         {
             // exponent underflow
-            if (signedExponent16 <= static_cast<int16_t>(-FLOAT16_SIGNIFICAND_NUM_BITS))
+            if (signedExponent16 <= static_cast<std::int16_t>(-FLOAT16_SIGNIFICAND_NUM_BITS))
             {
                 // too big underflow, set to zero
                 significand16 = 0;
@@ -130,9 +132,9 @@ uint16_t convertFloatToUInt16(float float32)
             else
             {
                 // we can still use subnormal numbers
-                const uint32_t fullSignificand32 = significand32 | (FLOAT32_SIGNIFICAND_MASK + 1);
-                const uint32_t significandShift = static_cast<uint32_t>(1 - signedExponent16);
-                significand16 = static_cast<uint16_t>(fullSignificand32 >>
+                const std::uint32_t fullSignificand32 = significand32 | (FLOAT32_SIGNIFICAND_MASK + 1);
+                const std::uint32_t significandShift = static_cast<std::uint32_t>(1 - signedExponent16);
+                significand16 = static_cast<std::uint16_t>(fullSignificand32 >>
                         (FLOAT32_SIGNIFICAND_NUM_BITS - FLOAT16_SIGNIFICAND_NUM_BITS + significandShift));
 
                 needsRounding =
@@ -144,7 +146,7 @@ uint16_t convertFloatToUInt16(float float32)
         else
         {
             // exponent ok
-            exponent16 = static_cast<uint16_t>(signedExponent16);
+            exponent16 = static_cast<std::uint16_t>(signedExponent16);
             needsRounding =
                     ((significand32 >> (FLOAT32_SIGNIFICAND_NUM_BITS - FLOAT16_SIGNIFICAND_NUM_BITS - 1)) &
                             UINT32_C(1)) != 0;
@@ -152,10 +154,11 @@ uint16_t convertFloatToUInt16(float float32)
     }
 
     // compose half precision float (float16)
-    const uint16_t sign16Shifted =
-            static_cast<uint16_t>(sign32Shifted >> (FLOAT32_SIGN_BIT_POSITION - FLOAT16_SIGN_BIT_POSITION));
-    const uint16_t exponent16Shifted = static_cast<uint16_t>(exponent16 << FLOAT16_EXPONENT_BIT_POSITION);
-    uint16_t float16Value = static_cast<uint16_t>(sign16Shifted | exponent16Shifted) | significand16;
+    const std::uint16_t sign16Shifted = static_cast<std::uint16_t>(
+            sign32Shifted >> (FLOAT32_SIGN_BIT_POSITION - FLOAT16_SIGN_BIT_POSITION));
+    const std::uint16_t exponent16Shifted =
+            static_cast<std::uint16_t>(exponent16 << FLOAT16_EXPONENT_BIT_POSITION);
+    std::uint16_t float16Value = static_cast<std::uint16_t>(sign16Shifted | exponent16Shifted) | significand16;
 
     // check rounding
     if (needsRounding)
@@ -166,33 +169,33 @@ uint16_t convertFloatToUInt16(float float32)
     return float16Value;
 }
 
-float convertUInt32ToFloat(uint32_t float32Value)
+float convertUInt32ToFloat(std::uint32_t float32Value)
 {
     float convertedFloat = 0.0F;
-    (void)std::memcpy(&convertedFloat, &float32Value, sizeof(uint32_t));
+    (void)std::memcpy(&convertedFloat, &float32Value, sizeof(std::uint32_t));
 
     return convertedFloat;
 }
 
-uint32_t convertFloatToUInt32(float float32)
+std::uint32_t convertFloatToUInt32(float float32)
 {
-    uint32_t float32Value = 0;
+    std::uint32_t float32Value = 0;
     (void)std::memcpy(&float32Value, &float32, sizeof(float));
 
     return float32Value;
 }
 
-double convertUInt64ToDouble(uint64_t float64Value)
+double convertUInt64ToDouble(std::uint64_t float64Value)
 {
     double convertedDouble = 0.0;
-    (void)std::memcpy(&convertedDouble, &float64Value, sizeof(uint64_t));
+    (void)std::memcpy(&convertedDouble, &float64Value, sizeof(std::uint64_t));
 
     return convertedDouble;
 }
 
-uint64_t convertDoubleToUInt64(double float64)
+std::uint64_t convertDoubleToUInt64(double float64)
 {
-    uint64_t float64Value = 0;
+    std::uint64_t float64Value = 0;
     (void)std::memcpy(&float64Value, &float64, sizeof(double));
 
     return float64Value;

@@ -1,6 +1,9 @@
 #ifndef ZSERIO_VARIANT_H_INC
 #define ZSERIO_VARIANT_H_INC
 
+#include <cstddef>
+#include <cstdint>
+
 #include "zserio/AllocatorHolder.h"
 #include "zserio/Any.h"
 #include "zserio/CppRuntimeException.h"
@@ -13,51 +16,51 @@ namespace zserio
 namespace detail
 {
 
-template <size_t I, typename... T>
+template <std::size_t I, typename... T>
 struct type_at
 {
     using type = std::tuple_element_t<I, std::tuple<T...>>;
 };
 
 template <auto I, typename... T>
-using type_at_t = typename type_at<static_cast<size_t>(I), T...>::type;
+using type_at_t = typename type_at<static_cast<std::size_t>(I), T...>::type;
 
-template <size_t N, typename V, typename F>
+template <std::size_t N, typename V, typename F>
 void for_active_item(const V&, F&&, std::false_type)
 {}
 
-template <size_t N, typename V, typename F>
+template <std::size_t N, typename V, typename F>
 void for_active_item(const V& var, F&& fun, std::true_type = {})
 {
     using INDEX = typename V::IndexType;
-    if (static_cast<size_t>(var.index()) == N - 1)
+    if (static_cast<std::size_t>(var.index()) == N - 1)
     {
         std::forward<F>(fun)(*var.template get_if<static_cast<INDEX>(N - 1)>());
     }
     for_active_item<N - 1>(var, std::forward<F>(fun), std::bool_constant<(N - 1 > 0)>());
 }
 
-template <size_t N, typename V, typename F>
+template <std::size_t N, typename V, typename F>
 void for_active_item(V& var, F&& fun, std::true_type = {})
 {
     using INDEX = typename V::IndexType;
-    if (static_cast<size_t>(var.index()) == N - 1)
+    if (static_cast<std::size_t>(var.index()) == N - 1)
     {
         std::forward<F>(fun)(*var.template get_if<static_cast<INDEX>(N - 1)>());
     }
     for_active_item<N - 1>(var, std::forward<F>(fun), std::bool_constant<(N - 1 > 0)>());
 }
 
-template <size_t N, typename V, typename F>
+template <std::size_t N, typename V, typename F>
 void for_active_item_2(const V&, const V&, F&&, std::false_type)
 {}
 
-template <size_t N, typename V, typename F>
+template <std::size_t N, typename V, typename F>
 void for_active_item_2(const V& var1, const V& var2, F&& fun, std::true_type = {})
 {
     // assert(var1.index() == var2.index());
     using INDEX = typename V::IndexType;
-    if (static_cast<size_t>(var1.index()) == N - 1)
+    if (static_cast<std::size_t>(var1.index()) == N - 1)
     {
         std::forward<F>(fun)(*var1.template get_if<static_cast<INDEX>(N - 1)>(),
                 *var2.template get_if<static_cast<INDEX>(N - 1)>());
@@ -94,7 +97,7 @@ constexpr in_place_index_t<I> in_place_index{};
  *
  * Largely compatible with std::variant with following differences:
  * - access only through index whose type has to be specified (by design)
- * - supplied INDEX type needs to be convertible to/from size_t and std::variant_npos
+ * - supplied INDEX type needs to be convertible to/from std::size_t and std::variant_npos
  * - holds_alternative() omitted
  * - get/get_if() exist as member functions as well
  */
@@ -254,7 +257,7 @@ public:
      */
     bool valueless_by_exception() const noexcept
     {
-        return static_cast<size_t>(index()) == std::variant_npos || !m_data.hasValue();
+        return static_cast<std::size_t>(index()) == std::variant_npos || !m_data.hasValue();
     }
 
     /**
@@ -317,7 +320,8 @@ public:
         if (!ptr)
         {
             throw BadVariantAccess("Variant: Attempt to retrieve an inactive element at index ")
-                    << static_cast<size_t>(I) << ". Active element index is " << static_cast<size_t>(index());
+                    << static_cast<std::size_t>(I) << ". Active element index is "
+                    << static_cast<std::size_t>(index());
         }
         return *ptr;
     }
@@ -334,7 +338,8 @@ public:
         if (!ptr)
         {
             throw BadVariantAccess("Variant: Attempt to retrieve an inactive element at index ")
-                    << static_cast<size_t>(I) << ". Active element index is " << static_cast<size_t>(index());
+                    << static_cast<std::size_t>(I) << ". Active element index is "
+                    << static_cast<std::size_t>(index());
         }
         return *ptr;
     }
@@ -498,7 +503,7 @@ private:
 // Using declarations
 
 template <typename INDEX, typename... T>
-using Variant = BasicVariant<std::allocator<uint8_t>, INDEX, T...>;
+using Variant = BasicVariant<std::allocator<std::uint8_t>, INDEX, T...>;
 
 /**
  * Gets value of an element at given index.
@@ -587,10 +592,10 @@ decltype(auto) visit(F&& fun, const BasicVariant<ALLOC, INDEX, T...>& var)
  * \param var Variant to calculate the hash from.
  */
 template <typename ALLOC, typename INDEX, typename... T>
-uint32_t calcHashCode(uint32_t seed, const BasicVariant<ALLOC, INDEX, T...>& var)
+std::uint32_t calcHashCode(std::uint32_t seed, const BasicVariant<ALLOC, INDEX, T...>& var)
 {
-    uint32_t result = seed;
-    result = calcHashCode(result, static_cast<size_t>(var.index()));
+    std::uint32_t result = seed;
+    result = calcHashCode(result, static_cast<std::size_t>(var.index()));
     var.visit([&result](const auto& value) {
         result = calcHashCode(result, value);
     });
@@ -605,7 +610,7 @@ namespace std
 template <typename ALLOC, typename INDEX, typename... T>
 struct hash<zserio::BasicVariant<ALLOC, INDEX, T...>>
 {
-    size_t operator()(const zserio::BasicVariant<ALLOC, INDEX, T...>& var) const
+    std::size_t operator()(const zserio::BasicVariant<ALLOC, INDEX, T...>& var) const
     {
         return zserio::calcHashCode(zserio::HASH_SEED, var);
     }

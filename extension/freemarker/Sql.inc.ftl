@@ -128,7 +128,7 @@
             </#if>
         </#list>
     <#elseif field.typeInfo.isDynamicBitField>
-        , static_cast<uint8_t>(${field.dynamicBitFieldLength.expression})<#t>
+        , static_cast<::std::uint8_t>(${field.dynamicBitFieldLength.expression})<#t>
     </#if>
 </#macro>
 

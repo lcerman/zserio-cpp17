@@ -163,7 +163,7 @@ template <typename>
 struct is_span : std::false_type
 {};
 
-template <typename T, size_t Extent>
+template <typename T, std::size_t Extent>
 struct is_span<Span<T, Extent>> : std::true_type
 {};
 

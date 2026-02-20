@@ -1,6 +1,7 @@
 #ifndef ZSERIO_I_INTROSPECTABLE_VIEW_INC
 #define ZSERIO_I_INTROSPECTABLE_VIEW_INC
 
+#include <cstdint>
 #include <memory>
 #include <string_view>
 
@@ -17,7 +18,7 @@ namespace zserio
  * This is read-only interface which offers all information available from the View abstraction of the Zserio
  * objects including parameters, functions and serialization feature.
  */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 class IBasicIntrospectableView : public IIntrospectableData<IBasicIntrospectableView<ALLOC>, ALLOC>
 {
 public:
@@ -73,10 +74,11 @@ public:
 };
 
 /** Typedef to introspectable smart pointer needed for convenience in generated code. */
-template <typename ALLOC = std::allocator<uint8_t>>
+template <typename ALLOC = std::allocator<std::uint8_t>>
 using IBasicIntrospectableViewConstPtr = typename IBasicIntrospectableView<ALLOC>::ConstPtr;
 
-/** Typedef to introspectable interface provided for convenience - using default std::allocator<uint8_t>. */
+/** Typedef to introspectable interface provided for convenience - using default std::allocator<std::uint8_t>.
+ */
 /** \{ */
 using IIntrospectableView = IBasicIntrospectableView<>;
 using IIntrospectableViewConstPtr = IBasicIntrospectableViewConstPtr<>;
@@ -105,7 +107,7 @@ IBasicIntrospectableViewConstPtr<ALLOC> introspectable(const View<T>& view, cons
     return detail::Introspectable<T, ALLOC>::create(view, allocator);
 }
 
-template <typename T, typename ALLOC = std::allocator<uint8_t>,
+template <typename T, typename ALLOC = std::allocator<std::uint8_t>,
         std::enable_if_t<std::is_enum_v<T> || is_bitmask_v<T>, int> = 0>
 IBasicIntrospectableViewConstPtr<ALLOC> introspectable(T value, const ALLOC& allocator = ALLOC())
 {
