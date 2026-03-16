@@ -1,6 +1,5 @@
 # General notes
 
-- In case of change any sources, you must run all GitHub actions stored in the directory ./.github/workflows. All these GitHub actions must pass.
 - The coding style must be checked by clang-format. The coding style is defined by the configuration file ./.clang-format.
 - The quality style must be checked by clang-tidy. The quality style is defined by the configuration file ./runtime/ClangTidyConfig.txt.
 - All clang-tidy findings must be fixed if it is possible.
@@ -18,15 +17,9 @@
   - CLANG_TIDY_BIN=clang-tidy
   - CLANG_FORMAT_BIN=clang-format
   - CMAKE_EXTRA_ARGS='-DCMAKE_BUILD_TYPE=Debug'
-- The following g++ and clang versions must be used:
-  - g++ 11.4.0
-  - clang 18.1.3
-- For g++, the runtime library can be built and tested using the command `scripts/build.sh cpp_rt-linux64-gcc`.
-- For clang, the runtime library can be built and tested using the command `scripts/build.sh cpp_rt-linux64-clang`.
-- The C++17 extension can be built using the command `scripts/build.sh cpp`.
-- The Zserio bundle together with the C++17 extension can be build using the command `scripts/build.sh zserio`.
-- For g++, the integration tests can be run using the command `scripts/test.sh cpp-linux64-gcc`.
-- For clang, the integration tests can be run using the command `scripts/test.sh cpp-linux64-clang`.
+  - MAKE_CMAKE_GENERATOR="Eclipse CDT4 - Unix Makefiles"
+- The clang-18 version must be used.
+- The runtime library can be built and tested using the command `scripts/build.sh cpp_rt-linux64-clang`.
 
 # Others
 
