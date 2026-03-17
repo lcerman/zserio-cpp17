@@ -456,31 +456,27 @@ public:
         {
             std::swap(m_untypedHolder.heap, other.m_untypedHolder.heap);
         }
-        else if constexpr (AllocTraits::propagate_on_container_swap::value)
+        else
         {
-            if (get_allocator_ref() != other.get_allocator_ref())
+            BasicAny tmpThis(std::move(*this), get_allocator_ref());
+            if constexpr (AllocTraits::propagate_on_container_swap::value)
             {
-                BasicAny tmpThis(std::move(*this), get_allocator_ref());
-                BasicAny tmpOther(std::move(other), other.get_allocator_ref());
-
-                using std::swap;
-                swap(get_allocator_ref(), other.get_allocator_ref());
-
-                move(std::move(tmpOther));
-                other.move(std::move(tmpThis));
+                if (get_allocator_ref() != other.get_allocator_ref())
+                {
+                    BasicAny tmpOther(std::move(other), other.get_allocator_ref());
+                    std::swap(get_allocator_ref(), other.get_allocator_ref());
+                    move(std::move(tmpOther));
+                }
+                else
+                {
+                    move(std::move(other));
+                }
             }
             else
             {
-                BasicAny tmp(std::move(*this), get_allocator_ref());
                 move(std::move(other));
-                other.move(std::move(tmp));
             }
-        }
-        else
-        {
-            BasicAny tmp(std::move(*this), get_allocator_ref());
-            move(std::move(other));
-            other.move(std::move(tmp));
+            other.move(std::move(tmpThis));
         }
     }
 
