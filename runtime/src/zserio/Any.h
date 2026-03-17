@@ -458,15 +458,25 @@ public:
         }
         else
         {
-            BasicAny tmp(std::move(*this), get_allocator_ref());
-            move(std::move(other));
-            other.move(std::move(tmp));
-
+            BasicAny tmpThis(std::move(*this), get_allocator_ref());
             if constexpr (AllocTraits::propagate_on_container_swap::value)
             {
-                using std::swap;
-                swap(get_allocator_ref(), other.get_allocator_ref());
+                if (get_allocator_ref() != other.get_allocator_ref())
+                {
+                    BasicAny tmpOther(std::move(other), other.get_allocator_ref());
+                    std::swap(get_allocator_ref(), other.get_allocator_ref());
+                    move(std::move(tmpOther));
+                }
+                else
+                {
+                    move(std::move(other));
+                }
             }
+            else
+            {
+                move(std::move(other));
+            }
+            other.move(std::move(tmpThis));
         }
     }
 
